@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+        <context:annotation-config/>
+        <mvc:annotation-driven></mvc:annotation-driven>
+        <!--加载properties-->
+        <bean id="envConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+                <property name="locations">
+                        <list>
+                                <value>classpath:env_config.properties</value>
+                        </list>
+                </property>
+        </bean>
+        <!-- 组件扫描， 对包中的所有类进行扫描，以完成bean的创建和自动依赖注入功能-->
+        <context:component-scan base-package="com.zml.web" >
+        </context:component-scan>
+
+        <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+                <property name="driverClassName" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+                <property name="maxActive" value="2" />
+                <property name="maxIdle" value="3" />
+                <property name="maxWait" value="10000" />
+                <property name="validationQuery" value="SELECT 1" />
+                <property name="testWhileIdle" value="true" />
+                <property name="timeBetweenEvictionRunsMillis" value="3600000" />
+                <property name="minEvictableIdleTimeMillis" value="18000000" />
+                <property name="testOnBorrow" value="true" />
+                <!--
+                <property name="maxActive" value="200" />
+                <property name="maxIdle" value="30" />
+                <property name="maxWait" value="10000" />
+                <property name="validationQuery" value="SELECT 1" />
+                <property name="testWhileIdle" value="true" />
+                <property name="timeBetweenEvictionRunsMillis" value="3600000" />
+                <property name="minEvictableIdleTimeMillis" value="18000000" />
+                <property name="testOnBorrow" value="true" />
+                -->
+        </bean>
+
+        <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+                <property name="mapperLocations" value="classpath*:mybatismapper/*.xml"/>
+                <property name="dataSource" ref="dataSource"/>
+        </bean>
+
+        <!--扫描basePackage下所有的@Dao注解的接口-->
+        <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+                <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+                <property name="basePackage" value="com.zml.web"/>
+                <property name="annotationClass" value="com.zml.web.common.annotation.Dao"/>
+        </bean>
+
+        <!--事务配置-->
+        <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+                <property name="dataSource" ref="dataSource"/>
+                <property name="globalRollbackOnParticipationFailure" value="false"/>
+        </bean>
+
+        <!--事务模板-->
+        <bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+                <property name="transactionManager" ref="transactionManager"/>
+        </bean>
+
+        <!--新建事务，如果当前存在事务，把当前事务挂起-->
+        <bean id="transactionMandatoryTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+                <property name="propagationBehavior" value="2"/>
+                <property name="transactionManager" ref="transactionManager"/>
+        </bean>
+
+
+
+        <!--@Controller 请求映射注解扫描-->
+        <mvc:annotation-driven>
+                <mvc:message-converters>
+                        <!-- 展示层数据信息转换json -->
+                        <!--避免IE执行AJAX时，返回JSON出现下载文件 -->
+                        <bean id="mappingJacksonHttpMessageConverter"
+                              class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                                <property name="supportedMediaTypes">
+                                        <list>
+                                                <value>text/html;charset=UTF-8</value>
+                                                <value>text/plain;charset=UTF-8</value>
+                                                <value>text/json;charset=UTF-8</value>
+                                                <value>application/json;charset=UTF-8</value>
+                                        </list>
+                                </property>
+                        </bean>
+                        <!-- string -->
+                        <bean id="stringHttpMessageConverter"
+                              class="org.springframework.http.converter.StringHttpMessageConverter" />
+                </mvc:message-converters>
+        </mvc:annotation-driven>
+
+        <!-- 切面 支持注解 -->
+        <aop:aspectj-autoproxy proxy-target-class="true" />
+        <!-- 配置 Annotation 驱动，扫描@Transactional注解的类定义事务 -->
+        <tx:annotation-driven transaction-manager="transactionManager"
+                              proxy-target-class="true" />
+
+        <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
+</beans>

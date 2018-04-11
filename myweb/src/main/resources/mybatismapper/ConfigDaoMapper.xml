@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.zml.web.dao.IConfigDao">
+    <resultMap id="configMapper" type="com.zml.web.model.Config">
+        <result property="typeId" column="type_id"/>
+        <result property="typeName" column="type_name"/>
+        <result property="typeImgUrl" column="type_imgurl"/>
+        <result property="sharedCopy" column="shared_copy"/>
+        <result property="qsThreshold" column="threshold"/>
+    </resultMap>
+
+    <select id="getQsThreshold" resultType="int">
+        SELECT "threshold" FROM "config"
+        WHERE "threshold" IS  NOT NULL
+    </select>
+
+    <update id="setQsThreshold" parameterType="int">
+        UPDATE "config" SET  "threshold"=#{value}
+        WHERE "threshold" IS NOT NULL
+    </update>
+</mapper>
