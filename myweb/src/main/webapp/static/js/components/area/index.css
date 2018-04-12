@@ -1,0 +1,307 @@
+.bf-select {
+    width: 100%;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    border-radius: 3px;
+    height: 28px;
+    outline: 0;
+    position: relative;
+    cursor: pointer
+}
+
+.bf-select .bf-menu-button-dropdown {
+    position: absolute;
+    top: 10px;
+    right: 8px;
+    width: 10px;
+    height: 5px;
+    background: url(./icon.png) -10px -25px no-repeat
+}
+
+.bf-menu-button-open .bf-menu-button-dropdown {
+    background-position: -10px -10px
+}
+
+.bf-menu {
+    border: 1px solid #ddd;
+    background-color: #fff
+}
+
+.bf-menu .bf-menuitem {
+    height: 26px;
+    line-height: 26px;
+    color: #333;
+    padding-left: 30px;
+    cursor: pointer;
+    overflow: hidden
+}
+
+.bf-menu .bf-menuitem-hover {
+    color: #fff;
+    background-color: #fff8f3
+}
+
+.bf-menu .bf-menuitem-selected {
+    background: url(//img.alicdn.com/tps/i3/T1J8TvFlVbXXXugmZ.-11-8.png) 10px 10px no-repeat;
+    color: #f60;
+    font-weight: 700
+}
+
+.bf-popupmenu-hidden {
+    visibility: hidden
+}
+
+.city-select-tab {
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    width: 300px;
+    height: 35px;
+    background: #f0f0f0
+}
+
+.city-select-tab a {
+    float: left;
+    display: inline;
+    margin-bottom: -1px;
+    width: 33.3333%;
+    height: 100%;
+    line-height: 35px;
+    border-left: 1px solid #ddd;
+    border-bottom: 1px solid transparent;
+    color: #4D4D4D;
+    text-align: center;
+    outline: 0
+}
+
+.city-select-tab .last {
+    width: 36px
+}
+
+.kot-select-tab a {
+    width: 58px
+}
+
+.kot-select-tab .last {
+    width: 60px
+}
+
+.city-select-tab .current {
+    background: #fff;
+    height: 35px;
+    border-bottom: 1px solid #fff;
+    color: #4680ff
+}
+
+.city-select {
+    border: 1px solid #ddd;
+    border-top: none;
+    padding: 10px 15px;
+    width: 300px;
+    background: #fff;
+    /*font-size: 12px*/
+}
+
+.city-title {
+    margin-right: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    line-height: 28px;
+    height: 28px;
+    text-overflow: ellipsis;
+    color: #ccc;
+    text-align: left;
+    padding-left: 5px;
+    font-size: 14px;
+}
+
+.has-city-title {
+    color: #333
+}
+
+.sSelect {
+    width: 72px
+}
+
+.lSelect {
+    width: 282px
+}
+
+.city-select dl {
+    line-height: 2;
+    clear: both;
+    padding: 3px 0;
+    margin: 0
+}
+.city-select dd,.city-select dt{
+    line-height: 2;
+}
+.city-select dl:after {
+    clear: both;
+    content: " ";
+    display: block;
+    font-size: 0;
+    height: 0;
+    visibility: hidden
+}
+
+.city-select dt {
+    display: inline-block;
+    width: 35px;
+    float: left;
+    padding-right: 5px;
+    font-weight: 700;
+    text-align: right
+}
+
+.city-select dd {
+    width: 232px;
+    display: inline;
+    float: left;
+    margin-left: 0
+}
+
+.city-select a {
+    display: inline-block;
+    color: #4D4D4D;
+    padding: 0 10px;
+    outline: 0;
+    text-decoration: none;
+    white-space: nowrap;
+    margin-right: 2px
+}
+
+.city-select a:focus,.city-select a:hover {
+    background-color: #66a3ff;
+    border-radius: 2px;
+    color: #fff
+}
+
+.city-select a.current {
+    background-color: #4680ff;
+    color: #fff;
+    border-radius: 2px
+}
+
+.city-select .border-top {
+    border-top: 1px solid #ddd
+}
+
+.city-select-city dd,.city-select-district dd,.city-select-province dd,.city-select-street dd {
+    width: 100%
+}
+
+.ks-overlay {
+    position: fixed;
+   /* left: -1px;
+    top: 26px;*/
+    z-index: 999999;
+    display: none;
+}
+
+.ks-overlay-hidden {
+    visibility: hidden
+}
+
+.ks-overlay-mask-hidden {
+    display: none
+}
+
+.ks-overlay-shown {
+    visibility: visible
+}
+
+.ks-overlay-mask-shown {
+    display: block
+}
+
+.bf-select {
+    float: left;
+    margin-right: 10px
+}
+
+.bf-popupmenu-content {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden
+}
+
+.bf-menu {
+    z-index: 999
+}
+
+body .bf-menu .bf-menuitem {
+    padding-left: 20px
+}
+
+body .bf-menu .bf-menuitem-selected {
+    background-position: 5px 10px
+}
+
+body .select-error {
+    border-color: #FF8080
+}
+
+.tip-icon {
+    position: absolute;
+    bottom: 15px;
+    right: 10px;
+    width: 16px;
+    height: 16px;
+    background: url(//img.alicdn.com/tps/i4/TB1eMKBGFXXXXb4XXXXAz6UFXXX-16-16.png) no-repeat
+}
+
+.tip-content {
+    position: absolute;
+    bottom: -79px;
+    background: #fff;
+    border: 1px solid #ddd;
+    width: 268px;
+    padding: 5px 15px;
+    right: -1px
+}
+
+.bf-menu-content a,.bf-select a {
+    text-decoration: none;
+    color: #333
+}
+.bf-select a{
+    float: left;
+}
+.bf-menu .bf-menuitem-selected a {
+    color: #f60
+}
+/*高度48px*/
+.area48 .bf-select{
+    font-size: 16px;
+    height: 48px;
+}
+.area48 .city-title{
+    height: 48px;
+    line-height: 48px;
+}
+.area48 .ks-overlay{
+    top:46px;
+}
+.area48 .bf-select .bf-menu-button-dropdown{
+    top: 20px;
+}
+.area48 .city-select-tab,.area48 .city-select{
+    width: 468px;
+}
+.area48 .city-select dt{
+    width: 45px;
+}
+.area48 .city-select dd{
+    width: 350px;
+}
+.disabledArea {
+    font-size: 14px;
+    cursor: not-allowed;
+    background: #eff2f7;
+    color: #c0ccda !important;
+    opacity: 1 !important;
+}
+.disabledArea .city-title {
+    color: #c0ccda !important;
+}

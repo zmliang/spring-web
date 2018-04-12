@@ -1,0 +1,6 @@
+</div></div></div></div>
+
+<div class="arrow-button color-palette"></div>
+<script type="text/javascript">
+    seajs.use("controllers/public/index.js");
+</script>

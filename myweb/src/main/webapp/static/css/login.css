@@ -1,0 +1,392 @@
+﻿a,body,button,dd,div,dl,dt,h1,h2,h3,h4,h5,h6,input,li,ol,p,td,textarea,ul{
+    margin: 0;
+    padding: 0;
+}
+body,button,input,select,textarea{
+    font: 14px/1.5 '微软雅黑',arial,Hiragino Sans GB,\5b8b\4f53,sans-serif;
+}
+button,h1,h2,h3,h4,h5,h6,
+input,select,textarea{
+    font-size: 100%;
+}
+ol,ul{
+    list-style: none;
+}
+a{
+    text-decoration: none; 
+    color: #333;
+}
+a:hover{
+    text-decoration: none;
+}
+body{
+    font-family: "Microsoft YaHei", "微软雅黑", tahoma, arial, "Hiragino Sans GB", "sans-serif";
+    font-size: 14px;
+    min-width: 1280px;
+    height: 100%;
+}
+image{
+    vertical-align: top; 
+    border: 0;
+}
+textarea{
+    resize: none;
+}
+input,select,textarea{
+    outline: none;
+}
+a,button{
+    cursor: pointer;
+}
+button{
+    border: none;
+}
+.hide{
+    display: none;
+}
+.hideOnly {
+    display: none;
+}
+.relative,
+.form-user .input-text{
+    position: relative;
+}
+#loginForm .input-text{
+	padding: 20px 0;
+}
+#registeForm .input-text {
+    padding: 10px 0;
+}
+.showVerifyCode .input-text{
+    padding: 10px 0 !important;
+}
+#forgetForm .input-text{
+	padding: 10px 0;
+}
+.form-user input{
+    font-size: 14px;
+    width: 100%;
+    height: 40px;
+    text-indent: 40px;
+    border: 0 none;
+    border-bottom: 1px solid #e1e7f0;
+    border-radius: 3px;
+    background: #fff;
+}
+.form-user input:focus{
+    border-bottom: 1px solid #a5bbcd;
+}
+.form-user input:focus+span[class^="icon-"]{
+    color: #666;
+}
+.btn.btn-mj.passport-btn{
+    position: absolute;
+    top: 14px;
+    right: 0;
+    width: 105px;
+    height: 36px;
+    outline: none;
+	border-bottom: 0 none;
+    border-radius: 0;
+    padding: 0;
+}
+.btn.btn-mj.passport-btn.delay,
+.passport-btn.delay:hover{
+    padding: 0;
+	color: #bfcbd9 !important;
+    cursor: not-allowed;
+    background-image: none;
+    background-color: #eef1f6;
+    border-color: #eef1f6;
+}
+.btn.btn-mj.passport-btn.delay:hover{
+    color: #fff !important;
+}
+
+.forget{
+    text-align: right;
+    font-size: 12px;
+}
+
+#forgetForm .forget{
+	margin-top: 10px;
+}
+
+.forget a:hover{
+    color: #4680ff;
+}
+
+.error{
+    font-size: 16px;
+    position: absolute;
+    width: 160px;
+    text-align: center;
+    vertical-align: middle;
+    color: #fff;
+}
+
+::-webkit-input-placeholder{
+    color: #bfcbd9;
+}
+:-moz-placeholder{
+    color: #bfcbd9;
+}
+::-moz-placeholder{
+    color: #bfcbd9;
+}
+:-ms-input-placeholder{
+    color: #bfcbd9;
+}
+.invisible {
+    visibility: hidden;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    position: absolute;
+}
+.errorTip{
+    position: absolute;
+    bottom: 0px;
+    left: 10px;
+    color: #f30;
+    font-size: 12px;
+}
+html,body,.login-wrap{
+	height: 100%;
+}
+.login-wrap{
+	position: relative;
+	margin: 0 auto;
+	width: 100%;
+	overflow: auto;
+}
+.box-items .swiper-container{
+	height: 100%;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+.login-box{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -385px;
+	margin-top: -350px;
+	width: 790px;
+	height: 540px;
+	overflow: hidden;
+	padding: 20px;
+	z-index: 99999;
+}
+.box-items{
+	width: 740px;
+	height: 420px;
+	border-radius: 6px;
+	box-shadow: 0 12px 48px 0 rgba(19, 32, 62, 0.24);
+	overflow: hidden;
+	margin: 70px 0 0 10px;
+}
+.form-info{
+	font-size: 18px;
+	text-align: center;
+	height: 40px;
+}
+
+.form-info span{
+    font-size: 14px;
+    color: #999;
+}
+.bl-register .form-user {
+    margin-top: 10px;
+}
+.form-user{
+	margin-top: 20px;
+}
+.item-banner{
+	float: left;
+	width: 420px;
+	height: 420px;
+	background-color: #000;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+.item-form{
+	background-color: #fff;
+	width: 320px;
+	height: 420px;
+	float: left;
+}
+.fixed-box{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+}
+.item-logo{
+    display: inline-block;
+	background: url('../images/logo-login.png') left center no-repeat;
+    width: 150px;
+	height: 40px;
+;
+}
+.btn-returnIndex{
+    float: right;
+    width: 108px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    border-radius: 18px;
+    background: #fff;
+    color: #333;
+    box-shadow: 0 1px 4px 0 rgba(19, 32, 62, 0.15);
+}
+
+#loginForm,#forgetForm,#registeForm{
+    padding: 40px;
+}
+
+#registeForm{
+    padding: 20px 40px;
+}
+.cb-wrappr {
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    color: #bfcbd9;
+    font-size: 13px;
+    margin: 15px 10px 0 10px;
+}
+.checkBox {
+    margin-right: 5px;
+}
+.cb-text {
+    color: #4680ff;
+    cursor: pointer;
+}
+.form-btn{
+    text-align: center;
+    width: 235px;
+}
+.form-btn-half {
+    width: 115px;
+    float: left;
+}
+.btn-half-wrapper {
+    margin-top: 27px;
+    overflow: hidden;
+}
+.btn-half-wrapper .form-btn-half:first-child {
+    margin-right: 5px;
+}
+#forgetForm .form-btn{
+	margin-top: 17px;
+}
+
+.btn{
+  display: inline-block;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border-radius: 3px;
+  background-color: #fff;
+  height: 36px;
+  width: 100%;
+  border: 1px solid #bfcbd9;
+  margin-left: 5px; }
+
+ .btn:hover{
+  color: #20a0ff;
+  background-color: #fff;
+  border-color: #20a0ff;
+}
+
+.btn.btn-mj{
+    color: #fff;
+    height: 36px;
+    background-color:#4680ff;
+    border-color: #4680ff;}
+
+.btn.btn-mj:hover,
+.btn.btn-mj:focus,
+.btn.btn-mj:active,
+.btn-btn:hover,
+.btn-link:hover,
+.btn.btnBlue:hover{
+    color: #fff;
+    background-color:#66a3ff;
+    border-color:#66a3ff;
+}
+
+.btn.btn-mj.secondary {
+    background: #fff;
+    border: 1px solid #66a3ff;
+    color: #66a3ff;
+}
+
+span[class^="icon-"] {
+    font-size: 16px;
+    display: inline-block;
+    vertical-align: middle;
+    margin: auto;
+    position: absolute;
+    left: 10px;
+    color: #bfcbd9;
+}
+#loginForm span[class^="icon-"] {
+    top: 32px;
+}
+#loginForm .showVerifyCode span[class^="icon-"]{
+    top: 22px !important;
+}
+#forgetForm span[class^="icon-"], #registeForm span[class^="icon-"]{
+	top: 22px;
+}
+.img-vericode {
+    position: absolute;
+    right: 0;
+    width: 100px;
+    height: 30px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    border: none;
+}
+
+.copyright{
+	position: fixed;
+	bottom: 30px;
+	text-align: center;
+	width: 100%;
+	z-index: 9999;
+}
+
+.pagination {
+    position: absolute;
+    left: 40px;
+    bottom: 40px;
+    z-index: 9999;
+}
+
+.pagination li {
+    display: inline-block;
+    width: 40px;
+    height: 30px;
+	border-bottom: 1px solid #fff;
+    cursor: pointer;
+}
+.pagination li:hover {
+    border-bottom: 4px solid #fff;
+}
+
+input:-webkit-autofill {
+ -webkit-box-shadow: 0 0 0px 1000px white inset;
+}

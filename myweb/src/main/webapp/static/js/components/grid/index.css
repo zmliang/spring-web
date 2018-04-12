@@ -1,0 +1,880 @@
+@charset "UTF-8";
+/* CSS Document */
+.flexigrid {
+	font-family: "Microsoft YaHei", "微软雅黑", tahoma, arial, "Hiragino Sans GB", "sans-serif";
+	font-size: 12px;
+	line-height: normal;
+	position: relative;
+	border: 0px solid #eef0f6;
+	overflow: hidden;
+	color: #000;
+}
+.flexigrid input[type=checkbox],input[type=radio] {
+    margin: 0px 0 0;
+    margin-top: 1px\9;
+    line-height: normal;
+}
+.flexigrid.hideBody {
+	height: 26px !important;
+	border-bottom: 1px solid #eef0f6;
+}
+
+.ie6fullwidthbug {
+	border-right: 0px solid #eef0f6;
+	padding-right: 2px;
+}
+.flexigrid div.noDataImg{
+	width: 200px;
+    height: 160px;
+    padding-top: 170px;
+    position: absolute;
+    top:0;
+    left:0;
+    bottom:20px;
+    right: 0;
+    text-align: center;
+    margin:auto;
+    color: #4680FF;
+    font-size: 16px;
+    background: url('images/noGridData.png') center no-repeat;
+}
+.flexigrid a.modify-btn i{
+	font-size: 16px;
+	position:relative;
+	top:2px;
+}
+.flexigrid .btn-group{
+	white-space: nowrap;
+}
+.flexigrid div.nDiv {
+	background: #eef0f6;
+	border: 1px solid #dfe3ec;
+	box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+	border-top: 0px;
+	overflow: auto;
+	left: 0px;
+	position: absolute;
+	z-index: 999;
+	float: left;
+}
+
+.flexigrid div.nDiv table {
+	margin: 2px;
+}
+
+.flexigrid div.hDivBox {
+	float: left;
+	padding-right: 40px;
+}
+
+.flexigrid div.bDiv table {
+	margin-bottom: 10px;
+}
+.flexigrid .fixDiv div.bDiv table {
+	margin-bottom: 20px;
+}
+.flexigrid div.bDiv table.autoht {
+	border-bottom: 0px;
+	margin-bottom: 0px;
+}
+
+.flexigrid div.nDiv td {
+	padding: 2px 3px;
+	border: 1px solid #eef0f6;
+	cursor: default;
+}
+
+.flexigrid div.nDiv tr:hover td,
+.flexigrid div.nDiv tr.ndcolover td {
+	background: #fff;
+	border: 1px solid #eef0f6;
+}
+
+.flexigrid div.nDiv td.ndcol1 {
+	border-right: 1px solid #eef0f6;
+}
+
+.flexigrid div.nDiv td.ndcol2 {
+	border-left: 1px solid #fff;
+	padding-right: 10px;
+}
+
+.flexigrid div.nDiv tr:hover td.ndcol1,
+.flexigrid div.nDiv tr.ndcolover td.ndcol1
+	{
+	border-right: 1px solid #eef0f6;
+}
+
+.flexigrid div.nDiv tr:hover td.ndcol2,
+.flexigrid div.nDiv tr.ndcolover td.ndcol2
+	{
+	border-left: 1px solid #eef0f6;
+}
+.flexigrid .icon-tips-fill{
+	font-size: 16px;
+	position: relative;
+	top: 2px;
+	left: 2px;
+	color:#4680ff;
+}
+.flexigrid div.nBtn {
+	position: absolute;
+	height: 30px;
+	width: 14px;
+	z-index: 900;
+	/*background: #fafafa url(images/fhbg.gif) repeat-x bottom;*/
+	border: 0px solid #eef0f6;
+	border-left: 1px solid #eef0f6;
+	top: 0px;
+	left: 0px;
+	margin-top: 1px;
+	cursor: pointer;
+	display: none;
+}
+
+.flexigrid div.nBtn div {
+	height: 30px;
+	width: 12px;
+	border-left: 1px solid #fff;
+	float: left;
+	background: url(images/ddn.png) no-repeat center;
+}
+
+.flexigrid div.nBtn.srtd {
+	background: url(images/wbg.gif) repeat-x 0px -1px;
+}
+
+.flexigrid div.mDiv {
+	background: url(images/wbg.gif) repeat-x top;
+	border: 1px solid #eef0f6;
+	border-bottom: 0px;
+	border-top: 0px;
+	font-weight: bold;
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+	position: relative;
+}
+
+.flexigrid div.mDiv div {
+	padding: 6px;
+	white-space: nowrap;
+}
+
+.flexigrid div.mDiv div.ptogtitle {
+	position: absolute;
+	top: 4px;
+	right: 3px;
+	padding: 0px;
+	height: 16px;
+	width: 16px;
+	overflow: hidden;
+	border: 1px solid #eef0f6;
+	cursor: pointer;
+}
+
+.flexigrid div.mDiv div.ptogtitle:hover {
+	background-position: left -2px;
+	border-color: #eef0f6;
+}
+
+.flexigrid div.mDiv div.ptogtitle span {
+	display: block;
+	border-left: 1px solid #eef0f6;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #eef0f6;
+	width: 14px;
+	height: 14px;
+	background: url(images/uup.png) no-repeat center;
+}
+
+.flexigrid div.mDiv div.ptogtitle.vsble span {
+	background: url(images/ddn.png) no-repeat center;
+}
+
+.flexigrid div.tDiv /*toolbar*/ {
+	background: #fafafa url(images/bg.gif) repeat-x top;
+	position: relative;
+	border: 1px solid #eef0f6;
+	border-bottom: 0px;
+	overflow: hidden;
+}
+
+.flexigrid div.tDiv2 {
+	float: left;
+	clear: both;
+	padding: 1px;
+}
+
+.flexigrid div.sDiv /*toolbar*/ {
+	background: #fafafa url(images/bg.gif) repeat-x top;
+	position: relative;
+	border: 1px solid #eef0f6;
+	border-top: 0px;
+	overflow: hidden;
+	display: none;
+}
+
+.flexigrid div.sDiv2 {
+	float: left;
+	clear: both;
+	padding: 5px;
+	padding-left: 5px;
+	width: 1024px;
+}
+.flexigrid td .modify-defaultlink{
+	float: left;
+	line-height: normal;
+}
+.flexigrid div.sDiv2 input,.flexigrid div.sDiv2 select {
+	vertical-align: middle;
+}
+
+.flexigrid div.btnseparator {
+	float: left;
+	height: 22px;
+	border-left: 1px solid #eef0f6;
+	border-right: 1px solid #fff;
+	margin: 1px;
+}
+
+.flexigrid div.fbutton {
+	float: left;
+	display: block;
+	cursor: pointer;
+	padding: 1px;
+}
+
+.flexigrid div.fbutton div {
+	float: left;
+	padding: 1px 3px;
+}
+
+.flexigrid div.fbutton span {
+	float: left;
+	display: block;
+	padding: 3px;
+}
+
+.flexigrid div.fbutton:hover,
+.flexigrid div.fbutton.fbOver {
+	padding: 0px;
+	border: 1px solid #eef0f6;
+}
+
+.flexigrid div.fbutton:hover div,
+.flexigrid div.fbutton.fbOver div {
+	padding: 0px 2px;
+	border-left: 1px solid #fff;
+	border-top: 1px solid #fff;
+	border-right: 1px solid #eef0f6;
+	border-bottom: 1px solid #eef0f6;
+}
+
+/* end toolbar*/
+.flexigrid div.hDiv {
+	border: 1px solid #dfe3ec;
+	border-bottom: 0px;
+	background: #eef0f6;
+	width:100%;
+	overflow: hidden;
+	height: 33px;
+	position: relative;
+}
+
+.flexigrid div.hDiv table {
+	border-right: 1px solid #fff;
+}
+
+.flexigrid div.cDrag {
+	float: left;
+	position: absolute;
+	z-index: 2;
+	overflow: visible;
+}
+
+.flexigrid div.cDrag div {
+	float: left;
+	background: none;
+	display: block;
+	position: absolute;
+	height: 24px;
+	width: 6px;
+	cursor: col-resize;
+}
+
+.flexigrid div.cDrag div:hover,
+.flexigrid div.cDrag div.dragging {
+	background: url(images/line.gif) repeat-y 2px center;
+}
+
+.flexigrid div.iDiv {
+	border: 1px solid #eef0f6;
+	position: absolute;
+	overflow: visible;
+	background: none;
+}
+
+.flexigrid div.iDiv input,.flexigrid div.iDiv select,.flexigrid div.iDiv textarea
+	{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+}
+
+.flexigrid div.iDiv input.tb {
+	border: 0px;
+	padding: 0px;
+	width: 100%;
+	height: 100%;
+	padding: 0px;
+	background: none;
+}
+
+.flexigrid div.bDiv {
+	border: 1px solid #dfe3ec;
+	background: #fff;
+	overflow: auto;
+	position: relative;
+	min-height: 150px;
+}
+
+.flexigrid div.bDiv table {
+	border-bottom: 1px solid #eef0f6;
+}
+.flexigrid .fixRightDiv div.bDiv table {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+.flexigrid .fixRightDiv div.hDiv table {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+.flexigrid div.hGrip {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	height: 5px;
+	width: 5px;
+	background: url(images/line.gif) repeat-x center;
+	margin-right: 1px;
+	cursor: col-resize;
+}
+
+.flexigrid div.hGrip:hover,
+.flexigrid div.hGrip.hgOver {
+	border-right: 1px solid #eef0f6;
+	margin-right: 0px;
+}
+
+.flexigrid div.vGrip {
+	height: 5px;
+	overflow: hidden;
+	position: relative;
+	background: #fafafa url(images/wbg.gif) repeat-x 0px -1px;
+	border: 1px solid #eef0f6;
+	border-top: 0px;
+	text-align: center;
+	cursor: row-resize;
+}
+
+.flexigrid div.vGrip span {
+	display: block;
+	margin: 1px auto;
+	width: 20px;
+	height: 1px;
+	overflow: hidden;
+	border-top: 1px solid #aaa;
+	border-bottom: 1px solid #aaa;
+	background: none;
+}
+
+.flexigrid div.hDiv th,.flexigrid  div.bDiv td
+	/* common cell properties*/ {
+	text-align: left;
+	border-right: 1px solid #dfe3ec;
+	/* border-left: 1px solid #fff; */
+	overflow: hidden;
+	vertical-align: middle !important;
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.flexigrid div.hDiv th div,
+.flexigrid  div.bDiv td div.edit,
+div.colCopy div
+	/* common inner cell properties*/ {
+	/*padding: 5px;
+	border-left: 0px solid #fff;*/
+
+	padding: 0 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: break-all;
+    box-sizing: border-box;
+}
+.flexigrid div.bDiv tr{
+	height: 40px;
+}
+.flexigrid div.bDiv tr:hover td:not([rowspan]){
+	background-color: #eef0f6;
+}
+
+.flexigrid div.hDiv th,div.colCopy {
+	height: 32px;
+    white-space: nowrap;
+    overflow: hidden;
+    background-color: #eef0f6;
+	font-weight: normal;
+	cursor: default;
+}
+
+div.colCopy {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	background: #fafafa url(images/fhbg.gif) repeat-x bottom;
+	border: 1px solid #eef0f6;
+	border-bottom: 0px;
+	overflow: hidden;
+}
+
+.flexigrid div.hDiv th.sorted {
+	background: url(images/wbg.gif) repeat-x 0px -1px;
+	border-bottom: 0px solid #eef0f6;
+}
+
+.flexigrid div.hDiv th.thOver {
+	
+}
+
+/*.flexigrid div.hDiv th.thOver div,.flexigrid div.hDiv th.sorted.thOver div
+	{
+	padding-bottom: 4px;
+}*/
+
+.flexigrid div.hDiv th.sorted div {
+	border-bottom: 0px solid #eef0f6;
+	/*padding-bottom: 5px;*/
+}
+
+.flexigrid div.hDiv th.thMove {
+	background: #fff;
+	color: #fff;
+}
+
+.flexigrid div.hDiv th.sorted.thMove div {
+	border-bottom: 1px solid #fff;
+	/*padding-bottom: 4px;*/
+}
+
+.flexigrid div.hDiv th.thMove div {
+	background: #fff !important;
+}
+
+.flexigrid div.hDiv th div.sdesc {
+	background: url(images/dn.png) no-repeat center top;
+}
+
+.flexigrid div.hDiv th div.sasc {
+	background: url(images/up.png) no-repeat center top;
+}
+
+.flexigrid div.bDiv td {
+	/*border-bottom: 1px solid #ccc;
+	vertical-align: middle;
+	white-space: nowrap;*/
+
+	min-width: 0;
+    height: 50px;
+    box-sizing: border-box;
+    text-align: left;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    border-bottom: 1px solid #dfe3ec;
+}
+
+.flexigrid div.hDiv th div {
+	font-size: 12px;
+	white-space: nowrap;
+	font-weight: 700;
+	color: #1f283d;
+}
+
+.flexigrid span.cdropleft {
+	display: block;
+	background: url(images/prev.gif) no-repeat -4px center;
+	width: 24px;
+	height: 24px;
+	position: relative;
+	top: -24px;
+	margin-bottom: -24px;
+	z-index: 3;
+}
+
+.flexigrid div.hDiv span.cdropright {
+	display: block;
+	background: url(images/next.gif) no-repeat 12px center;
+	width: 24px;
+	height: 24px;
+	float: right;
+	position: relative;
+	top: -24px;
+	margin-bottom: -24px;
+}
+
+.flexigrid div.bDiv td div.edit {
+	border-top: 0px solid #fff;
+	/*padding-bottom: 4px;*/
+	font-size: 12px;
+	max-width: 500px;
+}
+.expandable .edit {
+	max-width: inherit !important;
+}
+
+.flexigrid tr td.sorted {
+	background: #f3f3f3;
+	border-right: 1px solid #eef0f6;
+	border-bottom: 1px solid #eef0f6;
+}
+
+.flexigrid tr td.sorted div {
+	
+}
+
+.flexigrid tr.erow {
+	background: #fafafa;
+	/* border-bottom: 1px solid #f7f7f7; */
+}
+
+.flexigrid tr.erow td.sorted {
+	background: #eef0f6;
+	border-bottom: 1px solid #eef0f6;
+}
+
+.flexigrid tr.erow td.sorted div {
+	
+}
+
+.flexigrid div.bDiv tr:hover td.sorted:not([rowspan]),
+.flexigrid div.bDiv tr.trOver td.sorted:not([rowspan]),
+.flexigrid div.bDiv tr.trOver td:not([rowspan])
+	{
+	background: #eef0f6;
+	border-left: 1px solid #eef0f6;
+	border-bottom: 1px dotted #eef0f6;
+}
+
+.flexigrid div.bDiv tr.trSelected:hover td:not([rowspan]),
+.flexigrid div.bDiv tr.trSelected:hover td.sorted:not([rowspan]),
+.flexigrid div.bDiv tr.trOver.trSelected td.sorted:not([rowspan]),
+.flexigrid div.bDiv tr.trOver.trSelected td:not([rowspan]),
+.flexigrid tr.trSelected td.sorted:not([rowspan]),
+.flexigrid tr.trSelected td:not([rowspan])
+	{
+	background: #eef0f6;
+}
+
+/* novstripe adjustments */
+.flexigrid.novstripe .bDiv table {
+	border-bottom: 1px solid #eef0f6;
+	border-right: 1px solid #eef0f6;
+}
+
+.flexigrid.novstripe  div.bDiv td {
+	border-right-color: #fff;
+}
+
+.flexigrid.novstripe div.bDiv tr.erow td.sorted {
+	border-right-color: #eef0f6;
+}
+
+.flexigrid.novstripe div.bDiv tr td.sorted {
+	border-right-color: #eef0f6;
+}
+
+.flexigrid.novstripe  div.bDiv tr.erow td {
+	border-right-color: #eef0f6;
+	border-left-color: #eef0f6;
+}
+
+.flexigrid.novstripe div.bDiv tr.trSelected:hover td,
+.flexigrid.novstripe div.bDiv tr.trSelected:hover td.sorted,
+.flexigrid.novstripe div.bDiv tr.trOver.trSelected td.sorted,
+.flexigrid.novstripe div.bDiv tr.trOver.trSelected td,
+.flexigrid.novstripe tr.trSelected td.sorted,
+.flexigrid.novstripe tr.trSelected td
+	{
+	border-right: 1px solid #eef0f6;
+	border-left: 1px solid #eef0f6;
+}
+
+.flexigrid.novstripe div.bDiv tr.trOver td,
+.flexigrid.novstripe div.bDiv tr:hover td
+	{
+	border-left-color: #eef0f6;
+	border-right-color: #eef0f6;
+}
+
+/* end novstripe */
+.flexigrid div.pDiv {
+	/*background: url(images/wbg.gif) repeat-x 0 -1px;*/
+	/*background: #f5fafd;
+	border: 1px solid #dfe3ec;*/
+	border-top: 0px;
+	margin-top: 10px;
+	overflow: hidden;
+	white-space: nowrap;
+	position: relative;
+}
+
+.flexigrid div.pDiv div.pDiv2 {
+	float: right;
+}
+
+div.pGroup {
+	float: left;
+	background: none;
+	height: 28px;
+	line-height: 28px;
+	font-size: 13px;
+	margin: 0px 5px;
+}
+
+.flexigrid div.pDiv .pPageStat,.flexigrid div.pDiv .pcontrol {
+	/*position: relative;
+	top: 3px;
+	overflow: visible;*/
+}
+
+.flexigrid div.pDiv input {
+	width: 40px;
+	height: 28px;
+	line-height: 28px;
+	text-indent: 3px;
+	border-radius: 2px;
+	border: solid 1px #d1d7e5;
+}
+
+.flexigrid div.pDiv select {
+	width: 100px;
+	height: 28px;
+	line-height: 28px;
+	border-radius: 2px;
+	background-color: #fff;
+	border: solid 1px #d1d7e5;
+}
+
+.flexigrid div.pDiv  div.pButton {
+	float: left;
+	width: 26px;
+	height: 28px;
+	border: 0px;
+	cursor: pointer;
+	overflow: hidden;
+}
+
+
+.flexigrid div.pDiv  div.pButton span {
+	/*width: 20px;
+	height: 20px;
+	display: block;
+	float: left;*/
+	font-size: 28px;
+}
+.flexigrid div.pDiv div.pButton span:hover{
+	color: #2e8ded;
+}
+
+/* ie adjustments */
+.flexigrid.ie div.hDiv th div,
+.flexigrid.ie div.bDiv td div,
+div.colCopy.ie div
+	/* common inner cell properties*/ {
+	overflow: hidden;
+}
+.flexigrid{
+	position: relative;
+}
+.sedDiv{
+	width: 20px;
+	position: absolute;
+}
+.flexigrid .edit-input{
+	display: none;
+	width:100%;
+	min-height:18px;
+	height:100%;
+}
+.flexigrid .edit-span{
+	display:inline-block;
+	width:100%;
+	min-height:18px;
+	height:100%;
+	line-height:1.2;
+	cursor:pointer;
+}
+.flexigrid .edit_zone{
+	width:80%;
+	min-height:18px;
+	height:100%;
+	border:none;
+}
+.flexigrid .edit_zone_i{
+	display:inline-block;
+	width:20%;
+	min-height:18px;
+	height:100%;
+	cursor:pointer;
+}
+
+.flexigrid .icon-p-cancel{
+	display: none;
+}
+.flexigrid .icon-p-add{
+	display: none;
+}
+.flexigrid .modify-btn{
+	font-size: 12px;
+	color: #4680FF;
+}
+.flexigrid .btn-disabled{
+	padding-right: 10px;
+	font-size: 12px;
+}
+.flexigrid .icon-p-del{
+	display: none;
+}
+.flexigrid .icon-p{
+	margin-left: 2px;
+}
+.flexigrid table{
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+.modify-btn {
+	padding-right: 10px;
+}
+.modify-btn:first-child,
+.btn-disabled:first-child {
+	margin-left:0
+}
+.hDivSav{
+	position:absolute;
+	right:1px;
+	top:1px;
+	width:auto;
+	height:24px;
+	overflow:hidden;
+	z-index:998;
+	background:#fafafa url(images/fhbg.gif) repeat-x bottom;
+	border-left:1px solid #eef0f6;
+}
+.flex_save{
+	background:url(http://assets.bizpartner.cn/erp/images/disk-black.png) no-repeat 2px 4px;
+	width:20px;
+	height:24px;
+	display:inline-block;
+	cursor:pointer;
+}
+.flex_load{
+	background:url(http://assets.bizpartner.cn/erp/images/load.gif) no-repeat 2px 4px;
+}
+#remarkTips{
+	position:absolute;
+	width:80px;
+	padding:2px;
+	background:#000;
+	opacity:0.8;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	-o-border-radius:5px;
+	border-radius:5px;
+	color:#fff;
+	display:none;
+}
+
+.page_div {
+	float: left;
+	min-width: 28px;
+	width: auto;
+	height: 28px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	text-align: center;
+	line-height: 28px;
+	color: #444;
+	margin-right: 5px;
+	cursor: pointer;
+	padding: 0 3px;
+}
+.page_div.prevPage,.page_div.nextPage {
+	padding: 0;
+	font-size: 25px;
+	color:#ddd;
+}
+.page_div.pageNo {
+	font-size: 14px;
+}
+.page_div.disabled {
+	cursor: default;
+}
+.page_disabled {
+	cursor: default;	
+	font-size: 25px;
+	color:#ddd;
+}
+.pDiv2 .page_disabled:hover {
+	color:#ddd;
+	border-color: #ddd;
+}
+.page_ellipsis {
+    float: left;
+	width: 28px;
+	height: 28px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	text-align: center;
+	line-height:0.75;
+	color: #ddd;
+	margin-right: 5px;
+	font-size: 20px;
+}
+.page_div:hover {
+	color:#4680ff;
+	border-color: #4680ff;
+}
+.page_div.disabled:hover {
+	border: 1px solid #ddd;
+	color: #ddd;
+}
+.page_div.pageNo {
+	background: #4680ff;
+	border-color: #4680ff;
+	color:#fff;
+}
+.is-hidden{
+	visibility: hidden
+}
+/*.is-hidden>*{
+	visibility: hidden
+}*/
+.fixLeftDiv{
+	position: absolute;
+	top: 0;
+	left:0;
+	overflow: hidden;
+	box-shadow: 1px 0 8px #d3d4d6;
+}
+.fixRightDiv{
+	position: absolute;
+	top: 0;
+	right:0px;
+	overflow: hidden;
+	box-shadow: 0 1px 8px #d3d4d6;
+}
+.fixLeftDiv>*,.fixRightDiv>*{
+	overflow: hidden !important;
+}

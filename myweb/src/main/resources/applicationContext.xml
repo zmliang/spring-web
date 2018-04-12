@@ -108,6 +108,58 @@
                 </mvc:message-converters>
         </mvc:annotation-driven>
 
+        <!-- 配置静态资源，直接映射到对应的文件夹，不被DispatcherServlet处理，3.04新增功能，需要重新设置spring-mvc-3.0.xsd -->
+        <mvc:resources location="/static/images/" mapping="/images/**" />
+        <mvc:resources location="/static/js/" mapping="/js/**" />
+        <mvc:resources location="/static/css/" mapping="/css/**" />
+
+        <!-- velocity引擎 -->
+        <bean id="velocityConfigurer"
+              class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+                <property name="resourceLoaderPath">
+                        <value>/WEB-INF/pages/</value><!-- 页面文件路径相对于webapp -->
+                </property>
+                <property name="configLocation" value="/WEB-INF/velocity.properties" />
+                <property name="velocityProperties">
+                        <props>
+                                <prop key="input.encoding">UTF-8</prop>
+                                <prop key="output.encoding">UTF-8</prop>
+                                <prop key="contentType">text/html;charset=UTF-8</prop>
+                        </props>
+                </property>
+        </bean>
+
+        <!-- velocity视图解析器 -->
+        <bean id="velocityViewResover"
+              class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
+                <property name="cache" value="false" />
+                <property name="layoutUrl" value="/layout/default.vm" />
+                <property name="prefix" value="" />
+                <property name="suffix" value=".vm" />
+                <property name="contentType" value="text/html;charset=UTF-8" />
+                <property name="allowSessionOverride" value="false" />
+                <property name="allowRequestOverride" value="false" />
+                <property name="exposeSessionAttributes" value="true" />
+                <property name="exposeRequestAttributes" value="true" />
+                <property name="requestContextAttribute" value="rc" />
+                <property name="toolboxConfigLocation" value="WEB-INF/toolbox.xml" />
+        </bean>
+
+        <!-- Configure the multipart resolver 上传文件解析器 -->
+        <!-- 配置文件上传，如果没有使用文件上传可以不用配置，当然如果不配，那么配置文件中也不必引入上传组件包 -->
+        <bean id="multipartResolver"
+              class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+                <property name="defaultEncoding">
+                        <value>UTF-8</value>
+                </property>
+                <property name="maxUploadSize">
+                        <value>5242880</value><!-- 上传文件大小限制为5M，5*1024*1024 -->
+                </property>
+                <property name="maxInMemorySize">
+                        <value>5242880</value>
+                </property>
+        </bean>
+
         <!-- 切面 支持注解 -->
         <aop:aspectj-autoproxy proxy-target-class="true" />
         <!-- 配置 Annotation 驱动，扫描@Transactional注解的类定义事务 -->

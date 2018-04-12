@@ -1,0 +1,858 @@
+/*hosting initRealTimeRoom start*/
+.row .x_hosting {
+    position: relative;
+    width: 100%;
+    display: inline-block;
+    background: #ebedf3;
+    -moz-column-break-inside: avoid;
+    column-break-inside: avoid;
+    opacity: 1;
+    transition: all .2s ease;
+}
+.x_panel.x_hosting{
+    padding:0;
+    box-shadow:initial;
+    border-radius: 0;
+}
+.x_host .x_hosting {
+    background: #fff;
+}
+.row.x_host .x_title {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd!important;
+}
+.x_hosting .search,.x_hosting .searchDiv {
+    width: 100%;
+    min-height: 50px;
+    /*overflow: hidden;*/
+    background: #fff;
+    padding-left:5px;
+}
+.searchHouse{
+    width: 100%;
+    overflow: hidden;
+    padding: 20px 0 10px 0;
+}
+.x_hosting .searchDiv.hosTing {
+    min-height: 40px;
+}
+.schedule {
+    min-width:1010px;
+    margin:0 auto;
+}
+.searchHouse button span {
+  color: #666;
+}
+.searchHouse button:hover  span{
+    color: #20a0ff;
+}
+.searchHouse button.btn-mj span{
+    color: #fff;
+}
+.x_hosting .x_title {
+    line-height: 1px;
+    overflow: visible;
+    margin-bottom: 10px;
+    border:0px;
+    padding:0px;
+}
+.x_hosting .w15{
+    width:150px;
+    margin-left:20px!important;
+    margin-right:20px!important;
+    float: left!important;
+}
+.x_hosting .line-div {
+    width: auto;
+    margin: 0 5px 0 0;
+    font-size: 14px;
+}
+.x_hosting .w60{
+    width:360px;
+}
+.x_hosting .w60 #areaBox {
+    width:300px!important;
+}
+.x_hosting select {
+    min-width: 100px;
+}
+.x_hosting input {
+    min-width:200px;
+    height:28px;
+    border-radius: 3px;
+    border:1px solid #ccc;
+    line-height: 28px;
+    outline: none;
+    padding-left: 5px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.x_hosting .room_out {
+    width:100%;
+    overflow: auto;
+}
+.x_hosting .room_out .room_list {
+    width: 290px;
+    height:160px;
+    background: #fff;
+    border-radius: 5px;
+    margin-right: 20px;
+    margin-bottom:20px;
+    float: left;
+    overflow: hidden;
+    padding: 30px;
+    padding-top: 30px;
+    padding-bottom: 0;
+    position: relative;
+}
+.x_hosting .room_out .room_list:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 35px;
+    height: 1px;
+    background: #e0e6ed;
+}
+.x_hosting .room_out .room_list:hover {
+    box-shadow: 0 0 10px rgba(153,153,153, 0.3);
+   -webkit-box-shadow: 0 0 10px rgba(153,153,153, 0.3);
+   -moz-box-shadow: 0 0 10px rgba(153,153,153, 0.3);
+}
+
+.room_list .top{
+    width:100%;
+    height:55px;
+    padding: 0 20px;
+    border-bottom: 1px solid #efefef;
+}
+.room_list .center {
+    width:100%;
+    padding: 30px 20px;    
+    height:70px;
+    margin: 5px auto 20px auto;
+    color: #99a9bf;
+}
+.room_list .bottom {
+    width:100%;
+    display: none;
+    overflow: hidden;
+    border-top: 1px solid #f2f2f2;
+}
+.room_list .top .top_left {
+    width:200px;
+    height:100%;
+    overflow: hidden;
+    float: left;
+}
+.room_list .top .top_left .title_1 {
+    width:100%;
+    line-height: 25px;
+    height:25px;
+    overflow: hidden;
+    margin-top: 8px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.room_list .top .top_left .title_2 {
+    width:100%;
+    line-height: 20px;
+    height:20px;
+    color:#999;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.room_list .top .top_right {
+    width:auto;
+    height:100%;
+    line-height: 60px;
+    float: right;
+}
+.room4 .top .top_right {
+    color:#c8c8c8;
+}
+.room_list .center .center_left  {
+    width:160px;
+    overflow: hidden;
+    color: #333;
+    float: left;
+}
+.room_list .center .center_left div {
+    width: 100%;
+    overflow: hidden;
+}
+.room_list .center .center_right {
+    width:90px;
+    float: right;
+    overflow: hidden;
+    color: #333;
+}
+.room_list .center .center_right div {
+    width: 100%;
+    overflow: hidden;
+    color: #ec785f;
+    text-align: right;
+}
+.room_list .bottom div,
+.room_list .bottom span{
+    color: #1d84d3;
+}
+.room_list .bottom div{
+    width: 145px;
+    height:100%;
+    cursor: pointer;
+    line-height: 36px;
+    float: left;
+    text-align: center;
+}
+.room_list .bottom div:hover {
+    background: #f7f7f7;
+}
+.room4 .bottom .bottom_left,.room2 .bottom .bottom_left {
+    border-right: 1px solid #f2f2f2;
+}
+.room2 .top .top_right{
+    color: #0da32a;
+}
+.room7 .top .top_right {
+    color: #d87093;
+}
+.room3 .top .top_right {
+    color: #ec785f;
+}
+.hosTing form {
+    display: inline-block;
+}
+.hosTing .area{
+    background: transparent;
+    padding:0; 
+    float: left;
+    width: auto;
+}
+.hosTing form .line-div,.hosTing .navbar-right {
+    margin: 10px 5px 0 5px;
+}
+.searchBtn {
+    padding-left: 10px;
+}
+
+.lease_reserveL {
+    width: 80%;
+    height:470px;
+    float:left;
+    color:#666;
+}
+.lease_reserveL  .card select {
+    width:176px!important;
+}
+.lease_reserveR {
+    width:20%;
+    height:460px;
+    float: left;
+    color:#666;
+}
+.reserveL_title {
+    width:100%;
+    height:40px;
+    line-height: 40px;
+}
+.total_lease {
+    width: 100%;
+    min-height: 150px;
+    border: 1px solid #ddd;
+}
+.total_lease .price {
+    width: 80%;
+    height: 50px;
+    margin:5px 10% 5px 10%;
+}
+.total_lease .price:first-child {
+    border-bottom:1px solid #f2f2f2;
+}
+.total_lease .price>div{
+    width:100%;
+    height:24px;
+}
+.total_lease .price .left,.total_lease .price .right {
+    font-size: 14px;
+    color:#666;
+    max-width: 84px;
+    overflow: hidden;
+}
+.total_total {
+    width:100%;
+    height:auto;
+    overflow: hidden;
+    padding:5px 10% 5px 10%;
+    border-top: 1px solid #ddd;
+}
+.total_total .left,.total_total .right {
+    font-size:14px;
+    color:#666;
+    font-weight: bold;
+}
+.total_total .right {
+    max-width:86px;
+    min-height: 20px;
+    overflow: hidden;
+}
+.schedule .div_all {
+   width:100%;
+   height:28px;
+   margin: 15px 0;
+}
+.schedule .div_all .roomName {
+    width: 33%;
+    height: 100%;
+    line-height: 28px;
+    overflow: hidden;
+    font-weight: bold;
+    white-space: nowrap;
+    /*padding-right: 20px;*/
+    text-overflow: ellipsis;
+}
+.schedule .div_all>div{
+     display: inline-block;
+}
+.roomP {
+    width:32.5%;
+    height:28px;
+    overflow: hidden;
+    line-height: 28px;
+}
+/*.div_all .roomP.p1{
+     margin-right:50px;
+}*/
+.div_all .roomP span {
+    max-width:75px;
+    height: 28px;
+    line-height: 28px;
+    overflow: hidden;
+}
+.div_item {
+    width: 33%;
+    height:28px;
+    float: left;
+    /*padding-left: 12px;*/
+    font-size: 14px;
+    position: relative;
+}
+.schedule .div_frame input {
+     width:157px!important;
+    height:25px;
+    line-height: 25px;
+    border: 1px solid #ddd;
+    padding-left: 5px;
+}
+/*#newHome .div_item,.pdl .div_item{
+    padding-left:12px;
+}*/
+.schedule .lease_reserveL input[type='text'] {
+    width:100px;
+    height:25px;
+    line-height: 25px;
+    border: 1px solid #ddd;
+    padding:0px;
+    display: inline-block;
+    padding-left: 5px;
+}
+.schedule .lease_reserveL .div_item .input_s {
+    width: 150px;
+}
+.schedule .lease_reserveL .input_item {
+    width:100px!important;
+}
+.div_item input[type='checkbox'] {
+    position: absolute;
+    top: 3px;
+    left:1px;
+    margin-right:5px;
+}
+.div_item input {
+    border-radius: 5px;
+}
+.div_item select {
+    width: 140px;
+    border: 1px solid #ddd;
+    height:25px;
+    line-height: 25px;
+    border-radius: 5px;
+}
+.div_frame {
+    width:96%;
+    min-height: 90px;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: 1px solid #eee;
+    border-radius: 3px;
+    overflow: hidden;
+}
+.divFrame {
+    width: 60px;
+    height: 70px;
+    line-height: 25px;
+    padding: 10px 5px;
+    margin-right: 100px;
+    float: left;
+    text-align: center;
+    background: #f2f2f2;
+}
+.div_box {
+    min-width: 570px;
+    min-height: 72px;
+    height:auto;
+    float: left;
+    width: auto;
+}
+
+.div_item .left:first-child{
+    line-height:25px;
+    margin-right: 5px;
+    text-align: right;
+    min-width:57px;
+}
+
+.div_item.div-it .left {
+    width:auto;
+    min-width: 40px;
+}
+.orderDetail .child_item:first-child {
+    padding-left: 17.5%;   
+}
+.child_item{
+    width: 50%;
+    height: 28px;
+    float: left;
+}
+.orderDetail .child_item {
+   padding-left:12%;
+}
+.child_item  input {
+    float: left;
+    margin-right:5px;
+}
+.child_item  .select_o {
+    width: 70px;
+    height:28px;
+    line-height: 28px;
+    float: left;
+    border-radius: 5px;
+}
+
+.schedule .select2-container .select2-selection--single {
+    height:25px;
+    line-height: 25px;
+} 
+.schedule .div_frame .input_l,.schedule .div_all .input_l {
+    width: 143px!important;
+    display: inline-block;
+}
+#text_n {
+    width:96%;
+    height: 80px;
+    overflow: auto;
+    margin: 6px 0;
+    border: 1px solid #ddd;
+}
+.schedule .txt_t {
+    font-size: 13px;
+    color:#999;
+}
+/*hosting initRealTimeRoom end*/
+
+/*hosting initHostingFinace start*/
+
+.x_hosting .bt1 {
+    padding-bottom: 5px;
+}
+.x_hosting .hostiong_financ>div {
+    background: #fff;
+    padding-top: 10px;
+    padding-left:4px;
+}
+.x_hosting .w360 {
+    width:360px;
+}
+.x_hosting .w360 .line-div-center {
+    padding-left:55px;
+}
+.x_hosting .hostiong_financ .navbar-right {
+    margin: 0px;
+}
+.x_hosting .hosting_finance {
+    background: #fff;
+    /*padding-top: 20px;
+    padding-left:4px;*/
+}
+.x_hosting .hosting_time {
+    width:385px;
+    height:auto;
+    float: left;
+    overflow: hidden;
+    position: relative;
+}
+.x_hosting .hosting_time .line-div {
+    width: 100%;
+    height:28px;
+}
+.x_hosting .hosting_time .line-div .line-div-label {
+    width:50px;
+    height:28px;
+    float: left;
+}
+.x_hosting .hosting_time .line-div .line-div-center {
+    width:341px;
+    height:28px;
+    right:0px;
+}
+.x_hosting .hosting_time .line-div .line-div-center input {
+    min-width: 110px;
+    height:28px;
+}
+.x_hosting  .hosting_search {
+    width:575px;
+    float: left;
+} 
+.hosting_time .line-div {
+    position: relative;
+}
+.x_hosting .hostiong_financ .navbar-right {
+    margin-top:10px!important;
+}
+/*.hostiong_financ #search {
+    padding: 3px 20px;
+    background: #0094D5;
+    border: 1px solid #0094D5;
+    color: #fff;
+    cursor: pointer;
+}
+.hostiong_financ #empty {
+    padding: 3px 20px;
+    background: #fff;
+    border: 1px solid #0094D5;
+    color: #0094D5;
+    cursor: pointer;
+}*/
+/*hosting initHostingFinace end*/
+
+.hostingLease {
+    /*width: 100%;
+    padding-top:20px;
+    overflow: auto;*/
+    background-color: #fff;
+    border-radius: 6px;
+    padding: 0 20px;
+    overflow: auto;
+    /*background: url(../images/BG.jpg) no-repeat;
+    background-size: 100% 100%;
+    position: relative;*/
+}
+
+.hostingLease .mainNav-cx{
+    width: 100%;
+    padding: 0;
+}
+
+/*.hostingLease .content {
+    /*width:1000px;*/
+    /*height:600px;*/
+    /*padding: 10px 40px 0 40px;
+    background: #fff;
+    box-shadow: 0 0 10px 1px #ccc;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left:-500px;
+    margin-top:-300px;*/
+/*}*/
+.schedule>.top{
+    width:100%;
+    height:60px;
+    overflow: hidden;
+    position: relative;
+}
+.hostingLease .title_top {
+    width:100%;
+    height:60px;
+    line-height: 60px;
+    text-align: center;
+    font-size: 24px;
+    color:#0094D5;
+}
+.schedule>.top button.btn {
+    position: absolute;
+    right:0%;
+    top:16px;
+    float: right;
+}
+.schedule>.bottom {
+    padding: 20px 0;
+    position: relative;
+}
+.schedule>.bottom button {
+    width: 200px;
+    position: absolute;
+    left: 50%;
+    margin-left: -100px;
+}
+.schedule #selected {
+   display: none;
+}
+.yes {
+    color: #444;
+}
+.schedule .header {
+    width: 100%;
+    min-height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid #ddd;
+    overflow: hidden;
+}
+/*body .orderDetail .content{
+    height:auto;
+}*/
+body .orderDetail .schedule {
+    height:auto;
+}
+.schedule .header .left {
+    width: 300px;
+}
+.orderDetail .div_item .input_2 {
+    width: 55px!important;
+}
+.orderDetail .lease_reserveL {
+    width: 100%;
+    height:auto;
+    float: none;
+}
+.div_box_frame {
+    width: 20%;
+    height:auto;
+    float: left;
+}
+ .div_box_item {
+    width: 80%;
+    float: left;
+    height:auto;
+}
+.card .select2-container {
+    width: 166px!important;
+}
+ .div_box_item .div_item {
+    width:100%;
+    height: 28px;
+    margin: 4px 0 4px 0;
+    float: left;
+}
+.orderDetail .div_box_item {
+
+}
+.orderDetail .div_frame {
+    /*padding-right:150px;*/
+    margin: 15px 0;
+}
+.orderDetail .remarks {
+    width: 100%;
+    line-height: 35px;
+    padding-right:4%;
+    height:auto;
+}
+.checkin,.checkin .div_all,.checkin .div_all .room{
+    width:100%;
+    height:40px;
+    overflow: hidden;
+    line-height: 40px;
+}
+.checkin .divPage{
+    width: 100px;
+    height: 400px;
+}
+.checkin {
+    color:#444;
+    font-size: 16px;
+}
+.div_moddle {
+    width:100%;
+}
+.div_moddle .div_all .div_item input {
+    width:100px;
+}
+.div_moddle .div_all .div_item div{
+    line-height: 28px;
+}
+.div_moddle .price {
+    width:33%;
+    color:#999;
+    line-height: 28px;
+    height: 28px;
+    font-size: 14px;
+    overflow: hidden;
+}
+.bookingMedium {
+    text-align: center;
+    line-height: 36px;
+}
+.x_hosting .hosting_finance .flexigrid div.pDiv input {
+    top:-10px;
+    min-width: 50px;
+    height:25px;
+}
+.ml10 {
+    margin-left:10px!important;
+}
+/*initHostingRoomGuestList :start*/
+.inusetop {
+    width:100%;
+    height:28px;
+    line-height: 28px;
+    margin-bottom: 10px;
+    color: #444;
+    border-bottom: 1px solid #ddd;
+}
+.inusetop .left {
+    margin-right: 40px;
+}
+.Count {
+    width:100%;
+    height:auto;
+    overflow: hidden;
+}
+#txt-plain span {
+    margin-right:20px;
+    color:#ec785f;
+}
+/*end*/
+.line-time .div-label{
+   width:60px;
+}
+.line-time .line-div-center {
+    padding-left:60px;
+}
+.modify-defaultlink {
+    margin-left:0px!important;
+}
+
+.cha-all .prompt {
+    /*padding-left:10px;*/
+    line-height: 35px;
+    color:#444;
+}
+.cha-all .right {
+    line-height: 35px;
+}
+.cha-all .right .btn:hover{
+    color: #fff;
+    background:#1d84d3;
+}
+.div-tips {
+    cursor: help;
+}
+
+.w50 .line-div-center {
+    padding-left: 50px;
+}
+.w80 .line-div-center {
+   padding-left: 80px;
+}
+.push div.grey{
+    padding:0px;
+    padding-top:2px;
+}
+.price-width{
+  width:72px!important;
+  padding-left: 5px; 
+}
+.width120 {
+    width: 72px!important;
+}
+.percentage {
+    width: 57px!important;
+    padding-left: 5px;
+}
+.range .select2-container {
+    width:100px!important;
+}
+#monthNum .select2-container { 
+    width: 78px!important;
+}
+.leaseItems .form-group {
+    padding-bottom: 10px;
+}
+
+.reserve_item {
+    height:auto;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    margin: 10px 0;
+    padding: 10px 20px;
+}
+.reserve_item .box_item {
+   width:100px;
+   height: 40px;
+   line-height: 40px;
+}
+.label_div select{
+   width: 80px;
+}
+.label_div {
+    width:500px;
+    line-height: 28px;
+}
+.label_div .day_div {
+    float: left;
+}
+
+body textarea:disabled {
+  background-color: #eee;
+  opacity: 0.5;
+}
+body .form-control[disabled],
+body .form-control[readonly],
+body fieldset[disabled] .form-control ,
+body .form-control[disabled] + .input-group-addon,
+body .form-control[readonly] + .input-group-addon,
+body fieldset[disabled] .form-control + .input-group-addon
+{
+  opacity: 0.5;
+}
+.input-group-addon.disabled{
+    opacity: 0.5;
+}
+.copy-top {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd; 
+}
+.roomNo-box,.roomNo-item {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+.room-floor {
+    width: 100px;
+    text-align: left;
+    padding-left: 10px;
+    height: 40px;
+    line-height: 40px;
+    float: left;
+}
+.room-no-item {
+    width: 446px;
+    min-height: 40px;
+    float: right;
+}
+.room-no-item .room-item{
+    width: auto;
+    min-width: 70px;
+    min-height: 1px;
+    float: left;
+    padding-right: 10px;
+    padding-left: 10px;
+}

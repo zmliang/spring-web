@@ -31,10 +31,17 @@ public class ConfigController {
 
     @RequestMapping(value = "/config")
     public ModelAndView getMPageConfigs(){
-        final int threshold = configService.getQsThreshold();
+        final int threshold=0;
         logger.trace("threshold:"+threshold);
         ModelAndView mv=new ModelAndView();
-        mv.setViewName("main_page_cfg.jsp");
+        mv.setViewName("index");
+        return mv;
+    }
+
+    @RequestMapping(value = "/")
+    public ModelAndView requestDefault(){
+        ModelAndView mv=new ModelAndView();
+        mv.setViewName("index");
         return mv;
     }
 

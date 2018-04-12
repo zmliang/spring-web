@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>张明亮'Home</title>
+    <link href="$!{rc.contextPath}/images/favicon.ico" rel="shortcut icon">
+    <link rel="stylesheet" href="$!{rc.contextPath}/css/bootstrap.min.css">
+    <link href="$!{rc.contextPath}/css/iconfont/style.css" rel="stylesheet">
+    <link href="$!{rc.contextPath}/css/custom.min.css" rel="stylesheet">
+    <link href="$!{rc.contextPath}/css/cx.css" rel="stylesheet">
+    <link href="$!{rc.contextPath}/css/branch.css" rel="stylesheet">
+    <link href="$!{rc.contextPath}/css/select2.css" rel="stylesheet">
+    <link href="$!{rc.contextPath}/css/zml_defined.css" rel="stylesheet">
+    <script type="text/javascript" src="$!{rc.contextPath}/js/components/jquery.min.js"></script>
+    <script type="text/javascript" src="$!{rc.contextPath}/js/components/sea.js"></script>
+    <script type="text/javascript" src="$!{rc.contextPath}/js/components/seajs-css.js"></script>
+    <script type="text/javascript" src="$!{rc.contextPath}/js/components/config.js"></script>
+    <script type="text/javascript">
+        var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        var hms_host = document.location.host,
+                hms_cnzzId = '',
+                hms_hmtId = '';
+        switch (hms_host){
+            case 'hms.memorhome.com':
+                hms_cnzzId = '1263181319';
+                hms_hmtId = "f0d5841fac5539afb495b2526a984579";
+                break;
+            case 'h.mdguanjia.com':
+                hms_cnzzId = '1263176889';
+                hms_hmtId = "379aa24c870d25fbb6f031188ee98aef";
+                break;
+            case 'test.memorhome.com':
+                hms_cnzzId = '1263177539';
+                hms_hmtId = "db51b23d0abdad0ab8f42376c274e833";
+                break;
+            default:
+                hms_cnzzId = '1263177539';
+                hms_hmtId = "db51b23d0abdad0ab8f42376c274e833";
+                break;
+        }
+        document.write(
+                unescape("%3Cspan style='display:none;' id='cnzz_stat_icon_"+hms_cnzzId+"'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D"+hms_cnzzId+"' type='text/javascript'%3E%3C/script%3E")
+        );
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?"+hms_hmtId;
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+</head>

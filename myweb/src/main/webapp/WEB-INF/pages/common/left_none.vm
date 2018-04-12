@@ -1,0 +1,14 @@
+<div class="col-md-3 left_col">
+    <div class="left_col scroll-view">
+        <a href="$!{rc.contextPath}/lease/index/estate_list.htm">
+            <div class="navbar nav_title">
+                <img class="icon_logo" src="$!{rc.contextPath}/images/wechat_avatar.jpg" />
+                <span class="beta_version"></span>
+            </div>
+        </a>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!-- 公告 -->
+<div class="right_col" role="main">
+    <div class="right-wrapper">

@@ -1,0 +1,48 @@
+.my_title{
+
+}
+.my_top_bar{
+	position:relative;
+	width: 100%;
+	height: 80px;
+	background-color: #1f283d;
+	top: 0px;
+	margin: auto;
+}
+
+.my_bottom_bar{
+	position:fixed;
+	width: 100%;
+	height: 300px;
+	background-color: #1f283d;
+	left: 0;
+	right: 0;
+	bottom: 0px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.home_page{
+	line-height: 80px;
+	text-align: center;
+    font-size: 200%;
+    color:whitesmoke;
+    position:absolute;
+    width: 150px;
+    height: 100%;
+}
+.about_me{
+	line-height: 80px;
+	text-align: center;
+    font-size: 200%;
+    color: whitesmoke;
+    position: absolute;
+    width: 150px;
+    height: 100%;
+}
+
+.my_img_{
+	background-color: green;
+}
+.my_image{
+
+}

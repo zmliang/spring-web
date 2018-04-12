@@ -1,0 +1,17 @@
+.Wdate{
+	border:1px soild #96A0B0;
+	height:20px;
+	background:#fff url(calendar_default.png) no-repeat right 4px center;
+	font-size:12px;
+	line-height:1.2;
+	height:24px;
+	cursor: pointer;
+}
+.Wdate:focus{
+	background:#fff url(calendar_selected.png) no-repeat right 4px center;
+}
+
+.WdateFmtErr{
+	font-weight:bold;
+	color:red;
+}
