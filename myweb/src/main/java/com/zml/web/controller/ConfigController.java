@@ -41,7 +41,7 @@ public class ConfigController {
     @RequestMapping(value = "/")
     public ModelAndView requestDefault(){
         ModelAndView mv=new ModelAndView();
-        mv.setViewName("index");
+        mv.setViewName("home");
         return mv;
     }
 

@@ -1,0 +1,303 @@
+#parse('common/top.vm')
+
+
+
+<div class="my_top_bar">
+    <img src="$!{rc.contextPath}/images/wechat_avatar.jpg" class="img-circle my_avatar"/>
+    <a class="my_nickName" title="昵称">这是个昵称</a>
+    <a href="/config"  class="about_me" title="call me baby">关于我</a>
+</div>
+
+<div class="my_banner">
+    <div id="myCarousel" class="carousel slide">
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="item active cover_bg">
+                <img class="my_carousel_img" src="$!{rc.contextPath}/images/banner1.jpg" alt="First slide"/>
+            </div>
+            <div class="item cover_bg">
+                <img class="my_carousel_img" src="$!{rc.contextPath}/images/banner2.jpg" alt="Second slide"/>
+            </div>
+            <div class="item cover_bg">
+                <img class="my_carousel_img" src="$!{rc.contextPath}/images/banner3.jpg" alt="Third slide"/>
+            </div>
+        </div>
+        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>
+
+
+<!--
+<div id="myCarousel" class="carousel slide">
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="item active">
+            <img class="my_image"  src="$!{rc.contextPath}/images/1.jpg" alt="First slide">
+        </div>
+        <div class="item my_img_">
+            <img class="my_image" src="$!{rc.contextPath}/images/2.jpg" alt="Second slide">
+        </div>
+        <div class="item my_img_">
+            <img class="my_image" src="$!{rc.contextPath}/images/3.jpg" alt="Third slide">
+        </div>
+    </div>
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+-->
+
+
+<!--
+<div class="mj-wb-container">
+    <div class="mj-wb-left">
+        <div class="mj-wb-left-row mj-wb-row grid-tab">
+            <a href="javascript: void(0);" class="mj-wb-block grid-tab-first" data-type="1">
+                <p>科学</p>
+                <p class="val"></p>
+            </a>
+            <a href="javascript: void(0);" class="mj-wb-block grid-tab-second" data-type="1">
+                <p>影视动漫</p>
+                <p class="val"></p>
+            </a>
+            <a href="javascript: void(0);" class="mj-wb-block grid-tab-third" data-type="1">
+                <p>历史</p>
+                <p class="val"></p>
+            </a>
+            <a href="javascript: void(0);" class="mj-wb-block grid-tab-fourth" data-type="1">
+                <p>时尚</p>
+                <p class="val"></p>
+            </a>
+            <a href="javascript: void(0);" class="mj-wb-block grid-tab-fifth" data-type="2">
+                <p>国学</p>
+                <p class="val"></p>
+            </a>
+            <a href="javascript: void(0);" class="mj-wb-block grid-tab-sixth" data-type="2">
+                <p>体育</p>
+                <p class="val"></p>
+            </a>
+            <a href="javascript: void(0);" class="mj-wb-block grid-tab-seventh" data-type="2">
+                <p>军事</p>
+                <p class="val"></p>
+            </a>
+            <a href="javascript: void(0);" class="mj-wb-block grid-tab-eighth" data-type="4">
+                <p>经济</p>
+                <p class="val"></p>
+            </a>
+            <a href="javascript: void(0);" class="mj-wb-block grid-tab-ninth" data-type="6">
+                <p>生活</p>
+                <p class="val"></p>
+            </a>
+            <a href="javascript: void(0);" class="mj-wb-block grid-tab-tenth" data-type="5">
+                <p>诗词大会</p>
+                <p class="val"></p>
+            </a>
+        </div>
+    </div>
+    <div class="mj-wb-row">
+        <div class="mj-wb-block mj-charts">
+            <div class="charts-head">
+                <div class="title">做题测试</div>
+                <div id="urgeFundOptions" class="options">
+                    <div>
+                        <button class="btn btn-mj" onClick="linkToBefore()">上一题</button>
+                        <button class="btn btn-mj" onClick="linkToAfter()">下一题</button>
+                    </div>
+                    <div>
+                        <select id="selectQuestionType" class="form-control" style="width: 100%;text-align: center" onchange="gradeChange()" >
+                            <option value="40">诗词</option>
+                            <option value="1">国学-1</option>
+                            <option value="9">国学-9</option>
+                            <option value="6">军事-6</option>
+                            <option value="13">军事-13</option>
+                            <option value="7">时尚-7</option>
+                            <option value="37">时尚-37</option>
+                            <option value="8">体育-8</option>
+                            <option value="25">体育-25</option>
+                            <option value="12">经济-12</option>
+                            <option value="24">经济-24</option>
+                            <option value="2">历史-2</option>
+                            <option value="10">历史-10</option>
+                            <option value="31">生活-31</option>
+                            <option value="32">生活-32</option>
+                            <option value="33">生活-33</option>
+                            <option value="34">生活-34</option>
+                            <option value="3">科学-3</option>
+                            <option value="14">科学-14</option>
+                            <option value="15">科学-15</option>
+                            <option value="16">科学-16</option>
+                            <option value="17">科学-17</option>
+                            <option value="18">科学-18</option>
+                            <option value="36">科学-36</option>
+                            <option value="4">影视-4</option>
+                            <option value="19">影视-19</option>
+                            <option value="20">影视-20</option>
+                            <option value="22">影视-22</option>
+                            <option value="23">影视-23</option>
+                            <option value="38">影视-38</option>
+                        </select>
+                    </div>
+                    <div>
+                        <select id="grade" class="default form-control" onchange="gradeChange()"	>
+                            <option value="1">简单-1</option>
+                            <option value="2">中等-2</option>
+                            <option value="3">较难-3</option>
+                            <option value="4">很难-4</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div id="dunning-charts" class="charts-container">
+                <div class="charts-container mj-room-count">
+
+                    <div class="room-count">
+                        <div class="room-count-item">
+                            <input id="questionId" value="" hidden="hidden"/>
+                        </div>
+                        <div class="room-count-item">
+                            &nbsp;&nbsp;&nbsp;题目 :
+                            <span class="all" style="width: 500px ;left:100px;color: #1f2d3d;font-weight: bold";font-size:17px" ></span>
+                        </div>
+
+                        <div class="room-count-item">
+                            &nbsp; 类型 :<span class="questionType" style="width: 1000px ;left:100px;color:#ec971f; font-weight: bold" ></span>
+                        </div>
+                        <div class="room-count-item">
+                            A选项 :<span class="selectA" style="width: 1000px ;left:100px;color: #1f2d3d; font-weight: bold" ></span>
+                        </div>
+                        <div class="room-count-item">
+                            B选项 :<span class="selectB" style="width: 1000px ;left:100px;color: #1f2d3d; font-weight: bold" ></span>
+                        </div>
+                        <div class="room-count-item">
+                            C选项 :<span class="selectC" style="width: 1000px ;left:100px;color: #1f2d3d;font-weight: bold" ></span>
+                        </div>
+                        <div class="room-count-item">
+                            D选项 :<span class="selectD" style="width: 1000px ;left:100px;color: #1f2d3d; font-weight: bold" ></span>
+                        </div>
+                        <div style=" height:25px;"></div>
+                        <div class="room-count-item">
+                            答案 :<span class="answer" style="width: 1000px ;left:100px; font-weight: bold;color: #5cb85c"></span>
+                        </div>
+                        <div style=" height:15px;"></div>
+                        <div class="room-count-item">
+                            正确率 :<span class="rightRate" style="width: 1000px ;left:100px; font-weight: bold"></span>
+                        </div>
+                        <div class="room-count-item">
+                            难度等级 :<span class="grade" style="width: 1000px ;left:100px; font-weight: bold"></span>
+                        </div>
+                        <div>
+                            <button class="btn btn-mj" onClick="linkToUpdate()" style="position: absolute ; right: 100px"onClick="linkToUpdate()">修改</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="updateForm" class="mj-wb-block mj-charts">
+            <div class="charts-head">
+                <div class="title">题目难度分布</div>
+                <div class="options">
+                    <div style="width: 120px;">
+                        <select id="formQuestionType" name="lease" class="form-control" style="width: 100%;" onchange="gradeChange2()">
+                            <option value="1">科学</option>
+                            <option value="2">影视动漫</option>
+                            <option value="3">历史</option>
+                            <option value="4">时尚</option>
+                            <option value="5">国学</option>
+                            <option value="6">体育</option>
+                            <option value="7">军事</option>
+                            <option value="8">经济</option>
+                            <option value="9">生活</option>
+                            <option value="10">诗词大会</option>
+                            <option value="11">综合</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div id="lease-charts" class="charts-container"></div>
+        </div>
+
+        <div id="updateDiv" class="mj-wb-block mj-charts" style="display: none">
+            <div class="title" style="color: #1f2d3d; font-weight: bold;height: 35px;font-size:17px">修改数据：</div>
+            <div id="dunning-charts" class="charts-container">
+                <div class="charts-container mj-room-count">
+
+                    <div class="room-count">
+                        <div class="room-count-item">
+                            <input id="questionId" value="" hidden="hidden"/>
+                        </div>
+                        <div class="room-count-item">
+                            &nbsp;&nbsp;&nbsp;题目 :
+                            <span class="all" style="width: 500px ;left:100px;color: #1f2d3d;font-weight: bold";font-size:17px" ></span>
+                        </div>
+
+                        <div class="room-count-item">
+                            &nbsp; 类型 :<span class="questionType" style="width: 1000px ;left:100px;color:#ec971f; font-weight: bold" ></span>
+                        </div>
+                        <div class="room-count-item">
+                            A选项 :<span class="selectA" style="width: 1000px ;left:100px;color: #1f2d3d; font-weight: bold" ></span>
+                        </div>
+                        <div class="room-count-item">
+                            B选项 :<span class="selectB" style="width: 1000px ;left:100px;color: #1f2d3d; font-weight: bold" ></span>
+                        </div>
+                        <div class="room-count-item">
+                            C选项 :<span class="selectC" style="width: 1000px ;left:100px;color: #1f2d3d;font-weight: bold" ></span>
+                        </div>
+                        <div class="room-count-item">
+                            D选项 :<span class="selectD" style="width: 1000px ;left:100px;color: #1f2d3d; font-weight: bold" ></span>
+                        </div>
+                        <div style=" height:25px;"></div>
+                        <div class="room-count-item">
+                            答案 :<span class="answer" style="width: 1000px ;left:100px; font-weight: bold;color: #5cb85c"></span>
+                        </div>
+                        <div style=" height:15px;"></div>
+                        <div class="room-count-item">
+                            题目修改 :<input id ="titleRightRate" class="updateRightRate" style="width: 500px "></input>
+                        </div>
+                        难度等级修改 :
+                        <select id="titleGrade" style="right:100px;width: 100px"	>
+                            <option value="1">简单-1</option>
+                            <option value="2">中等-2</option>
+                            <option value="3">较难-3</option>
+                            <option value="4">很难-4</option>
+                        </select>
+
+                        <div>
+                            <button class="btn btn-mj" style="position: absolute ; right: 200px"onClick="linkToCancle()">取消</button>
+                            <button class="btn btn-mj" style="position: absolute ; right: 100px"onClick="linkToComplete()">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+-->
+<script src="https://cdn.bootcss.com/echarts/4.0.2/echarts.js"></script>
+<script type="text/javascript">
+    function aboutMe(){
+        console.log('on aboutMe')
+       $(location).attr('href','http://localhost:8080/config')
+    };
+</script>
+
+

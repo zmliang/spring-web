@@ -1,7 +1,7 @@
 var HMS_version = location.origin.indexOf('localhost') == -1 ? (new Date().getTime() + '@hms') : (new Date().toLocaleDateString() + '@dev');
 
 seajs.config({
-    base: "/hms/js/",
+    base: "/",
     alias: {
         "layer": "components/layer/layer.source.js",
         "date": "components/DatePicker/WdatePicker.js",

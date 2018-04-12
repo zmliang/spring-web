@@ -31,18 +31,44 @@
     height: 100%;
 }
 .about_me{
+    right: 10px;
 	line-height: 80px;
 	text-align: center;
-    font-size: 200%;
+    font-size: 150%;
     color: whitesmoke;
     position: absolute;
     width: 150px;
     height: 100%;
 }
-
-.my_img_{
-	background-color: green;
+.about_me:hover{
+    color: greenyellow;
 }
-.my_image{
 
+.my_avatar{
+	margin-top: 2.5px;
+	width: 75px;
+	height: 75px;
+	margin-left: 50px;
+}
+.my_banner{
+	margin-top: 50px;
+	width: 100%;
+	height: fit-content;
+	background-color: #4B5F71;
+}
+.my_carousel_img{
+
+}
+.cover_bg{
+	background-size:cover;
+}
+.my_nickName{
+    font-size: 150%;
+	color: lightgoldenrodyellow;
+	width: 160px;
+	height: 80px;
+	margin-left: 50px;
+}
+.my_nickName:hover{
+	color: greenyellow;
 }
