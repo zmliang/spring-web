@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>James'Home</title>
-    <link href="$!{rc.contextPath}/images/favicon.ico" rel="shortcut icon">
+    <title>张明亮的主页</title>
+    <link href="$!{rc.contextPath}/images/my.ico" rel="shortcut icon">
     <link rel="stylesheet" href="$!{rc.contextPath}/css/bootstrap.min.css">
     <link href="$!{rc.contextPath}/css/iconfont/style.css" rel="stylesheet">
     <link href="$!{rc.contextPath}/css/custom.min.css" rel="stylesheet">
@@ -13,6 +13,7 @@
     <link href="$!{rc.contextPath}/css/branch.css" rel="stylesheet">
     <link href="$!{rc.contextPath}/css/select2.css" rel="stylesheet">
     <link href="$!{rc.contextPath}/css/zml_defined.css" rel="stylesheet">
+    <link href="$!{rc.contextPath}/css/animate.css" rel="stylesheet">
     <script type="text/javascript" src="$!{rc.contextPath}/js/components/jquery.min.js"></script>
     <script type="text/javascript" src="$!{rc.contextPath}/js/components/sea.js"></script>
     <script type="text/javascript" src="$!{rc.contextPath}/js/components/seajs-css.js"></script>

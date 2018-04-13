@@ -7,7 +7,7 @@
     <a class="my_nickName" title="昵称">这是个昵称</a>
     <a href="javascript: login();" class="my_login my_common">登陆</a>
     <a href="javascript: regist();" class="my_regist my_common" onclick="regist">注册</a>
-    <a href="/demo/config"  class="about_me" title="call me baby">关于我</a>
+    <a href="/config"  class="about_me" title="call me baby">关于我</a>
 </div>
 
 <div class="my_banner">
