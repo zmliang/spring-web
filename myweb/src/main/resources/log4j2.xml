@@ -1,8 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
-http://www.springframework.org/schema/beans ">
+<configuration status="TRACE">
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <!--          添加过滤器ThresholdFilter,可以有选择的输出某个级别以上的类别  onMatch="ACCEPT" onMismatch="DENY"意思是匹配就接受,否则直接拒绝  -->
+        <File name="ERROR" fileName="/web_logs/error.log">
+            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{yyyy.MM.dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n"/>
+        </File>
 
-</beans>
+        <!--&lt;!&ndash;         这个会打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 &ndash;&gt;-->
+        <!--<RollingFile name="RollingFile" fileName="../../logs/ws/trace.log"-->
+        <!--filePattern="logs/$${date:yyyy-MM}/web-%d{MM-dd-yyyy}-%i.log.gz">-->
+        <!--<PatternLayout pattern="%d{yyyy-MM-dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n"/>-->
+        <!--<SizeBasedTriggeringPolicy size="2MB"/>-->
+        <!--</RollingFile>-->
+
+        <!--          添加过滤器ThresholdFilter,可以有选择的输出某个级别以上的类别  onMatch="ACCEPT" onMismatch="DENY"意思是匹配就接受,否则直接拒绝  -->
+        <File name="TRACE" fileName="/web_logs/trace.log">
+            <ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{yyyy.MM.dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n"/>
+        </File>
+    </appenders>
+    <loggers>
+        <root level="trace">
+            <!--<appender-ref ref="RollingFile"/>-->
+            <appender-ref ref="TRACE"/>
+            <appender-ref ref="Console"/>
+            <appender-ref ref="ERROR"/>
+            <appender-ref ref="log"/>
+        </root>
+        <logger name="com.ibatis" additivity="false">
+            <level value="debug"/>
+            <appender-ref ref="Console"/>
+        </logger>
+        <logger name="org.springframework" additivity="false">
+            <level value="debug"/>
+            <appender-ref ref="Console"/>
+        </logger>
+
+    </loggers>
+</configuration>

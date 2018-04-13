@@ -1,7 +1,7 @@
 #parse('common/top.vm')
 
 <div class="my_top_bar">
-    <a href="/" class="home_page">回主页</a>
+    <a href="/demo" class="home_page">回主页</a>
 </div>
 
 <script src="https://cdn.bootcss.com/echarts/4.0.2/echarts.js"></script>

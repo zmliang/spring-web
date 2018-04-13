@@ -72,3 +72,21 @@
 .my_nickName:hover{
 	color: greenyellow;
 }
+.my_common{
+	line-height: 80px;
+	text-align: center;
+	position: absolute;
+	height: 100%;
+	width: 50px;
+	font-size: 120%;
+}
+.my_common:hover{
+	color: papayawhip;
+}
+.my_login{
+	right: 260px;
+}
+
+.my_regist{
+	right: 200px;
+}
