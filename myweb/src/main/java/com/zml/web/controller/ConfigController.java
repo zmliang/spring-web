@@ -22,7 +22,6 @@ import javax.jws.WebResult;
  * \
  */
 @Controller
-
 public class ConfigController {
     private static final Logger logger = LogManager.getLogger(ConfigController.class);
 
@@ -31,7 +30,7 @@ public class ConfigController {
 
     @RequestMapping(value = "/config")
     public ModelAndView getMPageConfigs(){
-        final int threshold=0;
+        final int threshold=configService.getQsThreshold();
         logger.trace("threshold:"+threshold);
         ModelAndView mv=new ModelAndView();
         mv.setViewName("index");

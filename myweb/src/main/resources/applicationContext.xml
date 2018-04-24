@@ -30,22 +30,14 @@
         <context:component-scan base-package="com.zml.web" >
         </context:component-scan>
 
-        <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-                <property name="driverClassName" value="${jdbc.driver}"/>
+        <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+                <property name="driverClassName" value="org.postgresql.Driver"/>
                 <property name="url" value="${jdbc.url}"/>
                 <property name="username" value="${jdbc.username}"/>
                 <property name="password" value="${jdbc.password}"/>
+                <!--
                 <property name="maxActive" value="2" />
                 <property name="maxIdle" value="3" />
-                <property name="maxWait" value="10000" />
-                <property name="validationQuery" value="SELECT 1" />
-                <property name="testWhileIdle" value="true" />
-                <property name="timeBetweenEvictionRunsMillis" value="3600000" />
-                <property name="minEvictableIdleTimeMillis" value="18000000" />
-                <property name="testOnBorrow" value="true" />
-                <!--
-                <property name="maxActive" value="200" />
-                <property name="maxIdle" value="30" />
                 <property name="maxWait" value="10000" />
                 <property name="validationQuery" value="SELECT 1" />
                 <property name="testWhileIdle" value="true" />
