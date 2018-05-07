@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>出错啦</title>
+	<link href="$!{rc.contextPath}/images/favicon.ico" rel="shortcut icon">
+	<link href="$!{rc.contextPath}/css/error.css" rel="stylesheet">
+</head>
+<body>
+	<div class="scene">
+	    <div class="text">缺省页面</div>
+	  <div class="text"></div>
+	  <br><br>
+	  <div class="text">—&nbsp;&nbsp;&nbsp;&nbsp;请联系技术部:—</div>
+	  <div class="sheep">
+	    <span class="top">
+	      <div class="body"></div>
+	      <div class="head">
+	        <div class="eye one"></div>
+	        <div class="eye two"></div>
+	        <div class="ear one"></div>
+	        <div class="ear two"></div>
+	      </div>
+	    </span>
+	      <div class="legs">
+	        <div class="leg"></div>
+	        <div class="leg"></div>
+	        <div class="leg"></div>
+	        <div class="leg"></div>
+	    </div>
+	  </div>
+	</div>
+</body>

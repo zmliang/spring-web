@@ -1,0 +1,1162 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row"><div class="col-md-12 col-sm-12 col-xs-12 window">
+    <div class="x_panel window">
+        <div class="x_title">
+            <div class="searchDiv">
+                <form id="searchForm">
+                    <table>
+                        <colgroup>
+                            <col width="130">
+                            <col width="130">
+                            <col width="200">
+                            <col width="95">
+                            <col width="95">
+                            <col width="150">
+                            <col width="180">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="line-div">
+                                        <div class="line-div-label"></div>
+                                        <div class="line-div-center">
+                                            <select name="cityId" class="default form-control">
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="padding-left: 10px;">
+                                    <div class="line-div">
+                                        <div class="line-div-label"></div>
+                                        <div class="line-div-center">
+                                            <select name="regionId" class="default form-control">
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="padding-left: 10px;">
+                                    <div class="line-div">
+                                        <div class="line-div-label"></div>
+                                        <div class="line-div-center">
+                                            <select name="subdistrictId" class="default form-control">
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="padding-left: 10px;">
+                                    <div class="line-div">
+                                        <div class="line-div-label"></div>
+                                        <div class="line-div-center">
+                                            <select name="houseType" class="default form-control">
+                                                <option value=""></option>
+                                                <option value="1">普通</option>
+                                                <option value="2">金融</option>
+                                                <option value="3">代管</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="padding-left: 10px;">
+                                    <div class="line-div">
+                                        <div class="line-div-label"></div>
+                                        <div class="line-div-center">
+                                            <select name="publishStatus" class="default form-control">
+                                                <option value=""></option>
+                                                <option value="2">已发布</option>
+                                                <option value="1">未发布</option>
+                                                <option value="3">申请中</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="padding-left: 10px;">
+                                    <div class="line-div">
+                                        <div class="line-div-label"></div>
+                                        <div class="line-div-center">
+                                            <input type="text" name="keyWord" class="form-control"
+                                                placeholder="公寓/小区/房间编码">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-left">
+                                    <button type="button" id="search" class="left btn btn-mj">查询</button>
+                                    <button type="button" id="clear" class="left btn">清空</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="x_content">
+            <div class="clearfix" style="padding: 10px 0;">
+                <!-- <ul class="left nav nav-tabs" id="tabs_search" style="margin-bottom: -1px;">
+                    <li class="active"><a href="#">&nbsp;合租&nbsp;</a></li>
+                    <li><a href="#">&nbsp;整租&nbsp;</a></li>
+                </ul> -->
+                <div class="btn-group left">
+                    <button type="button" class="btn btn-mj btn_houseRentType">
+                        合租<!-- （房间数：<span class="badge roomNum"></span>） -->
+                    </button>
+                    <button type="button" class="btn btn_houseRentType">
+                        整租<!-- （房源数：<span class="badge apartmentNum"></span>） -->
+                    </button>
+                </div>
+                <div class="left totalNum" style="line-height: 28px;color:red;padding-left: 10px;"></div>
+                <div class="right">
+                    <div class="btn-toolbar">
+                        <div class="btn-group">
+                            <button type="button" id="btn-publish" class="btn btn-mj">发布到APP</button>
+                            <button type="button" id="btn-withdraw" class="btn btn-mj" style="border-left-color:#f0f0f0;">从APP撤销</button>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" data-id="addHouse" class="btn btn-mj">添加合租房源</button>
+                            <button type="button" data-id="addHouse" class="btn btn-mj" style="border-left-color:#f0f0f0;">添加整租房源</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           <!--  <div class="tab-content container active" style="padding: 0 10px 10px;"> -->
+                <!-- <div class="clearfix gray-bg">
+                    <div class="navbar-left pr75">
+                        共 <i class="brick-red apartmentNum"></i> 套房源
+                        <span class="totalRooms">，共 <i class="brick-red roomNum"></i> 间房间</span>
+                    </div>
+                </div> -->
+                <div id="gridDiv"></div>
+           <!--  </div> -->
+        </div>
+    </div>
+</div>
+
+<!-- 交租方式 -->
+<script type="text/template" id="setRentTypeTemp">
+    <div class="noRentTypeList hide">
+        当前没有交租方式，请点击编辑后添加交租方式。
+    </div>
+    <div class="rentTypeBox">
+    	<ul class="nav nav-tabs hide">
+    		{{#each roomList}}
+            	<li class="{{isActive}}">
+                    <a href="#">{{roomName}}</a>
+                </li>
+    		{{/each}}
+    	</ul>
+    	<div class="tab-content container active" style="height:380px;padding: 10px 5px;overflow: auto;">
+            <form class="blockFinance"></form>
+            <form class="blockNormal"></form>
+    	</div>
+        <div style="position:absolute;top:10px;left:80px; {{#isShow houseFinanceType '1' '3'}}{{/isShow}}">
+            <span class="mj-tag mj-tag-primary">该房源含有金融业务</span>
+        </div>
+    </div>
+</script>
+
+<!-- 渲染金融交租方式 -->
+<script type="text/template" id="renderFinanceTemp">
+    <div class="row txt-plain">
+        <table class="table_rentType">
+            <colgroup>
+                <col width="160">
+                <col width="240">
+                <col width="80">
+                <col width="80">
+                <col class="col_financeChange" width="240">
+                <col width="120">
+                <col width="40">
+            </colgroup>
+            <tr>
+                <td>
+                    <span style="color: #555;">金融·</span>
+                    交租方式
+                </td>
+                <td>
+                    <div class="left" style="width: 47%;margin: 0;">房价/月</div>
+                    <div class="left" style="width: 47%;margin-left: 8px;margin-right: 0;">押金</div>
+                </td>
+                <td>最短租期</td>
+                <td>最长租期</td>
+                <td class="financeChange">服务费·元/月</td>
+                <td class="financeChange">服务费支付方式</td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+    <div class="rentTypeItems">
+        <table class="table_rentType">
+            <colgroup>
+                <col width="160">
+                <col width="240">
+                <col width="80">
+                <col width="80">
+                <col class="col_financeChange" width="240">
+                <col width="120">
+                <col width="40">
+            </colgroup>
+            {{#each this}}
+            <tr>
+                <div class="row txt-plain valued">
+                    <td>
+                        <label>{{name}}</label>
+                        <input type="hidden" value="{{rentTypeId}}" name="rentTypeId">
+                    </td>
+                    <td>
+                        <div class="toggleDisableItems clearfix" style="position: relative; top: 5px;">
+                            <div class="left input-group" style="width: 47%;margin:0;">
+                                <input class="form-control" validate="number1" type="number" 
+                                    class="form-control" flexible name="rentPrice" value="{{rentPrice}}">
+                                <span class="input-group-addon">元</span>
+                            </div>
+                            <div class="left input-group" style="width: 47%;margin-left: 10px;margin-right: 0;">
+                                <input class="form-control" validate="number1" type="number" 
+                                    class="form-control" flexible name="depositPrice" value="{{depositPrice}}">
+                                <span class="input-group-addon">元</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <select flexible name="minMonthNum" style="width: 100%;">
+                            {{#renderMonth "min" minMonthNum rentQty rentQty maxMonthNum}}{{/renderMonth}}
+                        </select>
+                    </td>
+                    <td>
+                        <select name="maxMonthNum" flexible style="width: 100%;">
+                            {{#renderMonth "max" maxMonthNum minMonthNum rentQty "24"}}{{/renderMonth}}
+                        </select>
+                    </td>
+                    <td class="snServiceFee financeChange">
+                        <select style="width: 95px" name="serviceChargeType" flexible>
+                            {{#selected2 serviceChargeType}}{{/selected2}}
+                        </select>
+                        {{#renderServiceFee serviceChargeType serviceChargeRatio serviceChargePrice}}{{/renderServiceFee}}
+                    </td>
+                    <td class="financeChange">
+                        <select style="width: 95px" name="serviceFeeType" value="{{serviceFeeType}}" flexible>
+                            {{#selected1 serviceFeeType}}{{/selected1}}
+                        </select>
+                    </td>
+                    <td></td>
+                </div>
+            </tr>
+            {{/each}}
+        </table>
+    </div>
+    <div class="divider"></div>
+</script>
+
+<!-- 渲染常规交租方式 -->
+<script type="text/template" id="renderNormalTemp">
+    <div class="row txt-plain">
+        <table class="table_rentType">
+            <colgroup>
+                <col width="160">
+                <col width="240">
+                <col width="80">
+                <col width="80">
+                <col class="col_financeChange" width="240">
+                <col width="120">
+                <col width="40">
+            </colgroup>
+            <tr>
+                <td>
+                    <span style="color: #555;">常规·</span>
+                    交租方式
+                </td>
+                <td>
+                    <div class="left" style="width: 47%;margin: 0;">房价/月</div>
+                    <div class="left" style="width: 47%;margin-left: 8px;margin-right: 0;">押金</div>
+                </td>
+                <td>最短租期</td>
+                <td>最长租期</td>
+                <td class="financeChange">服务费·元/月</td>
+                <td class="financeChange">服务费支付方式</td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+    <div class="rentTypeItems">
+        <table class="table_rentType">
+            <colgroup>
+                <col width="160">
+                <col width="240">
+                <col width="80">
+                <col width="80">
+                <col class="col_financeChange" width="240">
+                <col width="120">
+                <col width="40">
+            </colgroup>
+            {{#each this}}
+            <tr>
+                <div class="row txt-plain valued">
+                    <td>
+                        <label>{{name}}</label>
+                        <input type="hidden" value="{{rentTypeId}}" name="rentTypeId">
+                    </td>
+                    <td>
+                        <div class="toggleDisableItems clearfix" style="position: relative;top: 5px;">
+                            <div class="left input-group" style="width: 47%;margin:0;">
+                                <input class="form-control" validate="number1" type="number" 
+                                    class="form-control" flexible name="rentPrice" value="{{rentPrice}}">
+                                <span class="input-group-addon">元</span>
+                            </div>
+                            <div class="left input-group" style="width: 47%;margin-left: 10px;margin-right: 0;">
+                                <input class="form-control" validate="number1" type="number" 
+                                    class="form-control" flexible name="depositPrice" value="{{depositPrice}}">
+                                <span class="input-group-addon">元</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <select flexible name="minMonthNum" style="width: 100%;">
+                            {{#renderMonth "min" minMonthNum rentQty rentQty maxMonthNum}}{{/renderMonth}}
+                        </select>
+                    </td>
+                    <td>
+                        <select name="maxMonthNum" flexible style="width: 100%;">
+                            {{#renderMonth "max" maxMonthNum minMonthNum rentQty "24"}}{{/renderMonth}}
+                        </select>
+                    </td>
+                    <td class="lsnServiceFee financeChange">
+                        <select style="width: 95px" name="serviceChargeType" flexible>
+                            {{#selected2 serviceChargeType}}{{/selected2}}
+                        </select>
+                        {{#renderServiceFee serviceChargeType serviceChargeRatio serviceChargePrice}}{{/renderServiceFee}}
+                    </td>
+                    <td class="financeChange">
+                        <select style="width: 95px" name="serviceFeeType" value="{{serviceFeeType}}" flexible>
+                            {{#selected1 serviceFeeType}}{{/selected1}}
+                        </select>
+                    </td>
+                    <td class="delete_box" style="width: 40px;font-size: 18px;opacity: 0.8; cursor: pointer;">
+                        <i class="icon-delete"></i>
+                    </td>
+                </div>
+            </tr>
+            {{/each}}
+        </table>
+    </div>
+    <div class="form-group addRentType">
+        <button type="button" class="btn btn-mj">添加交租方式</button>
+    </div>
+</script>
+
+<script type="text/template" id="addRentTypeTemp">
+    <tr>
+        <div class="row txt-plain valued" style="margin-bottom: 5px;">
+            <input type="hidden" name="type" value="1">
+            <td class="rentTypeNameBox">
+                <select flexible name="rentTypeId" class="addRentTypeName" flexible style="width: 100px;">
+                    {{#renderBaseRentType baseRentTypeList}}{{/renderBaseRentType}}
+                </select>
+            </td>
+            <td>
+                <div class="toggleDisableItems clearfix" style="position: relative;top: 5px;">
+                    <div class="left input-group" style="width: 47%;margin:0;">
+                        <input class="form-control" validate="number1" type="number" 
+                            class="form-control" flexible name="rentPrice" value="{{rentPrice}}">
+                        <span class="input-group-addon">元</span>
+                    </div>
+                    <div class="left input-group" style="width: 47%;margin-left: 10px;margin-right: 0;">
+                        <input class="form-control" validate="number1" type="number" 
+                            class="form-control" flexible name="depositPrice" value="{{depositPrice}}">
+                        <span class="input-group-addon">元</span>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <select flexible name="minMonthNum" style="width: 100%;">
+
+                </select>
+            </td>
+            <td>
+                <select name="maxMonthNum" flexible style="width: 100%;">
+                    
+                </select>
+            </td>
+            <td class="lsnServiceFee financeChange">
+                <select style="width: 95px" name="serviceChargeType" flexible>
+                    {{#selected2 serviceChargeType}}{{/selected2}}
+                </select>
+                {{#renderServiceFee serviceChargeType serviceChargeRatio serviceChargePrice}}{{/renderServiceFee}}
+            </td>
+            <td class="financeChange">
+                <select style="width: 95px" name="serviceFeeType" value="{{serviceFeeType}}" flexible>
+                    {{#selected1 serviceFeeType}}{{/selected1}}
+                </select>
+            </td>
+            <td class="delete_box" style="width: 40px;font-size: 18px;opacity: 0.8">
+                <i class="icon-delete"></i>
+            </td>
+        </div>
+    </tr>
+</script>
+
+<!-- 新增交租方式 - 租期渲染 -->
+<script type="text/template" id="renderAddMonthTemp">
+    {{#renderMonth addType addNum1 addNum2 addNum3 addNum4}}{{/renderMonth}}
+</script>
+
+<!-- 复制到 -->
+<script type="text/template" id="copyTo">
+	<div class="selectAllBlock">
+		<div class="relative">
+			<div style="float: left; margin-top: -5px; line-height: 28px;">
+				复制项目
+                <span>
+                    <i class="icon-tips-fill" 
+                        style="position:relative;top:3px;font-size: 20px;color: #2e8ded;" 
+                        tips='选择复制您要的内容，再选择您要编辑的房源，这样可以方便您快速批量编辑同类房源'>
+                    </i>
+                </span>
+			</div>
+			<button type="button" class="btn btn-mj right" id="btn-change1" style="margin-right: 0">全选/全不选</button>
+		</div>
+		<div class="divider" style="margin: 10px 0"></div>
+
+		<div class="relative list-rooms copyItemsWrap">
+			<div class="item" style="width: 50%;">
+				<label>
+                    <input class="left" type="checkbox" name="payRentType" value="1">&nbsp;
+					<select flexible name="roomId" style="width: 130px;margin: -5px 0 -5px 5px;" class="left">
+						{{#reflectRooms houseObj.hostingRoomDOList}}{{/reflectRooms}}
+					</select>
+					交租方式
+				</label>
+			</div>
+			<div class="item" style="width: 25%;">
+				<label><input type="checkbox" name="" value="2">&nbsp;收租方式</label>
+			</div>
+			<div class="item" style="width: 25%;">
+				<label><input type="checkbox" name="" value="3">&nbsp;线下支付方式</label>
+			</div>
+            <div class="item" style="width: 25%;">
+                <label><input type="checkbox" name="" value="4">&nbsp;平台模式</label>
+            </div>
+            <div class="item" style="width: 25%;">
+                <label><input type="checkbox" name="" value="5">&nbsp;合同模式 </label>
+            </div>
+            <div class="item" style="width: 25%;">
+                <label><input type="checkbox" name="" value="6">&nbsp;能耗费用</label>
+            </div>
+        </div>
+    </div>
+
+	<div class="selectAllBlock">
+		<div class="inner-box">
+			<div class="title">
+				选择要复制到的房间
+				<button type="button" id="btn-change2" class="btn btn-right">全选/全不选</button>
+			</div>
+			<div class="relative list-rooms">
+				{{#reflectHouses houseList}}{{/reflectHouses}}
+			</div>
+		</div>
+    </div>
+
+	<div class="tip" style="margin: 10px 5px;">
+		温馨提示：若复制到房间是合租的，所有房间的交租方式会一致，请及时修改
+	</div>
+</script>
+
+<!--租赁配置-->
+<script type="text/template" id="toConfigure">
+    <form id='J_form'>
+     <table style="width: 100%">
+        <colgroup>
+            <col width="110">
+        </colgroup>
+        <tr>
+            <td class="name">平台模式</td>
+            <td >
+                <div class="border">
+                    <div class="houseTypeDiv1">
+                        <div class="relative">
+                            <input type="radio" id="radio_payOnline1" name="platformType" value="1" {{checkPlat1}} disabled class="input-radio">
+                            <label for="radio_payOnline1" class="left">记账模式</label>
+                            <i class="icon-tips-fill" 
+                                style="font-size: 20px;color: #2e8ded;position: relative;left:8px;"
+                                tips="记账模式，系统会生成账单，但是不会推送给租客，租客无需APP配合">    
+                            </i>
+                        </div>
+
+                        <div class="relative" style="padding-bottom: 0">
+                            <input type="radio" id="radio_payOnline2" name="platformType" value="2" {{checkPlat2}} disabled class="input-radio">
+                            <label for="radio_payOnline2" class="left">线上支付（通过APP交租）</label>
+                            <i class="icon-tips-fill" 
+                                style="font-size: 20px;color: #2e8ded;position: relative;left:8px;"
+                                tips="线上支付模式，系统会生成账单，需要有完善的支付设置，并按照账单推送时间推送到租客APP,租客需要下载APP,租客以后可以直接在APP上缴费付款">    
+                            </i>
+                            <div class="right statusTitle">提示：启用线上支付需要先设置支付方式</div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="name">合同设置</td>
+            <td><div class="border">
+                <div class="houseTypeDiv2">
+                    <div class="relative">
+                        <input type="radio" name="contractSignType" value="2" id="radio_signOffline" {{checkSignOffline}} disabled class="input-radio">
+                        <label for="radio_signOffline" class="left">线下签约·常规纸质合同</label>
+                    </div>
+                    <div class="relative">
+                        <input type="radio" name="contractSignType" value="1" id="radio_signOnline" {{checkSignOnline}} disabled class="input-radio">
+                        <label for="radio_signOnline" class="left">线上签约·电子合同</label>
+                        <div class="right statusTitle">提示：启用线上签约需要开启线上支付、开启电子合同</div>
+                    </div>
+                </div>
+                <div class="rltv_select">
+                    <label class="left" style="margin-left: 0;">合同（将）到期提醒时间，租期还剩下 </label>
+                    <select name="dueRemindDay" class="sl-inside" disabled></select>
+                    <label class="left"> 天开始提醒</label>
+                </div>
+                <div class="rltv_select">
+                    <label class="left">合同签订后，租客在 </label>
+                    <select name="payRetentionTime" class="sl-inside" disabled></select>
+                    <label class="left"> 个小时内未完成付款，订单将自动关闭，该合同无效</label>
+                </div>
+             </div></td>
+        </tr>
+        <tr>
+            <td class="name">收租方式</td>
+            <td><div class="border">
+                <div class="houseTypeDiv3">
+                    <div class="rltv_select padBot">
+                        <input type="radio" id="radio_rentWay1" name="rentWay" value="1" {{rentWayCheck1}} disabled class="input-radio">
+                        <label for="radio_rentWay1" class="left" style="margin-left: 0;">入住日提前</label>
+                        <div class="left">
+                            <select class="sl-inside" disabled name="rentDay">
+                                {{#selectRentDay rentDay}}{{/selectRentDay}}
+                            </select>
+                        </div>
+                        <label for="radio_rentWay1" class="left" style="margin-left: 0;">天收租</label>
+                        <i class="icon-tips-fill" 
+                            style="font-size: 20px;color: #2e8ded;position: relative;top:3px;left:8px;float: left;"
+                            tips="若设置提前7天收租，假设租赁方式为月付，起租日为2月14日，则下期收租日为3月7日；其他时间以此类推">    
+                        </i>
+                    </div>
+                    <div class="relative">
+                        <input type="radio" id="radio_rentWay2" name="rentWay" value="2" {{rentWayCheck2}} disabled class="input-radio">
+                        <label for="radio_rentWay2" class="left">每月固定10号，25号收租</label>
+                        <i class="icon-tips-fill" 
+                            style="font-size: 20px;color: #2e8ded;position: relative;left:8px;"
+                            tips="1~15号入住的，本月25号收取下一期房租，后续都是每月25号收租；16号~月末入住的，下月10号收取下一期房租，后续都是每月10号收租">    
+                        </i>
+                    </div>
+                </div>
+                <div class="rltv_select">
+                    <label for="radio_payOnline" class="left">账单推送时间为收租日提前</label>
+
+                    <select class="sl-inside" name="rentPressDay" disabled>
+                        {{#selectRentPressDay rentPressDay}}{{/selectRentPressDay}}
+                    </select>
+
+                    <label for="radio_payOnline" class="left">天推送提醒，推送时间为当天</label>
+                    <select class="sl-inside" style="width: 150px" disabled name="rentPressTime">
+                        {{#selectRentPressTime rentPressTime}}{{/selectRentPressTime}}
+                    </select>
+                </div>
+            </div></td>
+        </tr>
+        <tr>
+            <td class="name">线下支付方式</td>
+            <td><div class="border">
+                <div class="cb_offline_wrapper">至少选择一种</div>
+                <div class="cb_offline_wrapper">
+                    <label class="control-label">
+                        <input type="checkbox" name="paymentOfflineTypes" value="1" disabled="disabled" {{check1}}> &nbsp;现金
+                    </label>
+                </div>
+                <div class="cb_offline_wrapper">
+                    <label class="control-label">
+                        <input type="checkbox" name="paymentOfflineTypes" value="6" disabled="disabled" {{check6}}> &nbsp;支付宝线下支付
+                    </label>
+                </div>
+                <div class="cb_offline_wrapper">
+                    <label class="control-label">
+                        <input type="checkbox" name="paymentOfflineTypes" value="7" disabled="disabled" {{check7}}> &nbsp;微信线下支付
+                    </label>
+                </div>
+                <div class="cb_offline_wrapper">
+                    <label class="control-label">
+                        <input type="checkbox" name="paymentOfflineTypes" value="9" disabled="disabled" {{check9}}> &nbsp;银行卡转账
+                    </label>
+                </div>
+                <div class="clear"></div>
+            </div></td>
+        </tr>
+        <tr>
+            <td class="name">下单日期设置</td>
+            <td><div class="border">
+                <div class="rltv_select">
+                    <label class="left">最多允许选择超过当日</label>
+                    <select name="maxOverTime" class="sl-inside" disabled>
+                         {{#selectRentDay maxOverTime}}{{/selectRentDay}}
+                    </select>
+                    <label class="left"> 天下单入住</label>
+                </div>
+            </div></td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: left;padding-left:10px;color:#ccc">温馨提示：修改租赁配置只影响无租客入住，对已入住租客修改后不会发生变化</td>
+        </tr>
+    </table>
+    </form>
+
+</script>
+
+
+<!-- 智能设备 -->
+<script type="text/template" id="showModel">
+    <div class="cha-all">
+        <div class="right">
+           <button type="button" class="btn btn-mj"
+           id="canUse">启用</button>
+           <button type="button" class="btn btn-danger"
+           id="blockUp">停用</button>
+        </div>
+    </div>
+    <div id="showGrid"></div>
+</script>
+
+<!-- 添加房源 -->
+<script type="text/template" id="addAndEdit">
+    <div class="houseInfoEnter">
+        <form id='form_house1'>
+            <table>
+                <colgroup>
+                    <col width="240">
+                    <col width="150">
+                    <col width="210">
+                    <col width="180">
+                    <col width="215">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td colspan="2">
+                            <div class="line-div w90">
+                            <div class="line-div-label">所在地区：<i class="red">*</i></div>
+                                <div class="line-div-center">
+                                    <div id="areaBox_house" style="width:300px;"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="line-div w100">
+                                <div class="line-div-label">所属板块：</div>
+                                <div class="line-div-center">
+                                    <select id="zoneId" name="zoneId" class="default form-control">
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+                        <td colspan="2">
+                            <div class="line-div w110">
+                                <div class="line-div-label">公寓/小区：<i class="red">*</i></div>
+                                <div class="line-div-center mapArea" style="position: relative;">
+                                    <input type="text" style="display:none;" name="">
+                                    <input type="text" name="subdistrictName" placeholder="请搜索" value="{{subdistrictNameAddress}}" class="form-control addressDetail"
+                                     validate autocomplete="off" disableautocomplete>
+                                    <input type="hidden" name="regionAddressId" value="{{regionAddressId}}">
+                                    <div class="areaDrop" style="width: 285px;">
+                                        <ul class="mapAreaNav"></ul>
+                                        <div class="notFound">找不到小区？点击这里添加小区</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="line-div w90">
+                                <div class="line-div-label">楼幢：<i class="red">*</i></div>
+                                <div class="line-div-center">
+                                    <input type="text" validate class="form-control" name="buildingName" value="{{buildingName}}" placeholder="例：清雅苑2幢 或 2幢">
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="line-div w70">
+                                <div class="line-div-label">单元：</div>
+                                <div class="line-div-center">
+                                    <input type="text" class="form-control validateNum" name="unitCode" value="{{unitCode}}">
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="line-div">
+                                <div class="line-div-label" style="width: 60px;">室：<i class="red">*</i></div>
+                                <div class="line-div-center" style="padding-left: 60px;">
+                                    <input type="text" validate class="form-control" name="roomNo" value="{{roomNo}}" placeholder="例：801">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        <form id='form_house2' class="form-group">
+            <table>
+                <colgroup>
+                    <col width="120">
+                    <col width="120">
+                    <col width="80">
+                    <col width="80">
+                    <col width="100">
+                    <col width="100">
+                    <col width="180">
+                    <col width="70">
+                    <col width="145">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td colspan="4">
+                            <div class="line-div w90">
+                            <div class="line-div-label">户型：<i class="red">*</i></div>
+                                <div class="line-div-center">
+                                    <input validate financeItem name="chamberCount" value="{{chamberCount}}" type="text" 
+                                        class="form-control inputBlock validateNum" style="width: 55px;">
+                                    <span class="textTit"> 室</span>
+                                    <input validate financeItem name="boardCount" value="{{boardCount}}" type="text" 
+                                        class="form-control inputBlock validateNum" style="width: 55px;">
+                                    <span class="textTit"> 厅</span>
+                                    <input validate financeItem name="toiletCount" value="{{toiletCount}}" type="text" 
+                                        class="form-control inputBlock validateNum" style="width: 50px;">
+                                    <span class="textTit"> 卫</span>
+                                    <input validate financeItem name="houseArea" value="{{houseArea}}" type="text" 
+                                        class="form-control inputBlock validateNum" style="width: 50px;">
+                                    <span class="textTit"> m²</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="padding-left: 10px;">
+                            <div class="line-div">
+                                <div class="line-div-label"></div>
+                                <div class="line-div-center">
+                                    <select name="houseDirection" financeItem class="default form-control">
+                                        <option value=""></option>
+                                        {{#roomDirection houseDirection}}{{/roomDirection}}
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="padding-left: 10px;">
+                            <div class="line-div">
+                                <div class="line-div-label"></div>
+                                <div class="line-div-center">
+                                    <select name="decorationDegree" financeItem class="default form-control">
+                                        <option value=""></option>
+                                        {{#decorateTmp decorationDegree}}{{/decorateTmp}}
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="line-div w95">
+                            <div class="line-div-label">看房电话：</div>
+                                <div class="line-div-center">
+                                    <input type="text" financeItem name="contactName" value="{{contactName}}" class="form-control" placeholder="联系人">
+                                </div>
+                            </div>
+                        </td>
+                        <td style="padding-left: 5px;">
+                            <div class="line-div">
+                                <div class="line-div-label"></div>
+                                <div class="line-div-center">
+                                    <select name="contactGender" financeItem class="default form-control">
+                                        {{#gender contactGender}}{{/gender}}
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="padding-left: 5px;">
+                            <div class="line-div">
+                                <div class="line-div-label"></div>
+                                <div class="line-div-center">
+                                    <input type="text" financeItem class="form-control validateNum" name="contactMobile" value="{{contactMobile}}" placeholder="联系电话">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <div class="line-div w90">
+                                <div class="line-div-label">层高：<i class="red">*</i></div>
+                                <div class="line-div-center input-group" style="width: 390px;">
+                                    <span class="input-group-addon" style="border-left: 1px solid #ccc;">所在层</span>
+                                    <input validate name="floorName" value="{{floorName}}" type="text" 
+                                        class="form-control validateNum">
+                                    <span class="input-group-addon" style="border-left: 0;border-right: 0;">总楼层</span>
+                                    <input validate name="floorAmount" value="{{floorAmount}}" type="text" 
+                                        class="form-control validateNum">
+                                </div>
+                            </div>
+                        </td>
+                        <td colspan="2" class="entireRent">
+                            <div class="line-div w85">
+                                <div class="line-div-label">房间照片：</div>
+                                <div class="line-div-center text-left">
+                                    <button type="button" class="btn btn-mj roomPicList" style="margin-left:0;width:100%;">
+                                        <span class="btnText">上传照片</span>
+                                        <span class="badge" style="{{#showBadge houseId}}{{/showBadge}}"> {{hostingPictureList.length}}</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 55px;vertical-align: top;">
+                        <td colspan="6" class="publicSettings">
+                            <div class="line-div w90">
+                                <div class="line-div-label">房间设施：</div>
+                                <div class="line-div-center">
+                                    <select name="facilityItems" financeItem class="default form-control" multiple="multiple">
+                                       <optgroup label="家电">
+                                           <option value="2">洗衣机</option>
+                                           <option value="3">空调</option>
+                                           <option value="4">冰箱</option>
+                                           <option value="5">电视</option>
+                                       </optgroup>
+                                       <optgroup label="家具">
+                                           <option value="7">沙发</option>
+                                           <option value="8">茶几</option>
+                                           <option value="10">餐桌</option>
+                                       </optgroup>
+                                       <optgroup label="其他">
+                                           <option value="6">宽带</option>
+                                       </optgroup>
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 70px;vertical-align: top;">
+                        <td colspan="9">
+                            <div class="line-div w90">
+                                <div class="line-div-label">房源描述：</div>
+                                <div class="line-div-center">
+                                    <textarea name="houseDesc" financeItem autocomplete="off" class="form-control" 
+                                        placeholder="请描述一下房源的交通、装饰、周边设施场所等等..." 
+                                        style="line-height: inherit;">{{houseDesc}}</textarea>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        <form id='form_house3' class="form-group hide">
+            
+        </form>
+        <div class="form-group clearfix" style="{{#isShow houseId}}{{/isShow}}">
+            <div class="line-div">
+                <div class="line-div-label" style="width: 120px;">房源管理权限：</div>
+                <div class="line-div-center text-left" style="padding-left: 120px;">
+                    <button type="button" class="btn btn-mj" id="setHouseManager">
+                        <span class="btnText">设置</span>
+                         <span class="badge"> 1</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div style="position:absolute;left:80px;top:10px;{{#isShow houseType '1' '4'}}{{/isShow}}">
+            <span class="mj-tag mj-tag-primary">该房源含有金融业务</span>
+        </div>
+        <div class="changeHouseRent hide" style="position:absolute;bottom: 12px;left: 12px;">
+            <button type="button" class="btn btn-mj" style="margin-left:0;">切换成合租</button>
+        </div>
+    </div>
+</script>
+<script type="text/template" id="renderRoomList">
+    <div class="roomNoWrap" style="position:relative;padding:0;overflow: hidden;">
+        <span class="icon-pagination_back" style="position: absolute;right: 24px;font-size: 24px;line-height: 42px;"></span>
+        <span class="icon-pagination-next" style="position: absolute;right: 0;font-size: 24px;line-height: 42px;"></span>
+        <div class="tabsBox" style="overflow: hidden;white-space: nowrap;max-width: 910px;">
+            <ul class="nav nav-tabs li_roomList left" style="margin-bottom: -1px;">
+            </ul>
+            <div class="tabs-add">
+                <i class="icon-add"></i>
+            </div>
+        </div>
+    </div>
+    <div class="tab-content container active" style="padding: 15px;">
+    </div>
+</script>
+
+<!-- 渲染房间号 -->
+<script type="text/template" id="renderRoomNo">
+    {{#renderRoomNo this.len this.activeIndex}}{{/renderRoomNo}}
+</script>
+
+<!-- 渲染房间信息 -->
+<script type="text/template" id="renderRoomInfo">
+    <table>
+        <colgroup>
+            <col width="180">
+            <col width="100">
+            <col width="220">
+            <col width="100">
+            <col width="300">
+        </colgroup>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="line-div w90">
+                    <div class="line-div-label">房间面积：<i class="red">*</i></div>
+                        <div class="line-div-center">
+                            <input type="text" validate name="roomArea" value="{{roomArea}}" 
+                                class="form-control inputBlock validateNum" style="width: 60px;">
+                            <span class="textTit">m²</span>
+                        </div>
+                    </div>
+                </td>
+                <td style="padding-left: 10px;">
+                    <div class="line-div">
+                    <div class="line-div-label"></div>
+                        <div class="line-div-center">
+                            <select name="roomDirection" class="default form-control">
+                                <option value=""></option>
+                                {{#roomDirection roomDirection}}{{/roomDirection}}
+                            </select>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="line-div w100">
+                        <div class="line-div-label">房间照片：</div>
+                        <div class="line-div-center text-left">
+                            <button type="button" class="btn btn-mj roomPicList" style="margin-left:0;width: 100%;">
+                                <span class="btnText">上传照片</span>
+                                <span class="badge" style="{{#showBadge houseId}}{{/showBadge}}"> {{hostingPictureList.length}}</span>
+                            </button>
+                        </div>
+                    </div>
+                </td>
+                <td colspan="2" style="padding-left: 10px;">
+                    <div class="form-inline">
+                        <div class="form-group col-md-12 text-left">
+                            <label class="checkbox-inline"> 
+                                <input type="checkbox" name="roomAttributes" value="1">
+                                独立卫生间
+                            </label>
+                            <label class="checkbox-inline"> 
+                                <input type="checkbox" name="roomAttributes" value="2">
+                                独立阳台
+                            </label>
+                            <label class="checkbox-inline"> 
+                                <input type="checkbox" name="roomAttributes" value="3">
+                                独立厨房
+                            </label>
+                            <label class="checkbox-inline"> 
+                                <input type="checkbox" name="roomAttributes" value="4">
+                                飘窗
+                            </label>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr style="height: 50px;vertical-align: top;">
+                <td colspan="4">
+                    <div class="line-div w90">
+                        <div class="line-div-label">房间设施：</div>
+                        <div class="line-div-center">
+                            <select name="facilityItems" class="default form-control" multiple="multiple" style="width: 100%;">
+                               <optgroup label="家电">
+                                   <option value="2">洗衣机</option>
+                                   <option value="3">空调</option>
+                                   <option value="4">冰箱</option>
+                                   <option value="5">电视</option>
+                               </optgroup>
+                               <optgroup label="家具">
+                                   <option value="1">床</option>
+                                   <option value="9">书桌</option>
+                                   <option value="12">衣柜</option>
+                               </optgroup>
+                               <optgroup label="其他">
+                                   <option value="6">宽带</option>
+                               </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</script>
+
+<!--地图-->
+<script type="text/template" id="getPointTemp">
+  <div id="addressMap" style="width: 560px;height:400px"></div>
+</script>
+
+<!-- 房源管理权限 -->
+<script type="text/template" id="managerTemp">
+    <div class="container clearfix">
+        <button type="button" class="btn btn-mj right" id="checkAllToggle" style="margin-right: 0">全选/全不选</button>
+    </div>
+    <ul class="clearfix" style="padding: 10px;">
+    {{#each this}}
+        <li class="li_box">
+            <label class="checkbox-inline"> 
+                <input type="checkbox" name="" value="{{userId}}">
+                {{name}} - {{jobTitle}}
+            </label>
+        </li>
+    {{/each}}
+    </ul>
+</script>
+
+<!-- 图片上传 -->
+<script type="text/template" id="roomPicListTemp">
+    <div class="picList">
+        <ul class="pic-items">
+        </ul>
+        <label class="addImgCard" for="smallImage">
+            <input class="hide" id="smallImage" type="file" 
+                accept="image/jpg,image/jpeg,image/png" multiple="multiple">
+            <i class="icon-plus"></i>
+        </label>
+    </div>
+    <div style="line-height: 26px;padding-top: 10px;">
+        温馨提示：<br/>
+        1.请勿上传虚假、模糊、与房源信息无关、含有其他公司水印的照片；<br/>
+        2.房间照片最佳组合：卧室2~6张、公共区域1~4张、厨房1~3张、卫生间1-4张；<br/>
+        3.目前最多支持15张，支持JPG/JPEG/PNG，可以拖动图片进行排序，支持批量上传。
+    </div>
+</script>
+
+<!-- 图片渲染 -->
+<script type="text/template" id="renderPicList">
+{{#each this}}
+    <li class="pic-item">
+        <div class="sortItem">
+            <img src="{{picUrl}}" alt="" title="" />
+            <span class="pic-model">
+                <i class="icon-delete"></i>
+                <i class="icon-search"></i>
+            </span>
+            <label class="pic-imageName">{{picName}}</label>
+        </div>
+    </li>
+{{/each}}
+</script>
+
+<!-- 图片裁剪 -->
+<script type="text/template" id="uploadPic">
+    <div class="container" style="max-width: 1140px;">
+        {{#each this}}
+        <div class="left" style="margin: 10px;">
+            <div class="img-container">
+                <img src="" alt="" />
+            </div>
+            <div class="docs-buttons clearfix">
+                <div class="img-imageName left">
+                    <input class="form-control" name="picName" value="" maxlength="30" 
+                        placeholder="图片名称，最多30个字符" style="width: 170px;"> 
+                </div>
+                <div class="btn-group right">
+                    <button class="btn btn-mj" data-method="zoom" data-option="0.1" type="button" tips="放大图片" style="min-width:inherit">
+                        <span class="icon icon-zoom-in"></span>
+                    </button>
+                    <button class="btn btn-mj" data-method="zoom" data-option="-0.1" type="button" tips="缩小图片" style="min-width:inherit">
+                        <span class="icon icon-zoom-out"></span>
+                    </button>
+                    <button class="btn btn-mj" data-method="rotate" data-option="45" type="button" tips="顺时针旋转45°" style="min-width:inherit">
+                        <span class="icon icon-rotate-right"></span>
+                    </button>
+                    <label class="btn btn-mj btn-upload" tips="替换图片" style="min-width:inherit">
+                        <input type="file" class="hide" name="inputImage"
+                            accept="image/jpg,image/jpeg,image/png">
+                        <span class="icon icon-uploadFile"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</script>
+<!-- 金融申请 -->
+<script type="text/template" id="renderApplyFinanceTemp">
+    <div class="imageBox" style="padding-bottom: 10px;border-bottom:1px solid #ddd;">
+        <img src="/hms/images/steps@1x.png">
+    </div>
+    <div class="txt-plain" style="color: #999;margin-top: 10px;">
+        <table class="table_rentType">
+            <colgroup>
+                <col width="160">
+                <col width="240">
+                <col width="80">
+                <col width="80">
+            </colgroup>
+            <tr>
+                <td>房间类型</td>
+                <td>
+                    <div class="left" style="width: 47%;margin: 0;">房价/月</div>
+                    <div class="left" style="width: 47%;margin-left: 8px;margin-right: 0;">押金</div>
+                </td>
+                <td>最短租期</td>
+                <td>最长租期</td>
+            </tr>
+        </table>
+    </div>
+    <form class="rentTypeItems">
+        <table class="table_rentType">
+            <colgroup>
+                <col width="160">
+                <col width="240">
+                <col width="80">
+                <col width="80">
+            </colgroup>
+            {{#each this}}
+            <tr>
+                <div class="txt-plain">
+                    <td>
+                        <label>{{styleName}}</label>
+                        <input type="hidden" value="{{rentTypeId}}" name="rentTypeId">
+                    </td>
+                    <td>
+                        <div class="toggleDisableItems clearfix" style="position: relative;top: 5px;">
+                            <div class="left input-group" style="width: 47%;margin:0;">
+                                <input class="form-control" validate="number1" type="number" 
+                                    class="form-control" flexible name="rentPrice" value="{{rentPrice}}">
+                                <span class="input-group-addon">元</span>
+                            </div>
+                            <div class="left input-group" style="width: 47%;margin-left: 10px;margin-right: 0;">
+                                <input class="form-control" validate="number1" type="number" 
+                                    class="form-control" flexible name="depositPrice" value="{{depositPrice}}">
+                                <span class="input-group-addon">元</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <select flexible name="minMonthNum" disabled>
+                            {{#renderMonth "min" minMonthNum rentQty rentQty maxMonthNum}}{{/renderMonth}}
+                        </select>
+                    </td>
+                    <td>
+                        <select name="maxMonthNum" disabled>
+                            {{#renderMonth "max" maxMonthNum minMonthNum rentQty "24"}}{{/renderMonth}}
+                        </select>
+                    </td>
+                </div>
+            </tr>
+            {{/each}}
+        </table>
+    </form>
+    <div class="instruction" style="position: absolute;bottom: 0;left: 50%; margin-left: -150px;">
+        <input type="checkbox" name="agreeTreaty" value='1' style="position: relative; top:-1px;">
+        <a href="javascript:;">《磐谷金融租客分期申请协议具体说明条例》</a>
+    </div>
+</script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=nESYZ8nMNrXWN3aY6uzUBqNp"></script>
+<script type="text/javascript">
+	seajs.use('controllers/hosting/hostingHouseList')
+</script>
+
+
+

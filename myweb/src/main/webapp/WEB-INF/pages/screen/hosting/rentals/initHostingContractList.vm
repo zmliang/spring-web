@@ -1,0 +1,176 @@
+#parse('common/top.vm') #parse('common/header.vm') #parse('common/left.vm')
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12 window">
+        <div class="x_panel window">
+            <div class="x_title">
+                <div class="clearfix"></div>
+                <div class="searchDiv">
+                    <form id="searchForm">
+                        <div class="clearfix">
+                            <div class="line-div btn-group typeChange" style="display: none; width: 150px;">
+                                <button type="button" class="btn btn-mj" data-id="1">集中式</button>
+                                <button type="button" class="btn" data-id="2">分散式</button>
+                            </div>
+                            <div class="line-div" style="width: 100px;">
+                                <div class="line-div-center">
+                                    <select id='cityId' name="cityId" class="form-control" style="width: 100%;">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="line-div" style="width: 100px; margin-left: 10px;">
+                                <div class="line-div-center">
+                                    <select id='areaId' name="areaId" class="form-control" style="width: 100%;">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="line-div" style="width: 150px; margin-left: 10px;">
+                                <div class="line-div-center">
+                                    <select id='plotId' name="estateId" class="form-control" style="width: 100%;">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="line-div w60" style="width: 160px;">
+                                <div class="line-div-label">类型：</div>
+                                <div class="line-div-center">
+                                    <select name="type" id="">
+                                        <option value="">请选择</option>
+                                        <option value="1">租房</option>
+                                        <option value="5">分期</option>
+                                        <!--<option value="2">增配</option>
+                                    <option value="3">换房</option>
+                                    <option value="4">贷款</option>-->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="line-div w60" style="width: 160px;">
+                                <div class="line-div-label">状态：</div>
+                                <div class="line-div-center">
+                                    <select name="contractStatus" class="form-control">
+                                        <option value="">全部</option>
+                                        <option value="2">已签约</option>
+                                        <option value="1">未签约</option>
+                                        <option value="3">已作废</option>
+                                        <option value="4">生成中</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="line-div" style="width: 70px; margin-left: 10px;">
+                                <div class="line-div-center">
+                                    <button type="button" id="search" class="btn btn-mj" style="margin-left: 0;">查询</button>
+                                </div>
+                            </div>
+                            <div class="line-div" style="width: 70px; margin-left: 10px;">
+                                <div class="line-div-center">
+                                    <button type="button" id="empty" class="btn" style="margin-left: 0;">清空</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix">
+                            <div class="line-div w75" style="width: 360px;">
+                                <div class="line-div-label">合同时间：</div>
+                                <div class="line-div-center">
+                                    <input type="text" id='startDateStr' name="startDateStr" class="form-control left Wdate" style="width:45%" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true,maxDate:'#F{$dp.$D(\'endDateStr\')}'})">
+                                    <span class="left text-center" style="width:10%;">-</span>
+                                    <input type="text" id='endDateStr' name="endDateStr" class="form-control left Wdate" style="width:45%" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true,minDate:'#F{$dp.$D(\'startDateStr\')}'})">
+                                </div>
+                            </div>
+                            <div class="line-div" style="width: 320px; margin-left: 10px;">
+                                <div class="line-div-center">
+                                    <input placeholder="姓名/合同号/身份证/订单号" class="form-control" name="name">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="x_content">
+                <div class="clearfix gray-bg"></div>
+                <div id="gridWrapper">
+                    <div id="gridDiv"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 图片渲染 -->
+<script type="text/template" id="uploadTypeChioce">
+    <p style="line-height: 30px;">请选择上传方式（上传完成后，新生成的合同将覆盖原合同）</p>
+    <div class="form-inline clearfix">
+        <label class="col-sm-5" style="padding-left: 0;margin-bottom:10px;">
+            <input type="radio" checked name="uploadType" value="1"> 上传图片（支持JPG/JPEG/PNG格式）
+        </label>
+        <label class="col-sm-5" style="padding-left: 0;margin-bottom:10px;">
+            <input type="radio" name="uploadType" value="2"> 上传PDF（上传成功后，该窗口将关闭）
+        </label>
+    </div>
+    <div class="uploadTypeDom">
+    </div>
+</script>
+<script type="text/template" id="pdfModel">
+    <div class="picList">
+        <ul class="pic-items">
+        </ul>
+        <div class="addImgCard" style="width: 100px;height: 100px;line-height: 100px;">
+            <i class="icon-plus"></i>
+        </div>
+    </div>
+    <input class="hide" name="pdfFile" id="uploadPdf" type="file" accept="application/pdf">
+</script>
+<script type="text/template" id="picListModel">
+    <div class="picList">
+        <ul class="pic-items">
+        </ul>
+        <label class="addImgCard" for="smallImage" style="width: 100px;height: 100px;line-height: 100px;">
+            <input class="hide" id="smallImage" name="smallImage" type="file" 
+                accept="image/jpg,image/jpeg,image/png" multiple="multiple">
+            <i class="icon-plus"></i>
+        </label>
+    </div>
+</script>
+<script type="text/template" id="renderPicList">
+{{#each this}}
+    <li class="relative pic-item" style="width: 100px;height: 100px;">
+        <div class="sortItem">
+            <img src="{{this}}" alt="" title="" />
+            <span class="pic-model" style="height: 100%;">
+                <i class="icon-delete"></i>
+                <i class="icon-search"></i>
+            </span>
+        </div>
+    </li>
+{{/each}}
+</script>
+<script type="text/template" id="uploadPic">
+    <div class="container" style="max-width: 1140px;">
+        {{#each this}}
+        <div class="left" style="margin: 10px;">
+            <div class="img-container">
+                <img src="" alt="" />
+            </div>
+            <div class="docs-buttons clearfix">
+                <div class="btn-group right">
+                    <button class="btn btn-mj" data-method="zoom" data-option="0.1" type="button" tips="放大图片" style="min-width:inherit">
+                        <span class="icon icon-zoom-in"></span>
+                    </button>
+                    <button class="btn btn-mj" data-method="zoom" data-option="-0.1" type="button" tips="缩小图片" style="min-width:inherit">
+                        <span class="icon icon-zoom-out"></span>
+                    </button>
+                    <button class="btn btn-mj" data-method="rotate" data-option="45" type="button" tips="顺时针旋转45°" style="min-width:inherit">
+                        <span class="icon icon-rotate-right"></span>
+                    </button>
+                    <label class="btn btn-mj btn-upload" tips="替换图片" style="min-width:inherit">
+                        <input type="file" class="hide" name="inputImage" accept="image/jpg,image/jpeg,image/png">
+                        <span class="icon icon-uploadFile"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</script>
+<script type="text/javascript">
+seajs.use('controllers/hosting/initHostingContractList.js')
+</script>

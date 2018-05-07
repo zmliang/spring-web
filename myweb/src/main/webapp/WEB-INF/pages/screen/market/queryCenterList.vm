@@ -1,0 +1,106 @@
+<!--精彩活动页面-->
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12 window">
+    <div class="x_panel window">
+	    <form id="searchForm" class="form-group">
+			<table>
+				<colgroup>
+                    <col width="150">
+					<col width="120">
+					<col width="120">
+		            <col width="200">
+		            <col width="200">
+		            <col width="180">
+				</colgroup>
+				<tbody>
+					<tr>
+                        <td width="150">
+                            <div class="line-div">
+                                <div class="btn-toolbar search_btnList">
+                                    <div class="btn-group form-group" style="margin-bottom: 0;">
+                                        <button type="button" class="btn btn-mj">集中式</button>
+                                        <button type="button" class="btn">分散式</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="line-div">
+                                <div class="line-div-center">
+                                    <select name="cityId" class="form-control" style="width: 100%;">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="padding-left: 10px;">
+                            <div class="line-div">
+                                <div class="line-div-center">
+                                    <select name="regionId" class="form-control" style="width: 100%;">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="padding-left: 10px;">
+                            <div class="line-div">
+                                <div class="line-div-center">
+                                    <select name="subdistrictId" class="form-control" style="width: 100%;">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="padding-left: 10px;">
+                            <div class="line-div">
+                                <div class="line-div-center">
+                                    <input placeholder="房源编码" class="form-control" name="roomCode">
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-left">
+                            <button type="button" id="search" class="left btn btn-mj">查询</button>
+                            <button type="button" id="empty" class="left btn">清空</button>
+                            <!--<button type="button" id="export" class="left btn">导出</button>-->
+                        </td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+		<div id="gridDiv"></div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+	seajs.use('controllers/market/queryCenter.js')
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

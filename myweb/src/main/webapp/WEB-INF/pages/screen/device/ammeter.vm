@@ -1,0 +1,98 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12 window">
+        <div class="x_panel window">
+            <form id="searchForm">
+                <table>
+                    <colgroup>
+                        <col width="130">
+                        <col width="150">
+                        <col width="150">
+                        <col width="100">
+                        <col width="110">
+                        <col width="160">
+                        <col width="160">
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <select name="cityId"></select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="padding-left: 10px">
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <select name="areaId">
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="padding-left: 10px">
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <select name="subdistrictId"></select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="padding-left: 10px">
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <select name="isUsual">
+                                            <option value=""></option>
+                                            <option value="1">离线</option>
+                                            <option value="2">断电</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="padding-left: 10px">
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <select name="isOline">
+                                            <option value=""></option>
+                                            <option value="0">离线</option>
+                                            <option value="1">在线</option>
+                                            <option value="2">暂不支持</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>                 
+                            <td>
+                                <div class="line-div">
+                                    <div class="line-div-label"></div>
+                                    <div class="line-div-center" style="padding-left: 10px">
+                                        <input type="text" name="roomNo" class="form-control" placeholder="公寓/小区/房间号" >
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <button type="button" id="search" class="left btn btn-mj">查询</button>
+                                <button type="button" id="clear" class="left btn">清空</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+            <div style="margin-top: 10px;">
+                <div class="grid_box">
+                    <div id="gridDiv"></div>
+                </div>
+            </div>            
+        </div>
+    </div>
+</div>
+<script type="text/template" id="rootSetTmp">
+    <div class="ammeterDiv" style="line-height: 20px;">
+        <span style="line-height: 28px;float: left;padding-right: 5px">通电状态</span>
+        <input type="checkbox" name="status" class="tools_switch" switchFlag="{{ifSwitchStr}}" />
+    </div>
+</script>
+<script type="text/javascript">
+    seajs.use('controllers/device/ammeter.js')
+</script>

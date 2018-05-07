@@ -1,0 +1,695 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+
+<link href="$!{rc.contextPath}/css/workbench.css" rel="stylesheet">
+
+<div class="mj-wb-container">
+    <div class="mj-wb-left">
+        <div class="mj-wb-left-row mj-wb-row">
+           <div class="mj-wb-block wb-top-data">
+           </div>
+           <div class="mj-wb-block wb-top-data">
+           </div>
+        </div>
+        <div class="mj-wb-left-row mj-wb-row grid-tab">
+            <a href="javascript: void(0);" class="mj-wb-block grid-tab-first" data-type="1">
+                <p>待收账单</p>
+                <p class="val"></p>
+            </a>
+            <a href="javascript: void(0);" class="mj-wb-block grid-tab-second" data-type="2">
+                <p>合同(将)到期</p>
+                <p class="val"></p>
+            </a>
+            <a href="javascript: void(0);" class="mj-wb-block grid-tab-third" data-type="4">
+                <p>首笔确认收款</p>
+                <p class="val"></p>
+            </a>
+            <a href="javascript: void(0);" class="mj-wb-block grid-tab-fourth" data-type="6">
+                <p>下单中</p>
+                <p class="val"></p>
+            </a>
+            <a href="javascript: void(0);" class="mj-wb-block grid-tab-fifth" data-type="5">
+                <p>预约看房</p>
+                <p class="val"></p>
+            </a>
+        </div>
+        <div class="mj-wb-left-row mj-wb-block mj-charts">
+            <div class="charts-head">
+                <div class="title">每日营收</div>
+                <div id="revenueOptions" class="options">
+                    <div>
+                        <div class="btn btn-mj">上周</div>
+                        <div class="btn btn-disabled">下周</div>
+                    </div>
+                    <div style="width: 120px;">
+                        <select name="revenue" class="form-control" style="width: 100%;"></select>
+                    </div>
+                </div>
+            </div>
+            <div id="revenue-charts" class="charts-container"></div>
+        </div>
+    </div>
+    <div class="mj-wb-aside">
+        <a href="javascript: void(0);" class="mj-wb-block mj-ad" onClick="linkToPangu()"></a>
+        <a id="searchDeviceError" href="javascript: void(0);" class="mj-wb-block mj-wb-device">
+            <span>智能设备</span>
+            <span class="title">异常</span>
+            <span class="val">0</span>
+        </a>
+        <div class="mj-wb-block mj-room-count">
+            <div class="title">房源数据</div>
+            <div class="btn-group room-count-tab" role="group" aria-label="...">
+              <button type="button" class="btn btn-default btn-mj">全部</button>
+              <button type="button" class="btn btn-default">集中式</button>
+              <button type="button" class="btn btn-default">分散式</button>
+            </div>
+            <div class="room-count">
+                <div class="room-count-item">
+                    全部房源 <span class="all"></span>
+                </div>
+                <div class="room-count-item">
+                    已出租 <span class="isRent"></span>
+                </div>
+                <div class="room-count-item">
+                    空房 <span class="isEmpty"></span>
+                </div>
+            </div>
+            <div class="room-count-charts">
+                <div id="rent-charts" class="charts"></div>
+                <div id="empty-charts" class="charts"></div>
+            </div>
+        </div>
+    </div>
+    <div class="mj-wb-row">
+        <div class="mj-wb-block mj-charts">
+            <div class="charts-head">
+                <div class="title">每日催款</div>
+                <div id="urgeFundOptions" class="options">
+                    <div>
+                        <div class="btn btn-mj">上周</div>
+                        <div class="btn btn-disabled">下周</div>
+                    </div>
+                    <div style="width: 120px;">
+                        <select name="urgeFund" class="form-control" style="width: 100%;"></select>
+                    </div>
+                </div>
+            </div>
+            <div id="dunning-charts" class="charts-container"></div>
+        </div>
+        <div class="mj-wb-block mj-charts">
+            <div class="charts-head">
+                <div class="title">租期分布</div>
+                <div class="options">
+                    <div style="width: 120px;">
+                        <select name="lease" class="form-control" style="width: 100%;"></select>
+                    </div>
+                </div>
+            </div>
+            <div id="lease-charts" class="charts-container"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/template" id="gridModal1">
+    <div class="wb-grid-head">
+        <form id="searchForm" >
+            <table>
+                <colgroup>
+                    <col width="110">
+                    <col width="10">
+                    <col width="110">
+                    <col width="10">
+                    <col width="110">
+                    <col width="10">
+                    <col width="150">
+                    <col width="10">
+                    <col width="150">
+                    <col width="180">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <td>
+                        <div class="line-div">
+                            <div class="line-div-center">
+                                <select name="feeType" data-nameStr="账单类型" class="default form-control ">
+                                    <option value=""></option>
+                                    <option value="1">房租</option>
+                                    <option value="2">押金</option>
+                                    <option value="8">水费</option>
+                                    <option value="9">电费</option>
+                                    <option value="13">服务费</option>
+                                    <option value="11">定金</option>
+                                    <option value="14">期租金</option>
+                                    <option value="7">其他</option>
+                                </select>
+                            </div>
+                        </div>
+                    </td>
+                    <td></td>
+                    <td>
+                        <div class="line-div">
+                            <div class="line-div-center">
+                                <select name="overDateType" data-nameStr="逾期类型" class="default form-control ">
+                                    <option value=""></option>
+                                    <option value="1">尚未逾期</option>
+                                    <option value="2">逾期3天内</option>
+                                    <option value="3">逾期7天内</option>
+                                    <option value="4">逾期7~15天</option>
+                                    <option value="5">逾期15天以上</option>
+                                </select>
+                            </div>
+                        </div>
+                    </td>
+                    <td></td>
+                    <td>
+                        <div class="line-div">
+                            <div class="line-div-center">
+                                <select name="rentType" data-nameStr="交租方式" class="default form-control ">
+                                    <option value=""></option>
+                                    <option value="1">普通</option>
+                                    <option value="2">磐谷分期 </option>
+                                </select>
+                            </div>
+                        </div>
+                    </td>
+                    <td></td>
+                    <td>
+                        <div class="line-div">
+                            <div class="line-div-center">
+                                <input type="text" placeholder="租客姓名/手机号" class="form-control" name="name">
+                            </div>
+                        </div>
+                    </td>
+                    <td></td>
+                    <td>
+                        <div class="line-div">
+                             <div class="line-div-center">
+                                <input type="text" placeholder="操作员" class="form-control" name="sellerName">
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <button type="button" class="left btn btn-mj search">查询</button>
+                        <button type="button" class="left btn empty">清空</button>
+                    </td>
+                    <div class="navbar-left pull-right">
+                        <div id="btn-batchCall" class="btn btn-mj pull-left">批量催账</div>
+                    </div>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div id="gridWrapper"></div>
+</script>
+<script type="text/template" id="gridModal2">
+    <div class="wb-grid-head">
+        <form id="searchForm" >
+            <table>
+                <colgroup>
+                    <col width="110">
+                    <col width="10">
+                    <col width="150">
+                    <col width="180">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <td>
+                        <div class="line-div">
+                            <div class="line-div-center">
+                                <select name="overType" data-nameStr="到期类型" class="default form-control">
+                                    <option value=""></option>
+                                    <option value="1">已到期</option>
+                                    <option value="2">将到期</option>
+                                </select>
+                            </div>
+                        </div>
+                    </td>
+                    <td></td>
+                    <td>
+                        <div class="line-div">
+                            <div class="line-div-center">
+                                <input type="text" placeholder="姓名/手机号" name="name" class="form-control">
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <button type="button" class="left btn btn-mj search">查询</button>
+                        <button type="button" class="left btn empty">清空</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div id="gridWrapper"></div>
+</script>
+<script type="text/template" id="gridModal4">
+    <div id="gridWrapper"></div>
+</script>
+<script type="text/template" id="gridModal5">
+    <div class="wb-grid-head">
+        <form id="searchForm" >
+            <table>
+                <colgroup>
+                    <col width="160">
+                    <col width="10">
+                    <col width="460">
+                    <col width="150">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-mj process_status" style="margin-left:0;width: 80px;">
+                                    待处理
+                                </button>
+                                <button type="button" class="btn process_status" style="width: 80px;">
+                                    已处理
+                                </button>
+                            </div>
+                        </td>
+                        <td></td>
+                        <td>
+                            <div class="line-div w75">
+                                <div class="line-div-label">
+                                    申请时间：
+                                </div>
+                                <div class="line-div-center">
+                                    <input type="text" name="startDateStr" class="icon-calendar form-control left Wdate" style="width:45%" id="startDateStr" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,maxDate:'#F{$dp.$D(\'endDateStr\')}'})">
+                                    <span class="left" style="width:10%">--</span>
+                                    <input type="text" id="endDateStr" name="endDateStr" class="icon-calendar form-control left Wdate" style="width:45%" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,minDate:'#F{$dp.$D(\'startDateStr\')}'})">
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <button type="button" class="left btn btn-mj search">查询</button>
+                            <button type="button" class="left btn empty">清空</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="line-div">
+                                <div class="line-div-center">
+                                    <input type="text" placeholder="姓名/手机号" name="name" class="form-control">
+                                </div>
+                            </div>
+                        </td>
+                        <td></td>
+                        <td>
+                            <div class="line-div w75">
+                                <div class="line-div-label changeItemName">
+                                    预约时间：
+                                </div>
+                                <div class="line-div-center">
+                                    <input type="text" name="bookingStartDateStr" class="icon-calendar form-control left Wdate" style="width:45%" id="bookingStartDateStr" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,maxDate:'#F{$dp.$D(\'bookingEndDateStr\')}'})">
+                                    <span class="left" style="width:10%">--</span>
+                                    <input type="text" id="bookingEndDateStr" name="bookingEndDateStr" class="icon-calendar form-control left Wdate" style="width:45%" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,minDate:'#F{$dp.$D(\'bookingStartDateStr\')}'})">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div id="gridWrapper"></div>
+</script>
+<script type="text/template" id="gridModal6">
+    <div class="wb-grid-head">
+        <form id="searchForm" >
+            <table>
+                <colgroup>
+                    <col width="110">
+                    <col width="10">
+                    <col width="240">
+                    <col width="180">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <td>
+                        <div class="line-div">
+                            <div class="line-div-center">
+                                <select name="contractStatus" data-nameStr="签约状态" class="default form-control ">
+                                    <option value=""></option>
+                                    <option value="1">未签约</option>
+                                    <option value="2">已签约</option>
+                                </select>
+                            </div>
+                        </div>
+                    </td>
+                    <td></td>
+                    <td>
+                        <div class="line-div">
+                            <div class="line-div-center">
+                                <input type="text" placeholder="手机号码/姓名/订单号/身份证" name="name" class="form-control">
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <button type="button" class="left btn btn-mj search">查询</button>
+                        <button type="button" class="left btn empty">清空</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div id="gridWrapper"></div>
+</script>
+
+
+<script type="text/template" id="dailyUrgeFund">
+    <div class="wb-grid-head">
+        <form id="searchForm" >
+            <table>
+                <tbody>
+                    <tr>
+                        <div class="navbar-left pull-right">
+                            <div id="btn-batchCall" class="btn btn-mj pull-left">批量催账</div>
+                        </div>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div id="gridWrapper"></div>
+</script>
+
+<!-- 智能设备 -->
+<script type="text/template" id="doorTmp">
+    <ul class="nav nav-tabs rootNav">
+        <li class="active" isDoor="0"><a href="javascript:;">开门记录</a></li>
+        <li isDoor="1" style="{{#isShow '1' hasDoor}}{{/isShow}}"><a href="javascript:;">{{isHosting}}权限管理</a></li>
+        <li isDoor="0" style="{{#isShow '1' roomHasDevice}}{{/isShow}}"><a href="javascript:;">房间权限管理</a></li>
+        <li isDoor="2" style="{{#isShow '1' estateHasGuard}}{{/isShow}}"><a href="javascript:;">门禁权限管理</a></li>
+    </ul>
+    <div class="tab-content container active" style="padding: 15px;">
+        {{{htmlTmp 'openLogTemp'}}}
+    </div>
+    <div class="tab-content container" style="padding: 15px;">
+        {{{htmlTmp 'rootSetTmp'}}}
+    </div>
+</script>
+<!-- 门锁开门记录 -->
+<script type="text/template" id="openLogTemp">
+    <form id="searchForm" class="form-group">
+        <table>
+            <colgroup>
+                <col width="450">
+                <col width="200">
+                <col width="160">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="line-div w75">
+                            <div class="line-div-label">
+                                操作时间：
+                            </div>
+                            <div class="line-div-center">
+                                <input type="text" name="startTime" 
+                                    class="icon-calendar form-control left Wdate" 
+                                    style="width:45%" 
+                                    id="startTime" 
+                                    onfocus="WdatePicker({
+                                        dateFmt:'yyyy-MM-dd HH:mm:ss',
+                                        isShowClear:true,
+                                        maxDate:'#F{$dp.$D(\'endTime\')}',
+                                        minDate:'#F{$dp.$D(\'endTime\',{M:-3})}'
+                                    })">
+                                <span class="left" style="width:10%">--</span>
+                                <input type="text" id="endTime" name="endTime" 
+                                    class="icon-calendar form-control left Wdate" 
+                                    style="width:45%" 
+                                    onfocus="WdatePicker({
+                                        dateFmt:'yyyy-MM-dd HH:mm:ss',
+                                        isShowClear:true,
+                                        minDate:'#F{$dp.$D(\'startTime\')}',
+                                        maxDate:'#F{$dp.$D(\'startTime\',{M:3})}'
+                                    })">
+                            </div>
+                        </div>
+                    </td>
+                    <td style="padding-left: 10px">
+                        <div class="line-div">
+                            <div class="line-div-center">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-more"
+                                            style="margin-left: 0;" 
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true" 
+                                            aria-expanded="true">
+                                            全部
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                             <li class="btn-expand" operatorType="0"><a href="#">全部</a></li>
+                                            <li class="btn-expand" operatorType="2"><a href="#">租客</a></li>
+                                            <li class="btn-expand" operatorType="3"><a href="#">管家</a></li>
+                                            <li class="btn-expand" operatorType="4"><a href="#">密码</a></li>
+                                        </ul>
+                                    </div>
+                                    <input placeholder="姓名" class="form-control" name="keyword">
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <button type="button" class="btn btn-mj search">查询</button>
+                        <button type="button" class="btn clear">清空</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <div id="grid_log"></div>
+</script>
+<!-- 权限设置 -->
+<script type="text/template" id="rootSetTmp">
+    <div class="ammeterDiv" style="line-height: 20px;padding-bottom:10px;border-bottom: 1px solid #ccc">
+    </div>
+    <div class="line-div">
+        <div class="left">
+            <div class="btn-group isDelBtn">
+                <button type="button" class="btn btn-mj" style="margin-left: 0;">未删除密码</button>
+                <button type="button" class="btn">已删除密码</button>
+            </div>
+        </div>
+        <div class="right" style="padding: 5px 0">
+            <button type="button" class="btn btn-mj" id="lookPsd">查看离线密码</button>
+            <button type="button" class="btn btn-mj" id="setPsd">设置密码</button>
+        </div>
+    </div>
+    <div class="rootDiv line-div">
+        <div id="rootGrid"></div>
+    </div> 
+    <div style="float: left;padding-top: 10px" id="gridFoot">
+        说明：APP开门权限只能控制APP，无法控制密码；若要停用密码请删除密码；密码数量：25个（包括未删除、失效、未生效）个别门锁暂不支持远程删除密码，需要通过管家APP删除
+    </div>
+</script>
+<!-- 权限 -->
+<script type="text/template" id="oneRootTmp">
+    {{#each this}}
+        <div class="col-md-4">
+            <span style="line-height: 28px;float: left;padding-right: 5px">{{relatePositionName}}</span>
+            <input type="checkbox" name="status{{@index}}" class="tools_switch" switchFlag="{{lodgerStatusStr}}" />
+        </div>
+    {{/each}}
+    <div class="clear"></div>
+</script>
+<!-- 设置密码 -->
+<script type="text/template" id="setPsdTmp">
+    <form id="psdForm">
+        <table>
+            <colgroup>
+                <col width="340">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="line-div w115">
+                            <div class="line-div-label">
+                                密码生效时间：<span class="red">*</span>
+                            </div>
+                            <div class="line-div-center">
+                                <input type="text" name="startTime" 
+                                    class="icon-calendar form-control left Wdate" 
+                                    id="startTimePsd" 
+                                    onfocus="WdatePicker({
+                                        dateFmt:'yyyy-MM-dd HH:mm:ss',
+                                        isShowClear:false,
+                                        maxDate:'#F{$dp.$D(\'endTimePsd\')}'
+                                    })">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="line-div w115">
+                            <div class="line-div-label">
+                                密码失效时间：<span class="red">*</span>
+                            </div>
+                            <div class="line-div-center">
+                                <input type="text" name="endTime" 
+                                    class="icon-calendar form-control left Wdate" 
+                                    id="endTimePsd" 
+                                    onfocus="WdatePicker({
+                                        dateFmt:'yyyy-MM-dd HH:mm:ss',
+                                        isShowClear:false,
+                                        miniDate:'#F{$dp.$D(\'startTimePsd\')}'
+                                    })">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="doorPsdTr" style="{{#isHide 'sc' productBrandName}}{{/isHide}}">
+                    <td>
+                        <div class="line-div w115">
+                            <div class="line-div-label">
+                                门锁密码：<span class="red">*</span>
+                            </div>
+                            <div class="line-div-center input-group">
+                                <input type="text" placeholder="请设置6位密码" name="password" class="form-control">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-mj" id="randomPsd">随机密码</button>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="line-div w115">
+                            <div class="line-div-label">
+                                操作对象：<span class="red">*</span>
+                            </div>
+                            <div class="line-div-center input-group">
+                                <input type="text" placeholder="例如 房间A张三" name="operateObject" class="form-control">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-mj" id="chooseRenterPhone">选择租客号码</button>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="line-div w115">
+                            <div class="line-div-label">
+                                手机号码：<span style="margin-left: 6px; display: inline-block;"></span>
+                            </div>
+                            <div class="line-div-center">
+                                <input type="text" name="phone" placeholder="请输入手机号码" class="form-control">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="font-size: 12px">
+            提示说明：<br>
+            这里的操作对象只是方便记录密码实际应用的场景，方便查看开门记录的时候有对应显示。<br>
+            部分品牌门锁添加密码可能存在延迟，请耐心等待。
+        </div>
+    </form>
+</script>
+<!-- 单笔结账弹框 -->
+<script type="text/template" id="payTemp">
+    <form id="payForm">
+    <table>
+        <colgroup>
+            <col width="300">
+        </colgroup>
+        <tr>
+            <td>
+                <div class="line-div w90">
+                <div class="line-div-label">
+                    支付方式：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <select name="payType">
+                        {{#each this}}
+                            <option value="{{type}}">{{typeName}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </td>
+        </tr>
+
+    </table>
+    </form>
+</script>
+<script type="text/javascript">
+    function linkToPangu(){
+        $.ajax({
+            type:'post',
+            url:'/hms/api/pangu/singleSignOn.htm',
+            contentType: "application/json; charset=utf-8",
+            dataType:'json',
+            async: false, 
+            data: {},
+            success:function(data){
+                if(data.success){
+                    window.open(data.dataObject.url);
+                }else{
+                    layer.msg(data.msg);
+                    return false;
+                }
+            },
+            error:function(data){
+                layer.msg(data.msg || '外部接口错误，请联系管理员');
+                return false;
+            }
+
+        });
+    }
+    seajs.use('controllers/workbench/workbench')
+</script>
+<script src="https://cdn.bootcss.com/echarts/4.0.2/echarts.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

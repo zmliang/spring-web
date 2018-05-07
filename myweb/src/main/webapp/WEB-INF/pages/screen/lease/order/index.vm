@@ -1,0 +1,35 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+	<div class="x_panel window">
+		<div class="estateBox">
+			<div class="x_title clearfix">
+				<div class="navbar-left pr75">共 <i class="brick-red estateNum">0</i> 栋公寓，
+					<span class="hide estateTips" style="color: #666;">请选择您要查看的公寓</span>
+				</div>
+				<div class="sortOrder btn-group right">
+                    <button type="button" class="btn btn-mj">创建时间正序</button>
+                    <button type="button" class="btn" style="border-left-color:#f0f0f0;">创建时间倒序</button>
+                </div>
+			</div>
+			<div class="x_content" style="padding:0px">
+				<div class="noData" style="display: none;"></div>
+				<ul class="estateUl clearfix">
+					
+				</ul>
+			</div>	
+		</div>
+	</div>
+<script type="text/template" id="domHtml">
+	{{#each result}}
+	<a href="$!{rc.contextPath}/lease/realTime/room_list.htm?estateId={{estateId}}" >
+		<li style="overflow: hidden;">
+			<img src="{{estateImage}}" class="left transformScale" style="border: 0;border-radius:5px;">
+			<div class="left estateName">{{estateName}}</div>
+		</li>
+	</a> 
+	{{/each}}
+</script>
+<script type="text/javascript">
+	seajs.use('controllers/lease/leaseIndex')
+</script>

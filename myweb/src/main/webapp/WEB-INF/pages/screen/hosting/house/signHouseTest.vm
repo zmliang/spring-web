@@ -1,0 +1,122 @@
+#parse('common/top.vm')
+<div class="mainBody main_section" style="background: #fff;padding:20px;" xmlns="http://www.w3.org/1999/html">
+	<div class="x_title">
+		<div class="searchDiv" >
+			<form id="searchForm">
+				<table>
+					<colgroup>
+						<col width="300">
+                        <col width="300">
+                        <col width="300">
+                        <col width="300">
+                        <col width="300">
+					</colgroup>
+					<tbody>
+						<tr>
+							<td>
+								<div class="line-div w150">
+									<div class="line-div-label">房源ID：</div>
+                                    <div class="line-div-center ">
+									<input id="houseId">
+										</div>
+								</div>
+							</td>
+                        </tr>
+						<tr>
+                            <td>
+                                <div class="line-div w150">
+                                    <div class="line-div-label">首期支付类型：</div>
+                                    <div class="line-div-center ">
+                                        <select id="firstPaymentType">
+                                            <option value="1">
+                                                线上
+                                            </option>
+                                            <option value="2">
+                                                线下
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+						</tr>
+                        <tr>
+                            <td>
+                                <div class="line-div w150">
+                                    <div class="line-div-label">托底组织：</div>
+									<div class="line-div-center">
+                                    <input id="orgId">
+									</div>
+                                </div>
+                            </td>
+
+    					</tr>
+					</tbody>
+				</table>
+
+
+			<div class="rentTypeBox">
+                <div class="tab-content container active" style="height:380px;padding: 10px 5px;overflow: auto;">
+                    <div class="blockNormal">
+                        <div class="row txt-plain">
+                            <div class="col col-sm-2" style="margin-top: 5px;">
+                                交租类型
+                            </div>
+
+                            <div class="col col-sm-4">
+                                <div class="left" style="width: 47%;margin: 0;">租金月数</div>
+                                <div class="left" style="width: 47%;margin-left: 8px;margin-right: 0;">押金月数</div>
+                            </div>
+                            <div class="col col-sm-3">最短租期</div>
+                            <div class="col col-sm-3">最长租期</div>
+                        </div>
+                        <div class="rentTypeItems"></div>
+					</div>
+                    <div class="form-group addRentType">
+                        <button type="button" class="btn btn-mj">添加交租方式</button>
+                    </div>
+                </div>
+            </div>
+
+
+                <div class="form-group singHouse">
+                    <button type="button" class="btn btn-mj">提交</button>
+                </div>
+			</form>
+		</div>
+	</div>
+	<div class='x_content'>
+		<div id="gridDiv"></div>
+	</div>
+</div>
+<script type="text/template" id="addRentTypeTemp">
+    <div class="row txt-plain valued" style="margin-bottom: 5px;">
+        <div class="col col-sm-2 rentTypeNameBox">
+            <select name="type" style="width: 100%;">
+				<option value="1">普通</option>
+                <option value="2">租金乐</option>
+			</select>
+        </div>
+        <div class="col col-sm-4">
+            <div class="toggleDisableItems clearfix">
+                <div class="left input-group" style="width: 47%;margin:0;">
+                    <input class="form-control" validate="number1" type="text"
+                           class="form-control" flexible name="rentQty" >
+                </div>
+                <div class="left input-group" style="width: 47%;margin-left: 10px;margin-right: 0;">
+                    <input class="form-control" validate="number1" type="text"
+                           class="form-control" flexible name="depositQty">
+                </div>
+            </div>
+        </div>
+        <div class="col col-sm-3">
+            <input flexible name="minMonthNum" flexible>
+        </div>
+        <div class="col col-sm-3">
+            <input name="maxMonthNum" flexible>
+        </div>
+    </div>
+</script>
+
+<script type="text/javascript">
+	seajs.use('controllers/hosting/signHouseTest.js')
+</script>

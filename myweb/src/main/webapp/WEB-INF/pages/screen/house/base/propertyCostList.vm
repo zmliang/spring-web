@@ -1,0 +1,138 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12 window">
+    <div class="x_panel window">
+       <div class="city left" style="width:250px;clear:none;">
+          <div class="apartment-list">公寓列表</div>
+          <div class='div_ul_list'>
+              <ul id="tableList_e"></ul>
+          </div>
+       </div>
+
+       <div class="x_content left" style="width:calc(100% - 260px);clear:none; margin-left: 10px;">
+          <div class="clearfix gray-bg">
+            <div class="navbar-left w22 bulk_action">
+				<div class="f16 left"><div class="blue left estate_list"></div><span>-物业项目表</span></div>
+            </div>
+            <div class="navbar-left pull-right">
+              <div class="btn-btn pull-left state-enable btn-enable">启用</div>
+              <div class="btn-btn pull-left state-disable btn-danger btn-disable">停用</div>
+            </div>
+            <div class="navbar-left pull-right"><button id="addNew" type="button" class="btn btn-mj increased">新增</button></div>
+            </div>
+          <div id="gridDiv"></div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<!-- 编辑物业类型start -->
+<script type="text/template" id="addAndEdit">
+	<form id="J_form">
+    <table>
+      	<colgroup>
+        	<col width="300">
+        	<col width="300">
+      	</colgroup>
+      	<tr>
+	        <td>
+	          	<div class="line-div w90">
+	            	<div class="line-div-label">
+	              		项目编码：<i class="red">*</i>
+	            	</div>
+	            <div class="line-div-center">
+                    <input name="costCode" value="{{costCode}}" type="text" class="form-control">
+	            </div>
+	          </div>
+	        </td>
+	        <td>
+              <div class="line-div w110">
+                <div class="line-div-label">
+                    项目名称：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <input name="costName" value="{{costName}}" type="text" class="form-control">
+                </div>
+             </div>
+	        </td>
+      	</tr>
+      	<tr>
+	        <td>
+	          	<div class="line-div w90">
+	            	<div class="line-div-label">
+	              		项目单位：<i class="red">*</i>
+	            	</div>
+	            <div class="line-div-center">
+                    <input name="costUnit" value="{{costUnit}}" type="text" class="form-control">
+	            </div>
+	          </div>
+	        </td>
+	        <td>
+              <div class="line-div w110">
+                <div class="line-div-label">
+                    项目单价：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <input name="price" value="{{price}}" type="text" class="form-control">
+                </div>
+              </div>
+	        </td>
+      	</tr>
+      	<tr>
+      	    <td>
+      	       <div class="line-div w90">
+                  <div class="line-div-label">
+                       计费方式：<i class="red">*</i>
+                  </div>
+               	  <div class="line-div-center">
+               	     <select name="payType">
+               	        {{#selected1 payType}}{{/selected1}}
+               	     </select>
+               	  </div>
+               </div>
+      	    </td>
+      	    <td>
+      	      <div class="line-div w110">
+                <div class="line-div-label">
+                   费用类型：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                   <input name="costType" value="{{costType}}" type="text" class="form-control">
+                </div>
+              </div>
+      	    </td>
+      	</tr>
+      	<tr>
+	        <td>
+              <div class="line-div w90">
+                <div class="line-div-label">
+                    状态：<i class="red">*</i>
+                </div>
+	            <div class="line-div-center">
+	            	<select name="status">
+	            	    {{#selected status}}{{/selected}}
+	            	</select>
+	            </div>
+              </div>
+	        </td>
+	        <td>
+	          	<div class="line-div w110">
+	            	<div class="line-div-label">排序号：<i class="red">&nbsp;&nbsp;</i></div>
+                    <div class="line-div-center">
+                        <input name="sort" value="{{sort}}" type="text" class="form-control">
+                    </div>
+                </div>
+	        </td>
+      	</tr>
+    </table>
+</script>
+<!-- 编辑物业类型end -->
+
+
+<script type="text/javascript">
+  seajs.use('controllers/house/propertyCostList')
+</script>
+
+

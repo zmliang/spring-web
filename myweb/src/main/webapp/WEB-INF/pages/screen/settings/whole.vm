@@ -1,0 +1,306 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<style>
+.hint-whole {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    color: red;
+}
+.input-radio {
+    float: left;
+    width: 20px !important;
+}
+.line-div-label {
+    text-align: left !important;
+    padding: 0 10px;
+}
+.dashed_block {
+    border: 1px dashed #ddd;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    margin: 5px 10px 10px 0;
+    text-align: left;
+    padding: 5px;
+}
+.line-div-label {
+    width: 110px;
+    float: left;
+}
+.line-div-center {
+    float: left;
+}
+.cb_offline_wrapper {
+    float: left;
+    margin-right: 50px;
+}
+.sl-inside {
+    float: left;
+    width: 50px;
+}
+.rltv_select {
+    position: relative;
+    overflow: hidden;
+    line-height: 28px;
+}
+.rltv_select .left{
+    margin-left: 4px;
+    margin-right: 4px;
+}
+.name {
+    vertical-align: top;
+    text-align: left;
+    padding: 0 15px;
+}
+.name_select {
+    vertical-align: top;
+    text-align: left;
+    padding: 10px 15px 0 15px;
+}
+.input-inline {
+    width: 100px;
+    float: left;
+    margin: -5px 5px 0 5px;
+}
+#J_form{
+    padding-right: 10px;
+}
+table{
+    width: 100%;
+    border-collapse:collapse;
+}
+
+td.name{
+    text-align: right;
+    padding-top: 10px;
+}
+.border{
+    border:1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+.border .relative{
+    padding-bottom: 10px;
+    width: 100%;
+    min-height: 25px;
+}
+
+.border label{
+    margin-bottom: 0;
+}
+
+</style>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12 window">
+        <div class="x_panel window" id="contents">
+        </div>
+    </div>
+</div>
+
+<script type="text/template" id="div_center">
+    <div class="hint-whole"></div>
+    <ul id="nav-whole" class="nav nav-tabs">
+        <li class="{{active1}}"><a href="#">分散式&nbsp;</a></li>
+        <li class="{{active2}}"><a href="#">集中式&nbsp;</a></li>
+    </ul>
+    <div class="hint-whole">温馨提示:新建的房源会以全局模板的参数去设置，若修改房源配置，请单独前往房源设置；单独修改全局模板不会影响已建立的房源
+    </div>
+    <div class="tab-content container active" id="J_form">
+    <input type="text" class="hide" name="organizationConfigId" value="{{organizationConfigId}}">
+    <input type="text" class="hide" name="organizationId" value="{{organizationId}}">
+    <table>
+        <colgroup>
+            <col width="150">
+        </colgroup>
+        <tr>
+            <td class="name">平台模式</td>
+            <td >
+                <div class="border">
+                    <div class="relative">
+                        <input type="radio" id="radio_payOnline1" name="platformType" value="1" {{checkPlat1}} disabled class="input-radio">
+                        <label for="radio_payOnline1" class="left">记账模式</label>
+                        <i class="icon-tips-fill" 
+                            style="font-size: 20px;color: #2e8ded;position: relative;left:8px;"
+                            tips="记账模式，系统会生成账单，但是不会推送给租客，租客无需APP配合">    
+                        </i>
+                    </div>
+
+                    <div class="relative" style="padding-bottom: 0">
+                        <input type="radio" id="radio_payOnline2" name="platformType" value="2" {{checkPlat2}} disabled class="input-radio">
+                        <label for="radio_payOnline2" class="left">线上支付（通过APP交租）</label>
+                        <i class="icon-tips-fill" 
+                            style="font-size: 20px;color: #2e8ded;position: relative;left:8px;"
+                            tips="线上支付模式，系统会生成账单，需要有完善的支付设置，并按照账单推送时间推送到租客APP,租客需要下载APP,租客以后可以直接在APP上缴费付款">    
+                        </i>
+                        <div class="right statusTitle">提示：启用线上支付需要先设置支付方式</div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="name">合同设置</td>
+            <td><div class="border">
+                <div class="relative">
+                    <input type="radio" name="contractSignType" value="2" id="radio_signOffline" {{checkSignOffline}} disabled class="input-radio">
+                    <label for="radio_signOffline" class="left">线下签约·常规纸质合同</label>
+                </div>
+                <div class="relative">
+                    <input type="radio" name="contractSignType" value="1" id="radio_signOnline" {{checkSignOnline}} disabled class="input-radio">
+                    <label for="radio_signOnline" class="left">线上签约·电子合同</label>
+                    <div class="right statusTitle">提示：启用线上签约需要开启线上支付、开启电子合同</div>
+                </div>
+                <div class="rltv_select">
+                    <label class="left">合同（将）到期提醒时间，租期还剩下 </label>
+                    <select name="dueRemindDay" class="sl-inside" disabled></select>
+                    <label class="left"> 天开始提醒</label>
+                </div>
+                <div class="rltv_select">
+                    <label class="left">合同签订后，租客在 </label>
+                    <select name="payRetentionTime" class="sl-inside" disabled></select>
+                    <label class="left"> 个小时内未完成付款，订单将自动关闭，该合同无效</label>
+                </div>
+             </div></td>
+        </tr>
+        <tr>
+            <td class="name">收租方式</td>
+            <td><div class="border">
+                <div class="rltv_select padBot">
+                    <input type="radio" id="radio_rentWay1" name="rentWay" value="1" {{rentWayCheck1}} disabled class="input-radio">
+                    <label for="radio_rentWay1" class="left" style="margin-left: 0;">入住日提前</label>
+                    <div class="left">
+                        <select class="sl-inside" disabled name="rentDay">
+                            {{#selectRentDay rentDay}}{{/selectRentDay}}
+                        </select>
+                    </div>
+                    <label for="radio_rentWay1" class="left">天收租</label>
+                    <i class="icon-tips-fill" 
+                        style="font-size: 20px;color: #2e8ded;position: relative;left:8px;float: left;top: 3px;"
+                        tips="若设置提前7天收租，假设租赁方式为月付，起租日为2月14日，则下期收租日为3月7日；其他时间以此类推">    
+                    </i>
+                    <span class="right" style="color:red">提示：金融交租方式的收租时间以金融方为准</span>
+                </div>
+                <div class="relative">
+                    <input type="radio" id="radio_rentWay2" name="rentWay" value="2" {{rentWayCheck2}} disabled class="input-radio">
+                    <label for="radio_rentWay2" class="left">每月固定10号，25号收租</label>
+                    <i class="icon-tips-fill" 
+                        style="font-size: 20px;color: #2e8ded;position: relative;left:8px;"
+                        tips="1~15号入住的，本月25号收取下一期房租，后续都是每月25号收租；16号~月末入住的，下月10号收取下一期房租，后续都是每月10号收租">    
+                    </i>
+                </div>
+                <div class="rltv_select">
+                    <label for="radio_payOnline" class="left">账单推送时间为收租日提前</label>
+
+                    <select class="sl-inside" name="rentPressDay" disabled>
+                        {{#selectRentPressDay rentPressDay}}{{/selectRentPressDay}}
+                    </select>
+
+                    <label for="radio_payOnline" class="left">天推送提醒，推送时间为当天</label>
+                    <select class="sl-inside" style="width: 150px" disabled name="rentPressTime">
+                        {{#selectRentPressTime rentPressTime}}{{/selectRentPressTime}}
+                    </select>
+                </div>
+            </div></td>
+        </tr>
+        <tr>
+            <td class="name">线下支付方式</td>
+            <td><div class="border">
+                <div class="cb_offline_wrapper">至少选择一种</div>
+                <div class="cb_offline_wrapper">
+                    <label class="control-label">
+                        <input type="checkbox" name="paymentOfflineTypes" value="1" disabled="disabled" {{check1}}> &nbsp;现金
+                    </label>
+                </div>
+                <div class="cb_offline_wrapper">
+                    <label class="control-label">
+                        <input type="checkbox" name="paymentOfflineTypes" value="6" disabled="disabled" {{check6}}> &nbsp;支付宝线下支付
+                    </label>
+                </div>
+                <div class="cb_offline_wrapper">
+                    <label class="control-label">
+                        <input type="checkbox" name="paymentOfflineTypes" value="7" disabled="disabled" {{check7}}> &nbsp;微信线下支付
+                    </label>
+                </div>
+                <div class="cb_offline_wrapper">
+                    <label class="control-label">
+                        <input type="checkbox" name="paymentOfflineTypes" value="9" disabled="disabled" {{check9}}> &nbsp;银行卡转账
+                    </label>
+                </div>
+                <div class="clear"></div>
+            </div></td>
+        </tr>
+        <tr>
+            <td class="name">下单日期设置</td>
+            <td><div class="border">
+                <div class="rltv_select">
+                    <label class="left">最多允许选择超过当日</label>
+                    <select name="maxOverTime" class="sl-inside" disabled>
+                         {{#selectRentDay maxOverTime}}{{/selectRentDay}}
+                    </select>
+                    <label class="left"> 天下单入住</label>
+                </div>
+            </div></td>
+        </tr>
+        <tr>
+            <td class="name">租客联系看房电话</td>
+            <td><div class="border">
+                    <input validate disabled type="text" maxlength="10" value="{{contactName}}" name="contactName"
+                    style="width:120px;margin: 0 5px;" class="form-control left" placeholder="请输入姓名">
+                <select disabled class="sl-inside" name="contactGender" style="width: 100px">
+                    {{#selectContactGender contactGender}}{{/selectContactGender}}
+                </select>
+                <input validate value="{{contactMobile}}" disabled type="text" maxlength="11"
+                    style="width:120px;margin: 0 5px;" class="form-control left" name="contactMobile" placeholder="请输入号码">
+                <div class="clear"></div>
+            </div></td>
+        </tr>
+        <tr class="rltv_select {{notCenterType}}">
+            <td class="name">预定房间保留</td>
+            <td><div class="border">
+                <select class="sl-inside" disabled name="keepRoomDays">
+                    {{#selectKeepRoomDays keepRoomDays}}{{/selectKeepRoomDays}}
+                </select>
+
+                <label for="radio_payOnline" class="left">天</label>
+                <div class="clear"></div>
+            </div></td>
+        </tr>
+    </table>
+    <div class="relative" style="text-align: center; padding-bottom: 20px">
+        <button id="btn-save" class="btn btn-mj layui-layer-btn0">编辑</button>
+        <button id="btn-cancel" type="button" class="btn hide">取消</button>
+    </div>
+</div>
+</script>
+
+<script type="text/javascript">
+    seajs.use('controllers/settings/whole.js')
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

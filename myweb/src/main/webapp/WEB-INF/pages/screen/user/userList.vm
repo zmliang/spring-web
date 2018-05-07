@@ -1,0 +1,366 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row">
+   <div class="col-md-12 col-sm-12 col-xs-12 window">
+     <div class="x_panel window">
+       <div class='x_content'>
+            <div class="clearfix gray-bg">
+                <div id="div-names" class="navbar-left pull-left" style="line-height: 30px;"></div>
+                <div class="navbar-left pull-right">
+                    <div id="btn-add" class="btn-btn pull-left">新增账号</div>
+                    <div id="btn-start" class="btn-btn pull-left">启用</div>
+                    <div id="btn-stop" class="btn-btn pull-left btn-danger">停用</div>
+                </div>
+           </div>
+           <div id="gridDiv"></div>
+       </div>
+     </div>
+   </div>
+</div>
+
+<!-- 账号add/edit start -->
+<script type="text/template" id="addNEdit">
+<form class="container" id="J_form">
+	<div class="row line-div">
+	  	<div class="col-sm-4" style="padding: 0;">
+		  <div class="line-div w75">
+	        <div class="line-div-label">
+	          手机号码<i class="red">*</i>
+	        </div>
+	        <div class="line-div-center">
+	            <input type="tel" value="{{mobile}}" validate="mobile" name="mobile" class="form-control">
+	        </div>
+	      </div>
+      	</div>
+      	<div class="col-sm-4" style="padding: 0;">
+		  <div class="line-div w75">
+		    <div class="line-div-label">
+		      姓名<i class="red">*</i>
+		    </div>
+		    <div class="line-div-center">
+		        <input type="text" validate name="name" value="{{name}}" class="form-control editReadonly">
+		    </div>
+		  </div>
+		</div>
+		<div class="col-sm-3" style="padding: 0;">
+		  <div class="line-div w60">
+	        <div class="line-div-label">
+	          性别<i class="red">*</i>
+	        </div>
+	        <div class="line-div-center">
+		      <select name="gender" class="form-control editReadonly">
+				{{#gender gender}}{{/gender}}
+		      </select>
+	        </div>
+	      </div>
+		</div>
+	</div>
+	
+	<div class="row line-div">
+		<div class="col-sm-4" style="padding: 0;">
+		  <div class="line-div w75">
+	        <div class="line-div-label">
+	          证件类型
+	        </div>
+	        <div class="line-div-center">
+		      <select name="cardType" class="form-control editReadonly">
+		        <option value="1">身份证</option>
+		      </select>
+	        </div>
+	      </div>
+		</div>
+		
+		<div class="col-sm-4" style="padding: 0;">
+			<div class="line-div w75">
+		        <div class="line-div-label">
+		          证件号码
+		        </div>
+		        <div class="line-div-center">
+		            <input type="text" name="cardNo" value="{{cardNo}}" class="form-control editReadonly">
+		        </div>
+		    </div>
+	    </div>
+	    <div class="col-sm-3" style="padding: 0;">
+		  <div class="line-div w60">
+	        <div class="line-div-label">
+	          状态<i class="red">*</i>
+	        </div>
+	        <div class="line-div-center">
+		      <select class="form-control editReadonly" name="status">
+				{{#status status}}{{/status}}
+		      </select>
+	        </div>
+	      </div>
+		</div>
+	</div>
+	<div class="row line-div">
+		<div class="col-sm-5" style="padding: 0;">
+		  <div class="line-div w75">
+		    <div class="line-div-label">
+		      职位<i class="red">*</i>
+		    </div>
+		    <div class="line-div-center">
+		        <input type="text" validate name="jobTitle" 
+		        value="{{jobTitle}}" class="form-control"
+		        placeholder="最多12个中文字">
+		    </div>
+		  </div>
+		</div>
+		
+		<div class="col-sm-6" style="padding: 0;">
+			<div class="line-div w80">
+		        <div class="line-div-label">
+		          权限角色<i class="red">* </i> 
+		        </div>
+		        <div class="line-div-center">
+			      	<select name="roleId" class="form-control">
+			      	</select>
+		        </div>
+		    </div>
+	    </div>
+	</div>
+      
+	<div class="line-div w90">
+		<div class="line-div-label">
+		  身份证地址
+		</div>
+		<div class="line-div-center areaSelect">
+		    <div id="areaBox" style="width: 300px"></div>
+		    <input type="text" placeholder="街道地址" name="cardAddrDetail" value="{{cardAddrDetail}}" class="form-control" style="width:298px;">
+		</div>
+	</div>
+
+	<div class="line-div w90">
+		<div class="line-div-label">
+		  现居住地址
+		</div>
+		<div class="line-div-center areaSelect">
+		    <div id="areaBoxCur" style="width: 300px"></div>
+		    <input type="text" placeholder="街道地址" name="addrDetail" value="{{addrDetail}}" class="form-control" style="width:298px;">
+		</div>
+	</div>
+
+    <div id="cb-pb-wrapper" class="line-div-label {{#showHidePanguCb financeTrusteeshipType}}{{/showHidePanguCb}}" style="margin: 20px 0 0 0">
+        <label style="margin: 10px 0 0 20px;"><input type="checkbox" name="manageFinanceHouseType" {{#cbPangu manageFinanceHouseType}}{{/cbPangu}} value="{{manageFinanceHouseType}}">&nbsp;&nbsp;管理金融托管房源</label>
+    </div>
+
+    <div class="line-div" style="margin: 10px 0 0 20px;display: {{display}}">
+      	温馨提示：默认密码为123456，请提醒用户首次登陆后立即更改密码
+    </div>
+</form>
+</script>
+
+<!-- reset psw start -->
+<script type="text/template" id="resetPsw">
+	<div class="container">
+	  <div class="line-div w90">
+	    <div class="line-div-label">姓名：</div>
+	    <div class="line-div-center">{{name}}</div>
+	  </div>
+	  <div class="line-div w90">
+	    <div class="line-div-label">手机号码：</div>
+	    <div class="line-div-center">{{mobile}}</div>
+	  </div>
+	  <div class="line-div w90">
+	    <div class="line-div-label">
+	      新密码：<i class="red">*</i>
+	    </div>
+	    <div class="line-div-center" id="J_form3">
+	      <input type="password" placeholder="请输入6~12位新密码" validate name="newPwd" class="form-control">
+	    </div>
+	  </div>
+	  <div class="line-div w90" style="text-align: center;margin: 10px auto;color:#999">重置密码后，请用户退出系统重新登录</div>
+	</div>
+</script>
+
+<script type="text/template" id="manageHouse">
+    <div class="btn-total" style="position: absolute; top: 10px; right: 30px;z-index: 10">
+        <div class="checkbox" id="cb-all">
+        </div>
+    </div>
+    <ul class="nav nav-tabs">
+    </ul>
+    <div class="tab-content container active" id="container">
+        <div id="sl-wrapper" class="relative" style="padding: 0 20px">
+        </div>
+        <div class="list-user" id="list-estate" style="border:0;">
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="allSelectTmpl">
+    {{#areaSelectTmpl}}{{/areaSelectTmpl}}
+</script>
+
+<script type="text/template" id="navBarTmpl">
+    {{#navBarTmpl}}{{/navBarTmpl}}
+</script>
+
+<script type="text/template" id="manageRoom">
+    <label>
+        <button type="button" class="btn-btn btn-right" id='roomCbAll'>全选/全不选</button>
+    </label>
+    <div class="list-box" id="list-rooms">
+        <ul>
+            {{#each this}}
+            <li style="width: 230px;float: left;">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="cb-room" data-roomId="{{roomId}}" data-roomName="{{roomName}}"
+                               style="margin-top:8px;" {{#isCheckedRoomList checked}}{{/isCheckedRoomList}}/>
+                        {{roomName}}
+                    </label>
+                </div>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+</script>
+
+<script type="text/template" id="allHouseCbTmpl">
+    <label>
+        <input id="cb_all" type="checkbox" name="allData" {{#isCheckedRoomList allData}}{{/isCheckedRoomList}}
+			value="{{allData}}"/> 所有{{#renderHouseTypeName}}{{/renderHouseTypeName}}房源
+    </label>
+</script>
+
+<script type="text/template" id="apartListTmpl">
+    <ul class="{{#showEstateList allData}}{{/showEstateList}}">
+		<li></li>
+        {{#each datas}}
+        <li data-lastval="{{checked}}">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" style="margin-top:8px;" class="tristate" name="estateItem" value="{{estateId}}" {{#isCheckedHouseList checked}}{{/isCheckedHouseList}}/>
+                    {{estateName}}({{estateAddress}})
+                </label>
+                <div class="txt-num div-tips" tips="点击展开所有房间" data-roomCount="{{roomCount}}" data-index={{@index}} >{{roomCount}}套房</div>
+            </div>
+        </li>
+        {{/each}}
+    </ul>
+	<div class="{{#notShowEstateList allData}}{{/notShowEstateList}}" style="text-align: center;line-height: 300px;">
+        您已经勾选全部的房源，如果要选择部分房源，请取消【所有{{#renderHouseTypeName}}{{/renderHouseTypeName}}房源】
+	</div>
+</script>
+
+<script type="text/template" id="citySelectTmpl">
+    <select class="form-control left" name="cityId" style="width: 100px">
+        {{#each this}}
+        <option data-index={{@index}} value="{{cityId}}">{{cityName}}&nbsp;</option>
+        {{/each}}
+    </select>
+</script>
+
+<script type="text/template" id="areaSelectTmpl">
+    <div class="left" style="width: 10px; height: 10px;"></div>
+    <select class="form-control left" name="areaId" style="width: 100px;">
+        <option value="">全部</option>
+        {{#each this}}
+        	<option value="{{areaId}}">{{areaName}}&nbsp;</option>
+        {{/each}}
+    </select>
+</script>
+<!-- 消息权限 -->
+<script type="text/template" id="msgPermissions">
+    <table class="table-striped table table-bordered table-hover msgAbout">
+       <tbody>
+        
+        {{#each this}}
+            {{#showTmp eventCode}}
+                <tr data-eventCode="{{eventCode}}" >
+                    <td style="text-align: left; padding-left: 20px;box-sizing: border-box;">租客费用逾期短信通知，通知时间当天 
+                        <div style="width:60px;display:inline-flex;vertical-align: middle;"><select name="noticeTime"></select></div> 点
+                    </td>
+                    <td><label for="isPost">
+                        <input type="checkbox" id="" 
+                        data-eventCode="{{eventCode}}" 
+                        data-sendMailletterStatus="{{sendMailletterStatus}}"{{#canSendMailletter canSendMailletter}}{{/canSendMailletter}} 
+                        {{#sendMailletterStatus sendMailletterStatus}}{{/sendMailletterStatus}} /> 站内信通知
+                      </label></td>
+                    <td>
+                      <label for=""><input type="checkbox" id="" 
+                        data-eventCode="{{eventCode}}" 
+                        data-sendSmsStatus="{{sendSmsStatus}}"
+                        {{#sendSmsStatus sendSmsStatus}}{{/sendSmsStatus}} 
+                        {{#canSendSms canSendSms}}{{/canSendSms}}/> 
+                      短信通知
+                      </label>
+                    </td>
+                    <td>
+                      <label for=""><input type="checkbox" id="" 
+                          data-eventCode="{{eventCode}}" 
+                          data-sendAppNotifyStatus="{{sendAppNotifyStatus}}" 
+                          {{#sendAppNotifyStatus sendAppNotifyStatus}}{{/sendAppNotifyStatus}} 
+                          {{#canSendAppNotify canSendAppNotify}}{{/canSendAppNotify}} /> 
+                        麦滴管家APP通知
+                      </label>
+                    </td>
+                </tr>
+            {{else}}
+                <tr data-eventCode="{{eventCode}}" >
+                   <td style="text-align: left; padding-left: 20px;box-sizing: border-box;">{{name}}</td>
+                   <td>
+                      <label for="">
+                        <input type="checkbox" id="" 
+                        data-eventCode="{{eventCode}}" 
+                        data-sendMailletterStatus="{{sendMailletterStatus}}"{{#canSendMailletter canSendMailletter}}{{/canSendMailletter}} 
+                        {{#sendMailletterStatus sendMailletterStatus}}{{/sendMailletterStatus}} /> 
+                        站内信通知
+                      </label>
+                   </td>
+                   <td>
+                      <label for="">
+                          <input type="checkbox" id="" 
+                          data-eventCode="{{eventCode}}" 
+                          data-sendSmsStatus="{{sendSmsStatus}}" 
+                          {{#sendSmsStatus sendSmsStatus}}{{/sendSmsStatus}} 
+                          {{#canSendSms canSendSms}}{{/canSendSms}} /> 
+                        短信通知
+                      </label>
+                   </td>
+                   <td>
+                      <label for="">
+                          <input type="checkbox" id="" 
+                          data-eventCode="{{eventCode}}" 
+                          data-sendAppNotifyStatus="{{sendAppNotifyStatus}}" 
+                          {{#sendAppNotifyStatus sendAppNotifyStatus}}{{/sendAppNotifyStatus}} 
+                          {{#canSendAppNotify canSendAppNotify}}{{/canSendAppNotify}} /> 
+                        麦滴管家APP通知
+                      </label>
+                   </td>
+               </tr>
+            {{/showTmp}}
+         {{/each}}
+       </tbody>
+    </table>
+</script>
+
+<script type="text/javascript">
+	seajs.use('controllers/user/userList')
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

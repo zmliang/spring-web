@@ -1,0 +1,74 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12 window">
+    <div class="x_panel window">
+	  	<div class="x_title">
+			<form id="searchForm">
+			  <table>
+				<colgroup>
+					<col width="200">
+					<col width="400">
+					<col width="200">
+					<col width="200">
+				</colgroup>
+				<tbody>
+					<tr>
+						<td>
+							<div class="line-div w60">
+								<div class="line-div-label">类型：</div>
+								<div class="line-div-center">
+									<select name="feedbackType">
+										<option selected value="0">全部</option>
+										<option value="1">建议</option>
+										<option value="2">BUG反馈</option>
+										<option value="3">投诉</option>
+									</select>
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="line-div w60">
+								<div class="line-div-label">时间：</div>
+								<div class="line-div-center">
+									<input type="text" name="preGmtCreate" class="form-control left Wdate" style="width:45%" id="preGmtCreate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,maxDate:'#F{$dp.$D(\'nextGmtCreate\')}'})">
+									<span class="left" style="width:10%;"> -- </span>
+									<input type="text" id="nextGmtCreate" name="nextGmtCreate" class="form-control left Wdate" style="width:45%" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,minDate:'#F{$dp.$D(\'preGmtCreate\')}'})">
+								</div>
+							</div>
+						</td>
+						<td style="padding-left: 10px;">
+							<div class="line-div">
+								<input name="mixedQuery"  placeholder="手机号码/姓名" class="form-control"></input>
+							</div>
+						</td>
+						<td>
+							<div class="searchBtn" style="padding-left:0">
+								<button type="button" id="search" class="left btn btn-mj">查询</button>
+								<button type="button" id="clear" class="left btn">清空</button>
+							</div>
+						</td>
+					</tr>
+			    </tbody>
+			  </table>
+			</form>
+	  	</div>
+	  	<div class="x_content">
+	  		<ul class="left nav nav-tabs" id="tabs_search" style="margin-bottom: -1px;margin-top:20px;">
+                <li class="active"><a href="#">租房APP</a></li>
+                <li><a href="#">管家APP</a></li>
+            </ul>
+            <div class="tab-content container active" style="padding: 0 10px 10px;">
+            	<div class="gray-bg clearfix">
+		        	<div id="btn-delete" class="btn-btn btn-danger right">删除</div>
+		      	</div>
+		      	<div id="gridDiv"></div>
+		     </div>
+	  	</div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+	seajs.use('controllers/operation/feedbackList.js')
+</script>

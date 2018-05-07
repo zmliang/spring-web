@@ -1,0 +1,175 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="x_panel">
+	<ul id="switch-tab" class="nav nav-tabs" style="margin: 10px 0 0 0">
+	    <li class="active nav-item"><a href="#" id="txt-topay">资金对账</a></li>
+	    <li class="nav-item"><a href="#" id="txt-booked">对账记录</a></li>
+	</ul>
+	<div class="tab-content active">
+		<div style="padding: 0 10px 10px;">
+			<div class="clearfix">
+				<div class="tableContainer" style="width: 50%; float: left;">
+					<div class="table-topDiv" style="position: relative; margin-top: 0px; display: block; text-align: center;">
+				        <h4 style="margin: 0; line-height: 28px;">平台入账流水</h4>
+				        <button type="button" class="btn btn-mj filter showPopup" style="position: absolute; top: 5px; right: 5px;">筛选账单</button>
+				    </div>
+				    <div class="gridContainer withdrawGridWrapper" style="position: relative;">
+				        <div id="withdrawGrid"></div>
+				    </div>
+				    <div id="withdrawInfo" class="table-bottomDiv" style="text-align: center;">
+				    	共<span class="red">0</span>条，付款金额<span class="red">0.00</span>，平台入账<span class="red">0.00</span>
+				    </div>
+				</div>
+				<div class="tableContainer" style="width: 50%; float: left;">
+					<div class="table-topDiv" style="position: relative; margin-top: 0px; display: block; text-align: center;">
+				        <h4 style="margin: 0; line-height: 28px;">支付渠道对账单</h4>
+				        <button type="button" class="btn btn-mj import showPopup" style="position: absolute; top: 5px; right: 5px;">导入账单</button>
+				    </div>
+				    <div class="gridContainer reconciliationGridWrapper" style="position: relative;">
+				        <div id="reconciliationGrid"></div>
+				    </div>
+				    <div id="reconciliationInfo" class="table-bottomDiv" style="text-align: center;">
+				    	共<span class="red">0</span>条，收入金额<span class="red">0.00</span>，支出金额<span class="red">0.00</span>
+				    </div>
+				</div>
+			</div>
+			<div class="table-bottomDiv" style="position: relative; text-align: right;">
+				<div id="reconciliationResult" style="position: absolute; display: none; top: 0; left: 20px; line-height: 40px;">
+					<strong>导入账单号<span class="red">0</span>个，匹配对账<span class="red">0</span>个，匹配收入金额<span class="red">0.00</span>，需充值转账金额<span class="red">0.00</span></strong>
+				</div>
+				<div id="filter_input" style="display: inline-block;">
+					<label class="filter_input" style="margin-right: 20px; display: none;">
+						<input type="checkbox" style="vertical-align: top;"> 只展示已两清账单
+					</label>
+					<label class="filter_input" style="margin-right: 20px; display: none;">
+						<input type="checkbox" style="vertical-align: top;"> 屏蔽已两清账单
+					</label>
+				</div>
+				<button id="auto-btn" type="button" class="btn btn-mj" disabled>自动对账</button>
+			</div>
+		</div>
+	</div>
+	<div class="tab-content">
+		<div class="recordGridWrapper" style="padding: 0 10px 10px;">
+			<div id="recordGrid"></div>
+		</div>
+	</div>
+</div>
+
+<script type="text/template" id="filter-bill">
+	<form id="filter-form">
+		<div class="line-div w115" style="float: none;">
+		    <div class="line-div-label" style="text-align: left;">
+		        结账时间范围：
+		    </div>
+		    <div class="line-div-center">
+		        <input type="text" name="startPayTime" class="icon-calendar form-control left Wdate" style="width:45%" id="startPayTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',
+		        	isShowClear:true,
+		        	maxDate:'#F{$dp.$D(\'endPayTime\') || \'%y-%M-%d\'}'
+		    	})">
+		        <span class="left" style="width:10%; text-align: center;">--</span>
+		        <input type="text" id="endPayTime" name="endPayTime" class="icon-calendar form-control left Wdate" style="width:45%" onfocus="WdatePicker({
+		        	dateFmt: 'yyyy-MM-dd HH:mm:ss',
+		        	isShowClear: true,
+		        	minDate:'#F{$dp.$D(\'startPayTime\')}', 
+		        	maxDate: '%y-%M-%d'
+		        })">
+		    </div>
+		</div>
+		<p></p>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<p>支付方式（只能勾选一种）</p>
+				<div class="form-group" style="margin-left: -10px; margin-right: -10px;">
+					<div class="col-sm-4">
+						<div class="checkbox">
+							<label>
+								<input type="radio" name="payChannel" value="4" checked> 平台支付宝
+							</label>
+						</div>	
+					</div>
+					<div class="col-sm-4">
+						<div class="checkbox">
+							<label>
+								<input type="radio" name="payChannel" value="2"> 平台微信
+							</label>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="checkbox">
+							<label>
+								<input type="radio" name="payChannel" value="3"> 平台认证支付
+							</label>
+						</div>	
+					</div>
+				</div>
+				<div class="form-group" style="margin-left: -10px; margin-right: -10px;">
+					<div class="col-sm-4">
+						<div class="checkbox">
+							<label>
+								<input type="radio" name="payChannel" value="1"> 连连支付宝
+							</label>
+						</div>	
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group hide">
+			<div class="checkbox">
+				<label>
+					<input name="reconciliationStatus" type="checkbox" checked> 过滤已两清账单
+				</label>
+			</div>	
+		</div>
+	</form>
+</script>
+
+<script type="text/template" id="import-bill">
+	<form id="bill-form" class="form-horizontal" action="/hms/corporate/reconciliation/alipayReconciliationUpload.htm" method="post">
+		<div class="form-group">
+	    	<div class="col-sm-4">
+	    		<label class="radio-inline">
+					<input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" checked> 平台支付宝
+				</label>
+	    	</div>
+	    	<div class="col-sm-8">
+	    		<label for="inputEmail3" class="col-sm-4 control-label">上传账单：</label>
+    		    <div class="col-sm-8">
+    		    	<label for="shangchuan" class="btn btn-mj">
+    		    		<input id="shangchuan" type="file" name="file" class="hide" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+    		    		上传
+    		    	</label>
+					<span id="fileStatus" style="padding-top: 4px; padding-left: 10px;">(未上传)</span>
+    		    </div>
+	    	</div>
+		</div>
+	</form>
+	<p class="text-muted">提示：请限制账单数量在1000条以内，切勿修改支付宝导出的数据文件</p>
+</script>
+
+<script type="text/template" id="auto-reconciliation">
+	<p>对账需要一定的处理时长，会根据账单的笔数决定处理时长，请合理导入账单，自动对账过程中请勿关闭页面</p>
+	<p></p>
+	<div class="form-group hide">
+		<div class="checkbox">
+			<label>
+				<input id="reReconciliation" type="checkbox"> 已两清账单重新对账
+			</label>
+		</div>	
+	</div>
+</script>
+
+<script type="text/template" id="reconciliation-complete">
+	<strong>对账完成</strong>
+	<p>{{{format}}}</p>
+</script>
+
+<script type="text/template" id="recharge-money">
+	<p>确认充值金额吗？</p>
+	<p>充值金额请按收入匹配金额充值</p>
+</script>
+
+<script type="text/javascript">
+    seajs.use('controllers/corporate/reconciliation')
+</script>

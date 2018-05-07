@@ -1,0 +1,1497 @@
+#parse('common/top.vm')
+<body class="body_hosting">
+	<div class="topfix">
+		<div class="stepHeader">
+			<div class="left" style="padding:0 12px;border-right: 1px solid #ccc">
+				<!-- <img src="$!{rc.contextPath}/images/stepBeta.png"> -->
+			</div>
+			<div class="stepTitle left">步骤1：从地理位置开始</div>
+			<div class="right" style="margin-right: 10px;">
+				<button type="button" class="btn delAndReturn" style="font-size: 16px;width:164px;height:40px;">放弃并返回</button>
+			</div>
+		</div>	
+		<div class="progress progress_sm">
+	      	<div class="progress-bar bg-blue" role="progressbar" style="width: 20%;border-radius: 0 5px 5px 0"></div>
+	    </div>
+	</div>
+	
+    <div class="stepMain" id="stepMain">
+    	<div class="hosting-step1 hostStep activeOn"></div>
+    	<div class="hosting-step2 hostStep "></div>
+    	<div class="hosting-step3 hostStep "></div>
+    	<div class="hosting-step4 hostStep "></div>
+    	<div class="hosting-step5 hostStep "></div>
+    </div>
+<!-- 步骤1 -->
+<script type="text/template" id="stepTempHtml1">
+	<form class="formData"><div class="hostBody clearfix">
+		<h3 class="stepH3">请添加房源的地理位置信息</h3>
+		<div>
+			<div class="left" style="width: 60%">
+				<span class="hosting-span">所在地区<i class="red">*</i></span>
+				<div class="hosting-line clearfix">
+					<div id="areaBox" class="area48" style="width: 100%"></div>
+				</div>
+			</div>
+			<div class="right" style="width: 30%">
+				<span class="hosting-span">板块信息</span>
+				<div class="hosting-line">
+					<select name="zoneId" id='zoneId'>
+						
+					</select>
+				</div>
+			</div>
+		</div>
+		
+		<span class="hosting-span clearfix">详细地址<i class="red">*</i></span>
+		<div class="hosting-line clearfix">
+			<input type="text" name="addrDetail" validate placeholder="例如：天目山路139号（钱江西溪新座旁）" autocomplete="off" value="{{addrDetail}}" class="form-control hostInput">
+		</div>
+		<div>
+			<div class="left" style="width: 60%">
+				<span class="hosting-span">小区/公寓名称<i class="red">*</i></span>
+				<div class="hosting-line">
+					<input type="text" autocomplete="off" value="{{estateName}}" validate name="estateName" placeholder="例如：古荡新村" class="form-control hostInput">
+				</div>
+			</div>
+			<div class="right" style="width: 30%">
+				<span class="hosting-span">楼幢<i class="red">*</i></span>
+				<div class="hosting-line">
+					<input type="text" autocomplete="off" validate value="{{buildingName}}" name="buildingName" placeholder="例如：清雅苑2幢" class="form-control hostInput">
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="left" style="width: 30%;margin-right: 3.5%">
+				<span class="hosting-span">单元</span>
+				<div class="hosting-line relative">
+					<input type="text" value="{{unitCode}}" name="unitCode"  placeholder="例如：3" autocomplete="off" class="form-control validateNum hostInput">
+					<span class="positionSpan">单元</span>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="left" style="width: 30%;margin-right: 3.5%">
+				<span class="hosting-span">所在楼层<i class="red">*</i></span>
+				<div class="hosting-line relative">
+					<input type="text" autocomplete="off" value="{{floorName}}" validate name="floorName" placeholder="例如：8" class="form-control validateNum hostInput">
+					<span class="positionSpan">层</span>
+				</div>
+			</div>
+			<div class="left" style="width: 30%;margin-right: 3.5%">
+				<span class="hosting-span">总楼层<i class="red">*</i></span>
+				<div class="hosting-line relative">
+					<input type="text" autocomplete="off" value="{{floorAmount}}" validate name="floorAmount" placeholder="例如：20" class="form-control hostInput validateNum">
+					<span class="positionSpan">层</span>
+				</div>
+			</div>
+			<div class="right" style="width: 30%;">
+				<span class="hosting-span">室<i class="red">*</i></span>
+				<div class="hosting-line relative">
+					<input type="text" autocomplete="off" value="{{roomNo}}" validate name="roomNo" placeholder="例如：301" class="form-control hostInput validateNum">
+					<span class="positionSpan">室</span>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="left" style="width: 30%;margin-right: 3.5%">
+				<span class="hosting-span">经度</span>
+				<div class="hosting-line relative">
+					<input type="text" autocomplete="off" placeholder="例如：30.2800" value="{{longitude}}" name="longitude" class="form-control hostInput">
+				</div>
+			</div>
+			<div class="left" style="width: 30%">
+				<span class="hosting-span">纬度</span>
+				<div class="hosting-line relative">
+					<input type="text" autocomplete="off" placeholder="例如：120.1616" value="{{latitude}}" name="latitude" class="form-control hostInput">
+				</div>
+			</div>
+		</div>
+	</div></form>
+	<div class="bottomBtn">
+		<button class="btn right nextBtn">下一步</button>
+	</div>
+</script>
+<!-- 步骤2 -->
+<script type="text/template" id="stepTempHtml2">
+	<form class="formData"><div class="hostBody clearfix">
+		<h3 class="stepH3">请添加房源的房间信息</h3>
+		<div class="clearfix">
+			<div class="left percentRight">
+				<span class="hosting-span">有几间卧室？<i class="red">*</i></span>
+				<div class="hosting-line relative">
+					<input type="text" autocomplete="off" validate value="{{chamberCount}}" name="chamberCount" placeholder="0室" class="form-control hostInput paddingR130 validateNum">
+					<span class="numBtn removeBtn icon-minus"></span>
+					<span class="numBtn addBtn icon-plus"></span>
+				</div>
+			</div>
+			<div class="left percentRight">
+				<span class="hosting-span">有几间客厅/餐厅？<i class="red">*</i></span>
+				<div class="hosting-line relative">
+					<input type="text" validate value="{{boardCount}}" name="boardCount" placeholder="0厅" autocomplete="off" class="form-control hostInput paddingR130 validateNum">
+					<span class="numBtn removeBtn icon-minus"></span>
+					<span class="numBtn addBtn icon-plus"></span>
+				</div>
+			</div>
+			<div class="right percentNor">
+				<span class="hosting-span">有几间卫生间？<i class="red">*</i></span>
+				<div class="hosting-line relative">
+					<input type="text" autocomplete="off" validate value="{{toiletCount}}" name="toiletCount" placeholder="0卫" class="form-control hostInput paddingR130 validateNum">
+					<span class="numBtn removeBtn icon-minus"></span>
+					<span class="numBtn addBtn icon-plus"></span>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="left percentRight">
+				<span class="hosting-span">房间面积<i class="red">*</i></span>
+				<div class="hosting-line relative">
+					<input type="text" autocomplete="off" validate value="{{roomArea}}" name="roomArea" placeholder="例如：12" class="form-control hostInput validateNum">
+					<span class="positionSpan">㎡</span>
+				</div>
+			</div>
+			<div class="left percentRight">
+				<span class="hosting-span">房屋朝向</span>
+				<div class="hosting-line relative">
+					<select name="roomDirection">
+						{{#roomDirection roomDirection}}{{/roomDirection}}
+					</select>
+				</div>
+			</div>
+		</div>
+		<span class="hosting-span">装修程度</span>
+		<div class="hosting-line">
+			{{#decorateTmp decorationDegree}}{{/decorateTmp}}
+		</div>
+		<span class="hosting-span">房间设施</span>
+		<div class="hosting-line">
+			{{#facilitiesItem facilityItems}}{{/facilitiesItem}}
+		</div>
+		<span class="hosting-span">房源描述</span>
+		<div class="hosting-line">
+			<textarea name="houseDesc" autocomplete="off" placeholder="请描述一下房源的交通、装饰、周边设施场所等等......">{{houseDesc}}</textarea>
+		</div>
+		<span class="hosting-span">智能门锁</span>
+		<div class="hosting-line">
+			{{#doorLock isInstallLock}}{{/doorLock}}
+		</div>
+		<span class="hosting-span">出租方式</span>
+		<div class="hosting-line">
+			{{#leaseTmp houseRentType}}{{/leaseTmp}}
+		</div>
+	</div></form>
+	<div class="bottomBtn top">
+		<button class="btn left cancelBtn">上一步</button>
+		<button class="btn right nextBtn">下一步</button>
+	</div>
+</script>
+<!-- 步骤3 合租 -->
+<script type="text/template" id="stepTempHtml3H">
+	<div class="hostBody clearfix">
+		<h3 class="stepH3">请上传每个房间的照片并设置租客信息</h3>
+		<div class="clearfix">
+			<div class="ulBorder relative">
+				<div class="relative tableDiv">
+					<ul class="roomNav">
+						{{#roomLength this.hostingRoomList}}{{/roomLength}}
+					</ul>
+				</div>
+				<i class="icon-add"></i>
+			</div>
+			<div class="roomInfoDiv">
+				{{#roomInfo this.hostingRoomList}}{{/roomInfo}}
+			</div>
+
+		</div>
+		
+	</div>
+	<div class="bottomBtn top">
+		<button class="btn left cancelBtn">上一步</button>
+		<button class="btn right nextBtn">下一步</button>
+	</div>
+</script>
+<!-- 步骤3 整租 -->
+<script type="text/template" id="stepTempHtml3Z">
+	<div class="hostBody clearfix">
+		<h3 class="stepH3">请上传每个房间的照片并设置租客信息</h3>
+		{{#with hostingRoomVO}}
+		<div class="clearfix">
+			<div class="roomInfoDiv">
+				<div class="roomDataDiv" style="display: block;">
+					<div class="pictureDiv">
+						{{#pictureTmp this}}{{/pictureTmp}}
+					</div>
+					<form class="roomInfoFrom">
+						<div class="clearfix"></div>
+						<span class="hosting-span RoomUser">租客信息</span>
+						<span class="hosting-span">入住情况</span>
+						<div class="hosting-line">
+							{{#liveIn hasGuest}}{{/liveIn}}
+						</div>
+					</form>
+					<form class="tenantFrom">
+						<div class="tenantDiv" style="{{#isShow hasGuest}}{{/isShow}}">
+						{{#with hostingRoomGuest}}
+							<div class="clearfix">
+								<span class="hosting-span">租金缴纳方式<i class="red">*</i></span>
+								<div class="hosting-line percentRight">
+									<select name="hostingRentType" style="width: 100%">
+										{{#hostingRentTypeTmp hostingRentType}}{{/hostingRentTypeTmp}}
+									</select>
+								</div>
+							</div>
+							<div class="clearfix">
+								<div class="left percentRight">
+									<span class="hosting-span">签约人姓名<i class="red">*</i></span>
+									<div class="hosting-line relative">
+										<input type="text" autocomplete="off" value="{{realName}}" validate name="realName" placeholder="例如：张三" class="form-control hostInput">
+									</div>
+								</div>
+								<div class="left percentRight">
+									<span class="hosting-span">性别</span>
+									<div class="hosting-line relative">
+										{{#sexTmp gender}}{{/sexTmp}}
+									</div>
+								</div>
+							</div>
+							
+							<div class="clearfix">
+								<div class="left percentRight">
+									<span class="hosting-span">手机号码<i class="red">*</i></span>
+									<div class="hosting-line relative">
+										<input type="text" autocomplete="off" value="{{mobile}}" validate name="mobile" placeholder="例如：13888888888" class="form-control hostInput validateNum">
+									</div>
+								</div>
+								
+							</div>
+							<div class="clearfix">
+								<div class="left percentRight">
+									<span class="hosting-span">证件类型</span>
+									<div class="hosting-line relative">
+										<select name="cardType" style="width: 100%">
+											{{#cardTypeTmp cardType}}{{/cardTypeTmp}}
+										</select>
+									</div>
+								</div>
+								<div class="left percentRight">
+									<span class="hosting-span">证件号码<i class="red">*</i></span>
+									<div class="hosting-line relative">
+										<input type="text" autocomplete="off" value="{{cardNo}}" validate name="cardNo" placeholder="320111199012121212" class="form-control hostInput">
+									</div>
+								</div>
+								
+							</div>
+							<div class="left percentRight">
+								<span class="hosting-span">房租<i class="red">*</i></span>
+								<div class="hosting-line relative">
+									<input type="text" autocomplete="off" value="{{rentPrice}}" validate name="rentPrice" placeholder="例如：1299.00" class="form-control hostInput validateNum">
+									<span class="positionSpan">元/月</span>
+								</div>
+							</div>
+							<div class="left percentRight">
+								<span class="hosting-span">押金<i class="red">*</i></span>
+								<div class="hosting-line relative">
+									<input type="text" autocomplete="off" value="{{depositPrice}}" validate name="depositPrice" placeholder="例如：1299.00" class="form-control hostInput validateNum">
+									<span class="positionSpan">元</span>
+								</div>
+							</div>
+							<div class="left percentRight">
+								<span class="hosting-span">押金缴纳月数<i class="red">*</i></span>
+								<div class="hosting-line relative">
+									<input type="text" autocomplete="off" validate value="{{depositQty}}" name="depositQty" placeholder="12" class="form-control hostInput paddingR130 validateNum">
+									<span class="numBtn removeBtn icon-minus "></span>
+									<span class="numBtn addBtn icon-plus"></span>
+								</div>
+							</div>
+							<div class="left percentRight">
+								<span class="hosting-span">房租缴纳月数<i class="red">*</i></span>
+								<div class="hosting-line relative">
+									<input type="text" autocomplete="off" validate value="{{rentQty}}" name="rentQty" placeholder="12" class="form-control hostInput paddingR130 validateNum">
+									<span class="numBtn removeBtn icon-minus "></span>
+									<span class="numBtn addBtn icon-plus"></span>
+								</div>
+							</div>
+							<div class="left percentRight">
+								<span class="hosting-span">起租时间<i class="red">*</i></span>
+								<div class="hosting-line relative">
+									<input type="text" validate value="{{startDate}}" name="startDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true})" placeholder="请选择起租时间" class="form-control hostInput Wdate">
+								</div>
+							</div>
+							<div class="left percentRight">
+								<span class="hosting-span">租期<i class="red">*</i></span>
+								<div class="hosting-line relative">
+									<input type="text" autocomplete="off" value="{{leaseTerm}}" validate name="leaseTerm" placeholder="例如：3" class="form-control hostInput validateNum">
+									<span class="positionSpan">月</span>
+								</div>
+							</div>
+						{{/with}}	
+						</div>
+					</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		{{/with}}
+	</div>
+	<div class="bottomBtn top">
+		<button class="btn left cancelBtn">上一步</button>
+		<button class="btn right nextBtn">下一步</button>
+	</div>
+</script>
+<!-- 步骤4 -->
+<script type="text/template" id="stepTempHtml4">
+	<div class="hostBody clearfix">
+		<h3 class="stepH3">请添加房源的产权人信息</h3>
+		<div class="clearfix" style="padding-top: 20px;">
+			<button type="button" class="btn blueBtn addEquity">添加产权人</button>
+		</div>
+		<div class="clearfix propertyOwnerIsShow" style="{{#areShow propertyOwner}}{{/areShow}}">
+			{{#with propertyOwner}}
+			<div class="equityDiv">	
+				{{#childrenTmp "1" this}}{{/childrenTmp}}	
+			</div>
+			{{/with}}
+
+			<div class="clearfix">
+				<span class="hosting-span">配偶</span>
+				<div class="hosting-line spouse">
+					{{#spouseTmp hasSpouse}}{{/spouseTmp}}
+				</div>
+			</div>		
+		<div class="spouseDiv" style="{{#isShow hasSpouse}}{{/isShow}}">		
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">产权共有人<i class="red">*</i></span>
+					<div class="hosting-line">
+						<select style="width: 100%" name="isUnionPropertyOwner">
+							{{#isUnionPropertyOwnerTmp isUnionPropertyOwner}}{{/isUnionPropertyOwnerTmp}}
+						</select>
+					</div>
+				</div>
+			</div>
+			<span class="hosting-span wifeInfo" style="font-size: 24px;margin-bottom: 30px;">产权人配偶信息</span>
+			<div class="clearfix" style="padding-top: 20px;">
+			<button type="button" class="btn blueBtn addEquitySpouse">添加配偶</button>
+		</div>
+		<div class="wifeInfoDiv" style="{{#areShow landlordSpouse}}{{/areShow}}">
+			{{#with landlordSpouse}}
+				{{#childrenTmp "2" this}}{{/childrenTmp}}
+			{{/with}}
+		</div>
+		</div>	
+	</div>
+	<div class="bottomBtn top">
+		<button class="btn left cancelBtn">上一步</button>
+		<button class="btn right nextBtn">下一步</button>
+	</div>
+</script>
+<!-- 步骤5 -->
+<script type="text/template" id="stepTempHtml5">
+	<div class="hostBody clearfix">
+	<form class="formData">
+		<h3 class="stepH3">请添加该房源的产权信息</h3>
+		<div class="clearfix">
+			<div class="left percentRight" style="width: 65.5%">
+				<span class="hosting-span">房产证号码<i class="red">*</i></span>
+				<div class="hosting-line relative">
+					<input type="text" validate value="{{propertyNo}}" name="propertyNo" placeholder="例如：杭房权证12138" class="form-control hostInput">
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<span class="hosting-span">房产证照片<i class="red">*</i></span>
+			<div class="hosting-line relative" style="padding-top: 10px">
+				<a href="javascript:void(0)" class="uploadPro">上传房产照片</a>
+				<ul class="step5Nav"></ul>
+				<input type="file" name="image" id="propertyPic" style="display: none">
+			</div>
+		</div>
+		<div class="clearfix">
+			<span class="hosting-span">房租<i class="red">*</i></span>
+			<div class="hosting-line relative percentRight">
+				<input type="text" validate value="{{monthlyRent}}" name="monthlyRent" placeholder="例如：1200.00" class="form-control hostInput validateNum">
+				<span class="positionSpan">元/月</span>
+			</div>
+		</div>
+		<div class="clearfix">
+			<span class="hosting-span">全部所有权人<i class="red">*</i></span>
+			<div class="hosting-line" style="width: 65.5%">
+				<input type="text" validate value="{{houseAllOwner}}" name="houseAllOwner" placeholder="多个名字用‘/’隔开，如：张三/李四" class="form-control hostInput">
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="left percentRight">
+				<span class="hosting-span">房屋性质</span>
+				<div class="hosting-line relative">
+					<select name="houseNature">
+						{{#houseNatureTmp houseNature}}{{/houseNatureTmp}}
+					</select>
+				</div>
+			</div>
+			<div class="left percentRight">
+				<span class="hosting-span">房产类型</span>
+				<div class="hosting-line relative">
+					<select name="propertyType">
+						{{#propertyTypeTmp propertyType}}{{/propertyTypeTmp}}
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="left percentRight">
+				<span class="hosting-span">房产总价</span>
+				<div class="hosting-line relative">
+					<input type="text" value="{{totalPurchasePrice}}" name="totalPurchasePrice" placeholder="例如：12" class="form-control hostInput">
+					<span class="positionSpan">万元</span>
+				</div>
+			</div>
+			<div class="left percentRight">
+				<span class="hosting-span">房龄</span>
+				<div class="hosting-line relative">
+					<input type="text" value="{{houseAge}}" name="houseAge" placeholder="例如：12" class="form-control hostInput validateNum">
+					<span class="positionSpan">年</span>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="left percentRight">
+				<span class="hosting-span">抵押情况</span>
+				<div class="hosting-line relative">
+					<select name="mortgageType">
+						{{#mortgageTypeTmp mortgageType}}{{/mortgageTypeTmp}}
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="left percentRight">
+				<span class="hosting-span">是否按揭</span>
+				<div class="hosting-line relative">
+					{{#isMortgageTmp isPledge}}{{/isMortgageTmp}}
+				</div>
+			</div>
+		</div>
+		<div class="hideDiv_isPledge" style="{{#isShow isPledge}}{{/isShow}}">
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">房屋抵押权人</span>
+					<div class="hosting-line relative">
+						<input type="text" value="{{mortgagor}}" name="mortgagor" class="form-control hostInput">
+					</div>
+				</div>
+				<div class="left percentRight">
+					<span class="hosting-span">按揭期限<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" value="{{mortgageYear}}" name="mortgageYear" class="form-control hostInput validateNum">
+						<span class="positionSpan">年</span>
+					</div>
+				</div>
+			</div>	
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">首付金额<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" value="{{firstPayment}}" name="firstPayment" class="form-control hostInput validateNum" maxlength="9">
+						<span class="positionSpan">万元</span>
+					</div>
+				</div>
+				<div class="left percentRight">
+					<span class="hosting-span">月还款额<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" value="{{monthlyPayment}}" name="monthlyPayment" class="form-control hostInput validateNum" maxlength="9">
+						<span class="positionSpan">元</span>
+					</div>
+				</div>
+			</div>		
+		</div>
+		<div class="clearfix">
+			<div class="left percentRight">
+				<span class="hosting-span">购买财险</span>
+				<div class="hosting-line relative">
+					{{#hasPropertyInsuranceTmp hasPropertyInsurance}}
+					{{/hasPropertyInsuranceTmp}}
+				</div>
+			</div>
+		</div>
+		<div class="hideDiv_hasPropertyInsurance" style="{{#isShow hasPropertyInsurance}}{{/isShow}}">
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">财险到期时间<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" name="insuranceExpireDate" value="{{insuranceExpireDate}}" class="form-control hostInput Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true})"/>
+					</div>
+				</div>
+			</div>	
+		</div>
+		<!-- <div class="clearfix">
+			<div class="left percentRight">
+				<span class="hosting-span">使用磐谷金融产品</span>
+				<div class="hosting-line relative">
+					<select name="financialProduct" style="width:100%">
+						{{#financialProductTmp financialProduct}}{{/financialProductTmp}}
+					</select>
+				</div>
+			</div>
+		</div> -->
+		<div class="clearfix">
+			<div class="left percentRight">
+				<span class="hosting-span">是否为二手房源（有二房东）</i></span>
+				<div class="hosting-line relative">
+					{{#managerIsLandlordTmp managerIsLandlord}}{{/managerIsLandlordTmp}}
+				</div>
+			</div>
+		</div>
+	</form>
+		<div class="hideDiv" style="{{#isShow managerIsLandlord}}{{/isShow}}">
+			<span class="hosting-span wifeInfo" style="font-size: 24px">房屋租赁信息</span>
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">租赁年限<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" validate value="{{rentTerm}}" name="rentTerm" placeholder="例如：12" class="form-control hostInput validateNum">
+						<span class="positionSpan">年</span>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">租入价格<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" validate value="{{rentPrice}}" name="rentPrice" placeholder="例如：12" class="form-control hostInput validateNum">
+						<span class="positionSpan">元/月</span>
+					</div>
+				</div>
+			</div>
+			<!-- <span class="hosting-span wifeInfo" style="font-size: 24px;margin-bottom: 30px">房屋管理者信息</span>
+			<div class="clearfix" style="padding-top: 20px;">
+				<button type="button" class="btn blueBtn hostingHouseManager">导入房屋管理者</button>
+			</div>
+			<div class="managerInfoDiv" style="{{#areShow this}}{{/areShow}}">
+				{{#childrenTmp "3" this}}{{/childrenTmp}}
+			</div>		 -->	
+		</div>					
+	</div>
+	<div class="bottomBtn top">
+		<!-- <a href="javascript:void(0)" class="left returnPre"><i class="icon-arrow-back"></i>返回</a> -->
+		<button class="btn left cancelBtn">上一步</button>
+		<button class="btn right nextBtn">完成</button>
+	</div>
+</script>
+<!-- 添加房间模板 -->
+<script type="text/template" id="addRoomTmp">
+	<div class="roomDataDiv">
+		<div class="pictureDiv">
+			{{#pictureTmp this}}{{/pictureTmp}}
+		</div>
+		<form class="roomInfoFrom">
+			<div class="left percentRight">
+				<span class="hosting-span">房间面积<i class="red">*</i></span>
+				<div class="hosting-line relative">
+					<input type="text" placeholder="例如：12" validate value="{{roomArea}}" name="roomArea" class="form-control hostInput validateNum">
+					<span class="positionSpan">㎡</span>
+				</div>
+			</div>
+			<div class="left percentRight">
+				<span class="hosting-span">房屋朝向</span>
+				<div class="hosting-line relative">
+					<select style="width: 100%" name="roomDirection">
+						{{#roomDirection roomDirection}}{{/roomDirection}}
+					</select>
+				</div>
+			</div>
+			<span class="hosting-span">房间设施</span>
+			<div class="hosting-line">
+				{{#roomFacilitiesItem roomAttributes}}{{/roomFacilitiesItem}}
+			</div>
+			<div class="clearfix"></div>
+			<span class="hosting-span RoomUser">租客信息</span>
+			<span class="hosting-span">入住情况</span>
+			<div class="hosting-line">
+				{{#liveIn hasGuest}}{{/liveIn}}
+			</div>
+		</form>
+		<form class="tenantFrom">
+			<div class="tenantDiv" style="{{#isShow hasGuest}}{{/isShow}}">
+				{{#with hostingRoomGuest}}
+				<div class="clearfix">
+					<span class="hosting-span">租金缴纳方式<i class="red">*</i></span>
+					<div class="hosting-line percentRight">
+						<select name="hostingRentType" style="width: 100%">
+							{{#hostingRentTypeTmp hostingRentType}}{{/hostingRentTypeTmp}}
+						</select>
+					</div>
+				</div>
+				<div class="clearfix">
+					<div class="left percentRight">
+						<span class="hosting-span">签约人姓名<i class="red">*</i></span>
+						<div class="hosting-line relative">
+							<input type="text" value="{{realName}}" validate name="realName" placeholder="例如：张三" class="form-control hostInput">
+						</div>
+					</div>
+					<div class="left percentRight">
+						<span class="hosting-span">性别</span>
+						<div class="hosting-line relative">
+							{{#sexTmp gender}}{{/sexTmp}}
+						</div>
+					</div>
+				</div>
+				
+				<div class="clearfix">
+					<div class="left percentRight">
+						<span class="hosting-span">手机号码<i class="red">*</i></span>
+						<div class="hosting-line relative">
+							<input type="text" value="{{mobile}}" validate name="mobile" placeholder="例如：13888888888" class="form-control hostInput validateNum">
+						</div>
+					</div>
+					
+				</div>
+				<div class="clearfix">
+					<div class="left percentRight">
+						<span class="hosting-span">证件类型</span>
+						<div class="hosting-line relative">
+							<select name="cardType" style="width: 100%">
+								{{#cardTypeTmp cardType}}{{/cardTypeTmp}}
+							</select>
+						</div>
+					</div>
+					<div class="left percentRight">
+						<span class="hosting-span">证件号码<i class="red">*</i></span>
+						<div class="hosting-line relative">
+							<input type="text" value="{{cardNo}}" validate name="cardNo" placeholder="例如：330123199112121212" class="form-control hostInput">
+						</div>
+					</div>
+					
+				</div>
+				<div class="left percentRight">
+					<span class="hosting-span">房租<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" value="{{rentPrice}}" validate name="rentPrice" placeholder="例如：1299.00" class="form-control hostInput validateNum">
+						<span class="positionSpan">元/月</span>
+					</div>
+				</div>
+				<div class="left percentRight">
+					<span class="hosting-span">押金<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" value="{{depositPrice}}" validate name="depositPrice" placeholder="例如：1299.00" class="form-control hostInput validateNum">
+						<span class="positionSpan">元</span>
+					</div>
+				</div>
+				<div class="left percentRight">
+					<span class="hosting-span">押金缴纳月数<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" validate value="{{depositQty}}" name="depositQty" placeholder="例如：3" class="form-control hostInput paddingR130 validateNum">
+						<span class="numBtn removeBtn icon-minus "></span>
+						<span class="numBtn addBtn icon-plus"></span>
+					</div>
+				</div>
+				<div class="left percentRight">
+					<span class="hosting-span">房租缴纳月数<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" validate value="{{rentQty}}" name="rentQty" placeholder="例如：3" class="form-control hostInput paddingR130 validateNum">
+						<span class="numBtn removeBtn icon-minus "></span>
+						<span class="numBtn addBtn icon-plus"></span>
+					</div>
+				</div>
+				<div class="left percentRight">
+					<span class="hosting-span">起租时间<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" validate value="{{startDate}}" name="startDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true})" placeholder="请选择起租时间" class="form-control hostInput Wdate">
+					</div>
+				</div>
+				<div class="left percentRight">
+					<span class="hosting-span">租期<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" value="{{leaseTerm}}" validate name="leaseTerm" placeholder="例如：3" class="form-control hostInput validateNum">
+						<span class="positionSpan">月</span>
+					</div>
+				</div>
+				{{/with}}
+			</div>
+		</form>
+	</div>
+</script>
+<!-- 添加产权人模板 光教授说要建三个方便日后修改 -->
+<script type="text/template" id="addEquityTmp1">
+	<form class="overlaySaveForm">
+		<input type="hidden" name="contactId" value="{{contactId}}">
+		<div class="searchMain">
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">产权人姓名<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" disabled autocomplete="off" validate value="{{name}}" name="name" placeholder="例如：张三" class="form-control hostInput">
+					</div>
+				</div>
+				<div class="left percentRight">
+					<span class="hosting-span">性别</span>
+					<div class="hosting-line relative">
+						{{#sexTmp gender 'disabled' ""}}{{/sexTmp}}
+					</div>
+				</div>
+			</div>
+			<div class="clearfix">
+				<span class="hosting-span">手机号码<i class="red">*</i></span>
+				<div class="hosting-line percentRight">
+					<input type="text" disabled validate autocomplete="off" value="{{mobile}}" name="mobile" placeholder="例如：18989898989" class="form-control hostInput validateNum">
+				</div>
+			</div>
+			
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">证件类型</span>
+					<div class="hosting-line relative">
+						<select name="cardType" disabled style="width: 100%">
+							{{#cardTypeTmp cardType}}{{/cardTypeTmp}}
+						</select>
+					</div>
+				</div>
+				<div class="left percentNor" style="width:65.5%">
+					<span class="hosting-span">证件号码<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" disabled autocomplete="off" validate value="{{cardNo}}" name="cardNo" placeholder="例如：320331199011111234" class="form-control hostInput">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="detailInfo" style="{{#isShow isShow}}{{/isShow}}">
+			<div class="clearfix areaSelect">
+				<div class="left">
+					<span class="hosting-span">现居住地址<i class="red">*</i></span>
+					<div class="hosting-line relative" style="overflow: initial;">
+						<div id="equityArea" class="area48" style="width: 468px"></div>
+					</div>
+				</div>
+				
+			</div>
+			<span class="hosting-span">详细住址<i class="red">*</i></span>
+			<div class="hosting-line">
+				<input type="text" disabled validate autocomplete="off" value="{{addrDetail}}" name="addrDetail" placeholder="例如：天目山路139号（钱江西溪新座旁）" class="form-control hostInput">
+			</div>
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">子女数<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" disabled autocomplete="off" validate value="{{childrenCount}}" name="childrenCount" placeholder="例如：2" class="form-control hostInput validateNum">
+					</div>
+				</div>
+				<div class="left percentRight">
+					<span class="hosting-span">工作单位</span>
+					<div class="hosting-line relative">
+						<input type="text" disabled autocomplete="off" value="{{workUnitName}}" name="workUnitName" class="form-control hostInput">
+					</div>
+				</div>
+			</div>
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">职业</span>
+					<div class="hosting-line relative">
+						<select name="professionType" disabled style="width: 100%">
+							{{#professionTypeTemp professionType}}{{/professionTypeTemp}}
+						</select>
+					</div>
+				</div>
+				<div class="left percentRight">
+					<span class="hosting-span">月均收入</span>
+					<div class="hosting-line relative">
+						<input type="text" disabled autocomplete="off" value="{{monthlyIncome}}" name="monthlyIncome" placeholder="例如：6000" maxlength="9" class="form-control hostInput validateNum">
+					</div>
+				</div>
+			</div>
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">供养人数</span>
+					<div class="hosting-line relative">
+						<input type="text" disabled autocomplete="off" value="{{familySize}}" name="familySize" placeholder="例如：2" class="form-control hostInput validateNum">
+					</div>
+				</div>
+			</div>
+			<div class="clearfix moreInfo" style="display: block">
+				<div class="clearfix">
+					<div class="left percentRight">
+						<span class="hosting-span">教育程度</span>
+						<div class="hosting-line relative">
+							<select name="educationLevel" disabled style="width: 100%">
+								{{#educationTmp educationLevel}}{{/educationTmp}}
+							</select>
+						</div>
+					</div>
+					<div class="left percentRight">
+						<span class="hosting-span">电子邮箱</span>
+						<div class="hosting-line relative">
+							<input type="text" disabled value="{{email}}" name="email" placeholder="例如：123@163.com" class="form-control hostInput">
+						</div>
+					</div>
+				</div>
+				<div class="clearfix">
+					<div class="left percentRight">
+						<span class="hosting-span">婚姻状况</span>
+						<div class="hosting-line relative">
+							<select name="marryStatus" disabled style="width: 100%">
+								{{#marryStatusTmp marryStatus}}{{/marryStatusTmp}}
+							</select>
+						</div>
+					</div>
+					<div class="left percentRight">
+						<span class="hosting-span">QQ</span>
+						<div class="hosting-line relative">
+							<input type="text" disabled value="{{qq}}" name="qq" placeholder="例如：123456789" class="form-control validateNum hostInput">
+						</div>
+					</div>
+				</div>
+				<div class="clearfix">
+					<div class="left percentRight">
+						<span class="hosting-span">微信</span>
+						<div class="hosting-line relative">
+							<input type="text" disabled value="{{weixin}}" name="weixin" placeholder="例如：12341234" class="form-control hostInput">
+						</div>
+					</div>
+					<div class="left percentRight">
+						<span class="hosting-span">住房状况</span>
+						<div class="hosting-line relative">
+							<select name="houseCondition" disabled style="width: 100%">
+								{{#houseConditionTmp houseCondition}}{{/houseConditionTmp}}
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="clearfix">
+					<div class="left percentRight">
+						<span class="hosting-span">民间借贷</span>
+						<div class="hosting-line relative">
+							{{#privateLoanTmp hasPrivateLoan 'disabled'}}{{/privateLoanTmp}}
+						</div>
+					</div>
+					<div class="left percentRight">
+						<span class="hosting-span"></span>
+						<div class="hosting-line relative">
+							<input type="text" style="{{#isShow hasPrivateLoan}}{{/isShow}}" disabled value="{{privateLoanAmount}}" name="privateLoanAmount" autocomplete="off" placeholder="例如：2000" class="form-control hostInput">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">第一紧急联系人姓名<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" disabled validate value="{{ecp1Name}}" name="ecp1Name" placeholder="例如：张三" class="form-control hostInput">
+					</div>
+				</div>
+				<div class="left percentRight">
+					<span class="hosting-span">与产权人关系<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" disabled validate value="{{ecp1Relation}}" name="ecp1Relation" placeholder="例如：夫妻" class="form-control hostInput">
+					</div>
+				</div>
+				
+			</div>
+			<div class="clearfix">
+				<span class="hosting-span">第一紧急联系人手机号码<i class="red">*</i></span>
+				<div class="hosting-line percentRight">
+					<input type="text" disabled validate value="{{ecp1Mobile}}" name="ecp1Mobile" placeholder="例如：18712341234" class="form-control hostInput validateNum">
+				</div>
+			</div>
+			<div class="clearfix">
+				<span class="hosting-span">第一紧急联系人当前住址<i class="red">*</i></span>
+				<div class="hosting-line">
+					<input type="text" disabled validate value="{{ecp1Address}}" name="ecp1Address" placeholder="例如：天目山路139号（钱江西溪新座旁）" class="form-control hostInput">
+				</div>
+			</div>
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">第二紧急联系人</span>
+					<div class="hosting-line relative">
+						<input type="text" disabled validate value="{{ecp2Name}}" name="ecp2Name" placeholder="例如：张三" class="form-control hostInput">
+					</div>
+				</div>
+				<div class="left percentRight">
+					<span class="hosting-span">与产权人关系</span>
+					<div class="hosting-line relative">
+						<input type="text" disabled validate value="{{ecp2Relation}}" name="ecp2Relation" placeholder="例如：父子" class="form-control hostInput">
+					</div>
+				</div>
+				
+			</div>
+			<div class="clearfix">
+				<span class="hosting-span">第二紧急联系人手机号码</span>
+				<div class="hosting-line percentRight">
+					<input type="text" disabled validate value="{{ecp2Mobile}}" name="ecp2Mobile" placeholder="例如：18712341234" class="form-control hostInput validateNum">
+				</div>
+			</div>
+			<div class="clearfix">
+				<span class="hosting-span">第二紧急联系人当前住址</span>
+				<div class="hosting-line">
+					<input type="text" disabled validate value="{{ecp2Address}}" name="ecp2Address" placeholder="例如：天目山路139号（钱江西溪新座旁）" class="form-control hostInput">
+				</div>
+			</div>
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">客户来源</span>
+					<div class="hosting-line relative">
+						<select name="customerSource" style="width: 100%">
+							{{#customerSourceTemp customerSource}}{{/customerSourceTemp}}
+						</select>
+					</div>
+				</div>
+				<span class="hosting-span">客户类型</span>
+				<div class="hosting-line relative">
+					{{#loanTypeTemp loanType 'disabled'}}{{/loanTypeTemp}}
+				</div>
+			</div> 
+			<div class="hideDiv_loanType" style="{{#showFirst loanType}}{{/showFirst}}">
+				<div class="clearfix">
+					<span class="hosting-span">企业名称<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" value="{{enterpriceName}}" name="enterpriceName" class="form-control hostInput">
+					</div>
+				</div>
+				<div class="clearfix">
+					<span class="hosting-span">企业执照<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" value="{{businessLicense}}" name="businessLicense" class="form-control hostInput">
+					</div>
+				</div>			
+			</div>
+		</div>
+	</form>
+</script>
+<!-- 添加配偶模板 光教授说要建三个方便日后修改-->
+<script type="text/template" id="addEquityTmp2">
+	<form class="overlaySaveForm">
+		<input type="hidden" name="contactId" value="{{contactId}}">
+		<div class="searchMain">
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">产权人姓名<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" disabled autocomplete="off" validate value="{{name}}" name="name" placeholder="例如：张三" class="form-control hostInput">
+					</div>
+				</div>
+				<div class="left percentRight">
+					<span class="hosting-span">性别</span>
+					<div class="hosting-line relative">
+						{{#sexTmp gender 'disabled' ""}}{{/sexTmp}}
+					</div>
+				</div>
+			</div>
+			<div class="clearfix">
+				<span class="hosting-span">手机号码<i class="red">*</i></span>
+				<div class="hosting-line percentRight">
+					<input type="text" disabled validate autocomplete="off" value="{{mobile}}" name="mobile" placeholder="例如：18989898989" class="form-control hostInput validateNum">
+				</div>
+			</div>
+			
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">证件类型</span>
+					<div class="hosting-line relative">
+						<select name="cardType" disabled style="width: 100%">
+							{{#cardTypeTmp cardType}}{{/cardTypeTmp}}
+						</select>
+					</div>
+				</div>
+				<div class="left percentNor" style="width:65.5%">
+					<span class="hosting-span">证件号码<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" disabled autocomplete="off" validate value="{{cardNo}}" name="cardNo" placeholder="例如：320331199011111234" class="form-control hostInput">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="detailInfo" style="{{#isShow isShow}}{{/isShow}}">
+			<div class="clearfix areaSelect">
+				<div class="left">
+					<span class="hosting-span">现居住地址<i class="red">*</i></span>
+					<div class="hosting-line relative" style="overflow: initial;">
+						<div id="equityArea" class="area48" style="width: 468px"></div>
+					</div>
+				</div>
+				
+			</div>
+			<span class="hosting-span">详细住址<i class="red">*</i></span>
+			<div class="hosting-line">
+				<input type="text" disabled validate autocomplete="off" value="{{addrDetail}}" name="addrDetail" placeholder="例如：天目山路139号（钱江西溪新座旁）" class="form-control hostInput">
+			</div>
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">子女数<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" disabled autocomplete="off" validate value="{{childrenCount}}" name="childrenCount" placeholder="例如：2" class="form-control hostInput validateNum">
+					</div>
+				</div>
+				<div class="left percentRight">
+					<span class="hosting-span">工作单位</span>
+					<div class="hosting-line relative">
+						<input type="text" disabled autocomplete="off" value="{{workUnitName}}" name="workUnitName" class="form-control hostInput">
+					</div>
+				</div>
+			</div>
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">职业</span>
+					<div class="hosting-line relative">
+						<select name="professionType" disabled style="width: 100%">
+							{{#professionTypeTemp professionType}}{{/professionTypeTemp}}
+						</select>
+					</div>
+				</div>
+				<div class="left percentRight">
+					<span class="hosting-span">月均收入</span>
+					<div class="hosting-line relative">
+						<input type="text" disabled autocomplete="off" value="{{monthlyIncome}}" name="monthlyIncome" placeholder="例如：6000" maxlength="9" class="form-control hostInput validateNum">
+					</div>
+				</div>
+			</div>
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">供养人数</span>
+					<div class="hosting-line relative">
+						<input type="text" disabled autocomplete="off" value="{{familySize}}" name="familySize" placeholder="例如：2" class="form-control hostInput validateNum">
+					</div>
+				</div>
+			</div>
+			<div class="clearfix moreInfo" style="display: block">
+				<div class="clearfix">
+					<div class="left percentRight">
+						<span class="hosting-span">教育程度</span>
+						<div class="hosting-line relative">
+							<select name="educationLevel" disabled style="width: 100%">
+								{{#educationTmp educationLevel}}{{/educationTmp}}
+							</select>
+						</div>
+					</div>
+					<div class="left percentRight">
+						<span class="hosting-span">电子邮箱</span>
+						<div class="hosting-line relative">
+							<input type="text" disabled value="{{email}}" name="email" placeholder="例如：123@163.com" class="form-control hostInput">
+						</div>
+					</div>
+				</div>
+				<div class="clearfix">
+					<div class="left percentRight">
+						<span class="hosting-span">婚姻状况</span>
+						<div class="hosting-line relative">
+							<select name="marryStatus" disabled style="width: 100%">
+								{{#marryStatusTmp marryStatus}}{{/marryStatusTmp}}
+							</select>
+						</div>
+					</div>
+					<div class="left percentRight">
+						<span class="hosting-span">QQ</span>
+						<div class="hosting-line relative">
+							<input type="text" disabled value="{{qq}}" name="qq" placeholder="例如：123456789" class="form-control validateNum hostInput">
+						</div>
+					</div>
+				</div>
+				<div class="clearfix">
+					<div class="left percentRight">
+						<span class="hosting-span">微信</span>
+						<div class="hosting-line relative">
+							<input type="text" disabled value="{{weixin}}" name="weixin" placeholder="例如：12341234" class="form-control hostInput">
+						</div>
+					</div>
+					<div class="left percentRight">
+						<span class="hosting-span">住房状况</span>
+						<div class="hosting-line relative">
+							<select name="houseCondition" disabled style="width: 100%">
+								{{#houseConditionTmp houseCondition}}{{/houseConditionTmp}}
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="clearfix">
+					<div class="left percentRight">
+						<span class="hosting-span">民间借贷</span>
+						<div class="hosting-line relative">
+							{{#privateLoanTmp hasPrivateLoan 'disabled'}}{{/privateLoanTmp}}
+						</div>
+					</div>
+					<div class="left percentRight">
+						<span class="hosting-span"></span>
+						<div class="hosting-line relative">
+							<input type="text" style="{{#isShow hasPrivateLoan}}{{/isShow}}" disabled value="{{privateLoanAmount}}" name="privateLoanAmount" autocomplete="off" placeholder="例如：2000" class="form-control hostInput">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">第一紧急联系人姓名<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" disabled validate value="{{ecp1Name}}" name="ecp1Name" placeholder="例如：张三" class="form-control hostInput">
+					</div>
+				</div>
+				<div class="left percentRight">
+					<span class="hosting-span">与产权人配偶关系<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" disabled validate value="{{ecp1Relation}}" name="ecp1Relation" placeholder="例如：夫妻" class="form-control hostInput">
+					</div>
+				</div>
+				
+			</div>
+			<div class="clearfix">
+				<span class="hosting-span">第一紧急联系人手机号码<i class="red">*</i></span>
+				<div class="hosting-line percentRight">
+					<input type="text" disabled validate value="{{ecp1Mobile}}" name="ecp1Mobile" placeholder="例如：18712341234" class="form-control hostInput validateNum">
+				</div>
+			</div>
+			<div class="clearfix">
+				<span class="hosting-span">第一紧急联系人当前住址<i class="red">*</i></span>
+				<div class="hosting-line">
+					<input type="text" disabled validate value="{{ecp1Address}}" name="ecp1Address" placeholder="例如：天目山路139号（钱江西溪新座旁）" class="form-control hostInput">
+				</div>
+			</div>
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">第二紧急联系人</span>
+					<div class="hosting-line relative">
+						<input type="text" disabled validate value="{{ecp2Name}}" name="ecp2Name" placeholder="例如：张三" class="form-control hostInput">
+					</div>
+				</div>
+				<div class="left percentRight">
+					<span class="hosting-span">与产权人配偶关系</span>
+					<div class="hosting-line relative">
+						<input type="text" disabled validate value="{{ecp2Relation}}" name="ecp2Relation" placeholder="例如：父子" class="form-control hostInput">
+					</div>
+				</div>
+				
+			</div>
+			<div class="clearfix">
+				<span class="hosting-span">第二紧急联系人手机号码</span>
+				<div class="hosting-line percentRight">
+					<input type="text" disabled validate value="{{ecp2Mobile}}" name="ecp2Mobile" placeholder="例如：18712341234" class="form-control hostInput validateNum">
+				</div>
+			</div>
+			<div class="clearfix">
+				<span class="hosting-span">第二紧急联系人当前住址</span>
+				<div class="hosting-line">
+					<input type="text" disabled validate value="{{ecp2Address}}" name="ecp2Address" placeholder="例如：天目山路139号（钱江西溪新座旁）" class="form-control hostInput">
+				</div>
+			</div>
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">客户来源</span>
+					<div class="hosting-line relative">
+						<select name="customerSource" style="width: 100%">
+							{{#customerSourceTemp customerSource}}{{/customerSourceTemp}}
+						</select>
+					</div>
+				</div>
+				<span class="hosting-span">客户类型</span>
+				<div class="hosting-line relative">
+					{{#loanTypeTemp loanType 'disabled'}}{{/loanTypeTemp}}
+				</div>
+			</div> 
+			<div class="hideDiv_loanType" style="{{#showFirst loanType}}{{/showFirst}}">
+				<div class="clearfix">
+					<span class="hosting-span">企业名称<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" value="{{enterpriceName}}" name="enterpriceName" class="form-control hostInput">
+					</div>
+				</div>
+				<div class="clearfix">
+					<span class="hosting-span">企业执照<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" value="{{businessLicense}}" name="businessLicense" class="form-control hostInput">
+					</div>
+				</div>			
+			</div>
+		</div>
+	</form>
+</script>
+<!-- 添加房屋管理者模板 光教授说要建三个方便日后修改-->
+<script type="text/template" id="addEquityTmp3">
+	<form class="overlaySaveForm">
+		<input type="hidden" name="contactId" value="{{contactId}}">
+		<div class="searchMain">
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">产权人姓名<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" disabled autocomplete="off" validate value="{{name}}" name="name" placeholder="例如：张三" class="form-control hostInput">
+					</div>
+				</div>
+				<div class="left percentRight">
+					<span class="hosting-span">性别</span>
+					<div class="hosting-line relative">
+						{{#sexTmp gender 'disabled' ""}}{{/sexTmp}}
+					</div>
+				</div>
+			</div>
+			<div class="clearfix">
+				<span class="hosting-span">手机号码<i class="red">*</i></span>
+				<div class="hosting-line percentRight">
+					<input type="text" disabled validate autocomplete="off" value="{{mobile}}" name="mobile" placeholder="例如：18989898989" class="form-control hostInput validateNum">
+				</div>
+			</div>
+			
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">证件类型</span>
+					<div class="hosting-line relative">
+						<select name="cardType" disabled style="width: 100%">
+							{{#cardTypeTmp cardType}}{{/cardTypeTmp}}
+						</select>
+					</div>
+				</div>
+				<div class="left percentNor" style="width:65.5%">
+					<span class="hosting-span">证件号码<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" disabled autocomplete="off" validate value="{{cardNo}}" name="cardNo" placeholder="例如：320331199011111234" class="form-control hostInput">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="detailInfo" style="{{#isShow isShow}}{{/isShow}}">
+			<div class="clearfix areaSelect">
+				<div class="left">
+					<span class="hosting-span">现居住地址<i class="red">*</i></span>
+					<div class="hosting-line relative" style="overflow: initial;">
+						<div id="equityArea" class="area48" style="width: 468px"></div>
+					</div>
+				</div>
+				
+			</div>
+			<span class="hosting-span">详细住址<i class="red">*</i></span>
+			<div class="hosting-line">
+				<input type="text" disabled validate autocomplete="off" value="{{addrDetail}}" name="addrDetail" placeholder="例如：天目山路139号（钱江西溪新座旁）" class="form-control hostInput">
+			</div>
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">子女数<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" disabled autocomplete="off" validate value="{{childrenCount}}" name="childrenCount" placeholder="例如：2" class="form-control hostInput validateNum">
+					</div>
+				</div>
+				<div class="left percentRight">
+					<span class="hosting-span">工作单位</span>
+					<div class="hosting-line relative">
+						<input type="text" disabled autocomplete="off" value="{{workUnitName}}" name="workUnitName" class="form-control hostInput">
+					</div>
+				</div>
+			</div>
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">职业</span>
+					<div class="hosting-line relative">
+						<select name="professionType" disabled style="width: 100%">
+							{{#professionTypeTemp professionType}}{{/professionTypeTemp}}
+						</select>
+					</div>
+				</div>
+				<div class="left percentRight">
+					<span class="hosting-span">月均收入</span>
+					<div class="hosting-line relative">
+						<input type="text" disabled autocomplete="off" value="{{monthlyIncome}}" name="monthlyIncome" placeholder="例如：6000" maxlength="9" class="form-control hostInput validateNum">
+					</div>
+				</div>
+			</div>
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">供养人数</span>
+					<div class="hosting-line relative">
+						<input type="text" disabled autocomplete="off" value="{{familySize}}" name="familySize" placeholder="例如：2" class="form-control hostInput validateNum">
+					</div>
+				</div>
+			</div>
+			<div class="clearfix moreInfo" style="display: block">
+				<div class="clearfix">
+					<div class="left percentRight">
+						<span class="hosting-span">教育程度</span>
+						<div class="hosting-line relative">
+							<select name="educationLevel" disabled style="width: 100%">
+								{{#educationTmp educationLevel}}{{/educationTmp}}
+							</select>
+						</div>
+					</div>
+					<div class="left percentRight">
+						<span class="hosting-span">电子邮箱</span>
+						<div class="hosting-line relative">
+							<input type="text" disabled value="{{email}}" name="email" placeholder="例如：123@163.com" class="form-control hostInput">
+						</div>
+					</div>
+				</div>
+				<div class="clearfix">
+					<div class="left percentRight">
+						<span class="hosting-span">婚姻状况</span>
+						<div class="hosting-line relative">
+							<select name="marryStatus" disabled style="width: 100%">
+								{{#marryStatusTmp marryStatus}}{{/marryStatusTmp}}
+							</select>
+						</div>
+					</div>
+					<div class="left percentRight">
+						<span class="hosting-span">QQ</span>
+						<div class="hosting-line relative">
+							<input type="text" disabled value="{{qq}}" name="qq" placeholder="例如：123456789" class="form-control hostInput validateNum">
+						</div>
+					</div>
+				</div>
+				<div class="clearfix">
+					<div class="left percentRight">
+						<span class="hosting-span">微信</span>
+						<div class="hosting-line relative">
+							<input type="text" disabled value="{{weixin}}" name="weixin" placeholder="例如：12341234" class="form-control hostInput">
+						</div>
+					</div>
+					<div class="left percentRight">
+						<span class="hosting-span">住房状况</span>
+						<div class="hosting-line relative">
+							<select name="houseCondition" disabled style="width: 100%">
+								{{#houseConditionTmp houseCondition}}{{/houseConditionTmp}}
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="clearfix">
+					<div class="left percentRight">
+						<span class="hosting-span">民间借贷</span>
+						<div class="hosting-line relative">
+							{{#privateLoanTmp hasPrivateLoan 'disabled'}}{{/privateLoanTmp}}
+						</div>
+					</div>
+					<div class="left percentRight">
+						<span class="hosting-span"></span>
+						<div class="hosting-line relative">
+							<input type="text" style="{{#isShow hasPrivateLoan}}{{/isShow}}" disabled value="{{privateLoanAmount}}" name="privateLoanAmount" autocomplete="off" placeholder="例如：2000" class="form-control hostInput">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">第一紧急联系人姓名<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" disabled validate value="{{ecp1Name}}" name="ecp1Name" placeholder="例如：张三" class="form-control hostInput">
+					</div>
+				</div>
+				<div class="left percentRight">
+					<span class="hosting-span">与房屋管理者关系<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" disabled validate value="{{ecp1Relation}}" name="ecp1Relation" placeholder="例如：夫妻" class="form-control hostInput">
+					</div>
+				</div>
+				
+			</div>
+			<div class="clearfix">
+				<span class="hosting-span">第一紧急联系人手机号码<i class="red">*</i></span>
+				<div class="hosting-line percentRight">
+					<input type="text" disabled validate value="{{ecp1Mobile}}" name="ecp1Mobile" placeholder="例如：18712341234" class="form-control hostInput validateNum">
+				</div>
+			</div>
+			<div class="clearfix">
+				<span class="hosting-span">第一紧急联系人当前住址<i class="red">*</i></span>
+				<div class="hosting-line">
+					<input type="text" disabled validate value="{{ecp1Address}}" name="ecp1Address" placeholder="例如：天目山路139号（钱江西溪新座旁）" class="form-control hostInput">
+				</div>
+			</div>
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">第二紧急联系人</span>
+					<div class="hosting-line relative">
+						<input type="text" disabled validate value="{{ecp2Name}}" name="ecp2Name" placeholder="例如：张三" class="form-control hostInput">
+					</div>
+				</div>
+				<div class="left percentRight">
+					<span class="hosting-span">与房屋管理者关系</span>
+					<div class="hosting-line relative">
+						<input type="text" disabled validate value="{{ecp2Relation}}" name="ecp2Relation" placeholder="例如：父子" class="form-control hostInput">
+					</div>
+				</div>
+				
+			</div>
+			<div class="clearfix">
+				<span class="hosting-span">第二紧急联系人手机号码</span>
+				<div class="hosting-line percentRight">
+					<input type="text" disabled validate value="{{ecp2Mobile}}" name="ecp2Mobile" placeholder="例如：18712341234" class="form-control hostInput validateNum">
+				</div>
+			</div>
+			<div class="clearfix">
+				<span class="hosting-span">第二紧急联系人当前住址</span>
+				<div class="hosting-line">
+					<input type="text" disabled validate value="{{ecp2Address}}" name="ecp2Address" placeholder="例如：天目山路139号（钱江西溪新座旁）" class="form-control hostInput">
+				</div>
+			</div>
+			<div class="clearfix">
+				<div class="left percentRight">
+					<span class="hosting-span">客户来源</span>
+					<div class="hosting-line relative">
+						<select name="customerSource" style="width: 100%">
+							{{#customerSourceTemp customerSource}}{{/customerSourceTemp}}
+						</select>
+					</div>
+				</div>
+				<span class="hosting-span">客户类型</span>
+				<div class="hosting-line relative">
+					{{#loanTypeTemp loanType 'disabled'}}{{/loanTypeTemp}}
+				</div>
+			</div> 
+			<div class="hideDiv_loanType" style="{{#showFirst loanType}}{{/showFirst}}">
+				<div class="clearfix">
+					<span class="hosting-span">企业名称<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" value="{{enterpriceName}}" name="enterpriceName" class="form-control hostInput">
+					</div>
+				</div>
+				<div class="clearfix">
+					<span class="hosting-span">企业执照<i class="red">*</i></span>
+					<div class="hosting-line relative">
+						<input type="text" value="{{businessLicense}}" name="businessLicense" class="form-control hostInput">
+					</div>
+				</div>			
+			</div>
+		</div>
+	</form>
+</script>
+<!-- 没有图片 -->
+<script type="text/template" id="noPic">
+	<div class="noImage relative">
+		<ul class="bgNav">
+			<li></li><li></li><li></li>
+			<li></li><li></li><li></li>
+		</ul>
+		<div class="uploadDiv">
+			<p>为了您房源照片的美观<br/>请上传宽高比例为4:3的照片</p>
+			<button type="button" class="btn uploadImg"><i class="icon-upload"></i>上传照片</button>
+			<p style="margin:1em 0 0 -6em;">温馨提示：不上传图片无法发布到客户端哦，建议上传图片！</p>
+		</div>
+	</div>
+	<input type="file" name="image" class="fileInput" style="display: none">
+</script>
+<!-- 有图片 -->
+<script type="text/template" id="hasPic">
+	{{#with hostingPictureList}}
+	<div class="clearfix">
+		<div class="left defaultDiv relative">
+			<span class="iconSpan coverIcon"><i class="icon-delete"></i></span>
+			<img src="{{#firstUrl this}}{{/firstUrl}}" alt="" class="defaultRoomPic">
+			<span class="cover">封面</span>
+		</div>
+		<div class="right roomImgDesc">
+			<span class="roomImgTit">
+				为了您房源照片的美观<br/>
+				请上传宽高比例为4:3的照片
+			</span>
+			<span class="roomPicAsk">另外照片尽量满足如下要求</span>
+			<p class="roomAskPage">
+				- 房间光线保持充足<br/>
+				- 房间保持整洁干净<br/>
+				- 有的时候从角落拍摄，而非<br/>
+				正面拍摄，可能会拍得更好
+			</p>
+		</div>
+	</div>
+	<ul class="roomPicList">
+		{{#eachPicTmp this}}{{/eachPicTmp}}
+		<li class="addImgLi uploadImg">
+			<span class="addImgSpan">
+				<i class="icon-plus"></i><br/>
+				添加其他照片
+			</span>			
+		</li>
+	</ul>
+	<input type="file" name="image" class="fileInput" style="display: none">
+	{{/with}}
+</script>
+<script type="text/javascript">
+	seajs.use('controllers/supervise/addHostingHouse')
+</script>

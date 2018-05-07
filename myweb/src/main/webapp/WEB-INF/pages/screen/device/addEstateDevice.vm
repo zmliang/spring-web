@@ -1,0 +1,351 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<style type="text/css">
+    .ammeterDiv{
+        text-align: left;
+    }
+    .ammeterDiv .txt-swicth_box{
+        line-height: 20px;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12 window">
+        <div class="x_panel window">
+        <div class="x_content clearfix">
+            <div class="content_box left" style="width: 100%;">
+                <div class="left" style="width: 240px;margin-right: 10px;">
+                    <div class="clearfix" style="margin-bottom: 10px;">
+                        <select name="cityId" class=" left">
+                            <option value=""></option>
+                        </select>                        
+                    </div>
+                    <div class="clearfix" style="margin-bottom: 10px;">
+                        <input type="text" name="estateName" class="form-control" value="" placeholder="搜索请输入名称" >                   
+                    </div>
+                    <div class="list-group list-group-nowrap" id="estateBox" style="padding:5px 0;border-radius:4px;margin-bottom: 0;">
+                    </div>
+                </div>
+                <div class="content_right-box" style="overflow: hidden;">
+                    <div class="panel panel-default" style="margin-bottom: 0;">
+                        <div class="panel-body" style="padding: 10px;">
+                            <form id="searchForm" class="clearfix" style="margin: -5px 0 5px 0;">
+                                <div class="searDiv left">
+                                    <table>
+                                        <colgroup>
+                                            <col width="140">
+                                            <col width="140">
+                                            <col width="160">
+                                        </colgroup>
+                                        <tbody>
+                                            <tr><td>
+                                                <div class="line-div">
+                                                    <div class="line-div-label"></div>
+                                                    <div class="line-div-center">
+                                                        <select name="floorId" class="default form-control">
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
+                                                </div></td>
+                                                <td style="padding-left: 10px;"><div class="line-div">
+                                                    <div class="line-div-label"></div>
+                                                    <div class="line-div-center">
+                                                        <input type="text" name="roomNo" class="form-control" value="" placeholder="房号" >
+                                                    </div>
+                                                </div></td>
+                                                <td class="text-left">
+                                                    <button type="button" id="search" class="left btn btn-mj">查询</button>
+                                                    <button type="button" id="clear" class="left btn">清空</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </form>
+                            <div class="table-topDiv" style="height: 32px">
+                                <div style="float:left;margin-left: 10px" id="doorBoolean">
+                                    <em></em>
+                                    <button style="margin-top: -4px"></button>
+                                    <span style="margin-left: 10px;display: inline-block;">共<strong class="color: red"></strong>间</span>
+                                </div>
+                                <span id="contactsDiv"></span>
+                            </div>
+                            <div id="gridDiv"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- 门锁 -->
+<script type="text/template" id="addAndEditDevice">
+    <form class="installForm">
+        <table>
+            <colgroup>
+                <col width="260">
+                <col width="260">
+            </colgroup>
+            <tr>
+                <td>
+                    <div class="line-div w90">
+                        <div class="line-div-label">
+                            设备厂商：<span class="red">*</span>
+                        </div>
+                        <div class="line-div-center">
+                            <select name="productBrand" id="productBrand" class="form-control default">
+                                {{#vendorTemp facilityList productBrandName}}{{/vendorTemp}}                      
+                            </select>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="line-div w90">
+                        <div class="line-div-label">
+                            设备型号：<span class="red">*</span>
+                        </div>
+                        <div class="line-div-center">
+                            <select name="productType" id="productType" class="form-control default">
+                                
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="line-div w90">
+                        <div class="line-div-label">
+                            设备编码：<span class="red">*</span>
+                        </div>
+                        <div class="line-div-center">
+                            <input class="form-control" name="deviceSN" id="deviceSN" placeholder="请输入设备编码" value="{{deviceSn}}"></input>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="devicePwdStatus">
+                <td>
+                    <div class="line-div w90">
+                        <div class="line-div-label" >
+                            密码功能: 
+                        </div>
+                        <div class="line-div-center">
+                            <select name="devicePwdStatus" id="devicePwdStatus" class="form-control default">
+                                <option value="1">启用</option>
+                                <option value="2">停用</option>
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {{{include this}}}
+        </table>
+    </form>
+</script>
+
+<!-- 门禁 -->
+<script type="text/template" id="addAndEditDoor">
+    <form class="installForm">
+        <table>
+            <colgroup>
+                <col width="260">
+                <col width="260">
+            </colgroup>
+            <tr>
+                <td>
+                    <div class="line-div w90">
+                        <div class="line-div-label">
+                            设备厂商：<span class="red">*</span>
+                        </div>
+                        <div class="line-div-center">
+                            <select name="productBrand" id="productBrand" class="form-control default productBrand">
+                           <!--      {{#vendorTemp facilityList productBrandName}}{{/vendorTemp}}    -->                   
+                            </select>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="line-div w90">
+                        <div class="line-div-label">
+                            设备型号：<span class="red">*</span>
+                        </div>
+                        <div class="line-div-center">
+                            <select name="productType" id="productType" class="form-control default">
+                                
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="line-div w90">
+                        <div class="line-div-label">
+                            设备编码：<span class="red">*</span>
+                        </div>
+                        <div class="line-div-center">
+                            <input class="form-control" name="deviceSN" id="deviceSN" placeholder="请输入设备编码" value="{{deviceSn}}"></input>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="line-div w90">
+                        <div class="line-div-label">
+                            门禁名称<span class="red">*</span>
+                        </div>
+                        <div class="line-div-center">
+                            <input class="form-control" name="deviceName" id="deviceName" placeholder="请输入" value="{{deviceName}}"></input>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="DoorStatus" style="display: none">
+                <td>
+                    <div class="line-div w90">
+                        <div class="line-div-label">
+                            设备状态：
+                        </div>
+                        <div class="line-div-center">
+                            <select name="doorControlstatus" id="status" class="form-control default">
+                                <option value="1">正常</option>
+                                <option value="2">停用</option>                                
+                            </select>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="line-div w90">
+                        <div class="line-div-label">
+                            密码功能：
+                        </div>
+                        <div class="line-div-center">
+                            <select name="devicePwdStatus" id="devicePwdStatus" class="form-control default">
+                                <option value="1">启用</option>
+                                <option value="2">停用</option>
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <!-- {{{include this}}} -->
+        </table>
+    </form>
+</script>
+
+<script type="text/template" id="deviceChild">
+    <tr class="hideTr hide">
+        <td>
+            <div class="line-div w90">
+                <div class="line-div-label">
+                    管理员权限：
+                </div>
+                <div class="line-div-center">
+                    <select name="landlordStatus" class="form-control default" style="width: 100%">
+                        {{#renderlandlord landlordStatus}}{{/renderlandlord}}
+                    </select>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="line-div w90">
+                <div class="line-div-label">
+                    租客权限：
+                </div>
+                <div class="line-div-center">
+                    <select name="lodgerStatus" class="form-control default" style="width: 100%">
+                        {{#renderLoger lodgerStatus}}{{/renderLoger}}
+                    </select>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr class="hideTr hide">
+        <td>
+            <div class="line-div w90">
+                <div class="line-div-label">
+                    设备状态：
+                </div>
+                <div class="line-div-center">
+                    <select name="status" class="form-control default">
+                        {{#renderStatus deviceStatus}}{{/renderStatus}}
+                    </select>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="line-div w90">
+                <div class="line-div-label">
+                    密码功能：
+                </div>
+                <div class="line-div-center">
+                    <select name="psdStatus" class="form-control default">
+                        {{#renderPsdStatus devicePwdStatus}}{{/renderPsdStatus}}
+                    </select>
+                </div>
+            </div>
+        </td>
+    </tr>
+</script>
+<script type="text/template" id="ammeterChild">
+    <tr class="hideTr hide">
+        <td>
+            <div class="line-div w90">
+                <div class="line-div-label">
+                    管理状态：
+                </div>
+                <div class="line-div-center">
+                    <select name="deviceStatus" class="form-control default" style="width: 100%">
+                        {{#renderlandlord deviceStatus}}{{/renderlandlord}}
+                    </select>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="line-div w90">
+                <div class="line-div-label">
+                    连接状态：
+                </div>
+                <div class="line-div-center" style="text-align: left">
+                    <span>{{online}}</span>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr class="hideTr hide">
+        <td>
+            <div class="line-div w90">
+                <div class="line-div-label">
+                    当前读数：
+                </div>
+                <div class="line-div-center">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="readings"
+                            value="{{readings}}" disabled>
+                        <span class="input-group-btn">                          
+                            <button type="button" class="btn btn-mj getCode" style="min-width: initial">
+                                获取读数
+                            </button>                      
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="line-div w90">
+                <div class="line-div-label">
+                    电表状态：
+                </div>
+                <div class="line-div-center ammeterDiv">
+                    <input type="checkbox" name="status" class="tools_switch" switchFlag="{{ifSwitch}}" />
+                </div>
+            </div>
+        </td>
+    </tr>
+</script>
+<script type="text/javascript">
+    seajs.use('controllers/device/addEstateDevicePage.js')
+</script>

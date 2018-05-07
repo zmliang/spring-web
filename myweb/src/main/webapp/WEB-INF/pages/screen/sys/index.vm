@@ -1,0 +1,38 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left_none.vm')
+
+#set($webConfigs=$configs[0])
+
+
+<div class="zml_container">
+#foreach($item in $configs)
+		<div class="zml_img_box">
+			<img class="zml_img_box" alt="" src="${item.typeImgUrl}"></img>
+		</div>
+#end
+
+</div>
+
+
+
+<script type="text/javascript">
+	var alldata="a,b,c,d,e,f,g,h,i,j,k"
+	var alldataarr=alldata.split(",")
+	var num=alldataarr.length-1;
+	var timer
+	function  change() {
+		document.getElementById("oknum").innerHTML = alldataarr[GetRnd(0,num)];
+	}
+	function start() {
+		clearInterval(timer)
+		timer = setInterval('change()',100);
+	}
+	function ok() {
+		clearInterval(timer)
+		document.getElementById("showresult").value=document.getElementById("oknum").innerText;
+	}
+	function GetRnd() {
+
+	}
+</script>

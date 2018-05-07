@@ -1,0 +1,60 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row">
+   	<div class="col-md-12 col-sm-12 col-xs-12 window">
+     	<div class="x_panel window">
+     		<input type="hidden" name="organizationId" value="$!{organizationId}" />
+			<ul class="nav nav-tabs">
+	        	<li class="active"><a href="javascript:;">自营</a></li>
+	        	<li><a href="javascript:;">平台代收</a></li>
+			</ul>
+			<div class="tab-content container active" style="padding: 15px;">
+				<form id="searchForm">
+					<table>
+						<colgroup>
+							<col width="470">
+							<col width="200">
+						</colgroup>
+						<tbody>
+							<tr>
+								<td>
+									<div class="line-div w75">
+										<div class="line-div-label">
+											时间范围:
+										</div>
+										<div class="line-div-center">
+											<input type="text" name="startDateStr" class="icon-calendar form-control left Wdate" style="width:45%" id="startDateStr" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,maxDate:'#F{$dp.$D(\'endDateStr\')}'})">
+					                    		<span class="left" style="width:10%">--</span>
+					                    	<input type="text" id="endDateStr" name="endDateStr" class="icon-calendar form-control left Wdate" style="width:45%" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,minDate:'#F{$dp.$D(\'startDateStr\')}'})">
+										</div>
+									</div>
+								</td>
+								<td>
+									<button type="button" id="search" class="left btn btn-mj">查询</button>
+									<button type="button" id="empty" class="left btn">清空</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+				<div style="margin-top: 10px;">
+					<div class="table-topDiv">
+						<span style="margin-right:10px;">总收入： <i class="totalIncome red"></i> </span>
+			            <span style="margin-right:10px;">房租： <i class="rent red"></i> </span>
+			            <span style="margin-right:10px;">支付宝线上： <i class="alipay red"></i> </span>
+			            <span style="margin-right:10px;">支付宝线下： <i class="alipayOnDoor red"></i> </span>
+			            <span style="margin-right:10px;">微信线上： <i class="weChatPay red"></i> </span>
+			            <span style="margin-right:10px;">微信线下： <i class="weChatPayOnDoor red"></i> </span>
+			        </div>
+			        <div class="grid_box">
+						<div id="gridDiv"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+  	seajs.use('controllers/lease/initIncomeStats.js')
+</script>

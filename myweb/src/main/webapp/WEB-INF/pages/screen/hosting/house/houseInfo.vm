@@ -1,0 +1,49 @@
+#parse('common/top.vm')
+<div class="mainBody main_section" style="background: #fff;padding:20px;">
+	<div class="x_title">
+		<div class="searchDiv" >
+			<form id="searchForm">
+				<table>
+					<colgroup>
+						<col width="800">
+					</colgroup>
+					<tbody>
+						<tr>
+							<td>
+								<div class="line-div w90">
+									<div class="line-div-label">房源地址：</div>
+									<div class="line-div-center text-left" id="houseAddress">
+									</div>
+								</div>
+							</td>
+						</tr>
+                        <tr>
+                            <td>
+                                <div class="line-div w90">
+                                    <div class="line-div-label">房间信息：</div>
+                                    <div class="line-div-center text-left" id="roomInfo">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="line-div w90">
+                                    <div class="line-div-label">详细信息：</div>
+                                    <div class="line-div-center text-left" id="attributes">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
+	</div>
+	<div class='x_content'>
+		<div id="gridDiv"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	seajs.use('controllers/hosting/houseInfo.js')
+</script>

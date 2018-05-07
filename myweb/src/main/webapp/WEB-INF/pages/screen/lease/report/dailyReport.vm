@@ -1,0 +1,64 @@
+#parse('common/top.vm')
+#parse('common/header_lease.vm')
+<div class="row">
+   <div class="col-md-12 col-sm-12 col-xs-12 window L-main">
+		<div class="x_title">
+			<div class="searchDiv">
+				<form id="searchForm">
+					<table>
+				    	<colgroup>
+				    		<col width="200">
+				    		<col width="400">
+				    		<col width="200">
+				    		<col width="500">
+				    	</colgroup>
+				    	<tr>
+				    		<td>
+					            <div class="line-div w90">
+					                <div class="line-div-label">区域：</div>
+					                <div class="line-div-center">
+					                    <select></select>
+					                </div>
+					            </div>
+					        </td>
+					        <td>
+					            <div class="line-div w110">
+					                <div class="line-div-label">起止日期：</div>
+					                <div class="line-div-center">
+					                    <input type="text" name="" class="form-control left Wdate" style="width:120px" id="startDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true,maxDate:'#F{$dp.$D(\'endDate\')}'})">
+					                    <span class="left" style="padding:0 10px;"> -- </span>
+					                    <input type="text" id="endDate" name="" class="form-control left Wdate" style="width:120px" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true,minDate:'#F{$dp.$D(\'startDate\')}'})">
+					                </div>
+					            </div>
+					        </td>
+					        <td>
+					            <div class="line-div w90">
+					                <div class="line-div-label">操作员：</div>
+					                <div class="line-div-center">
+					                    <select></select>
+					                </div>
+					            </div>
+					        </td>
+					        <td>
+					        	<div class="searchBtn">
+					        		<button type="button" class="left btn btn-mj">查询</button>
+						        	<button type="button" class="left btn">清空</button>
+						        	<button type="button" class="left btn">打印</button>
+						        	<!-- <button type="button" class="left btn">导出</button> -->
+					        	</div>
+					        	
+					        </td>
+				    	</tr>
+				    </table>
+				</form>
+			</div>
+		</div>
+		<div class='x_content'>
+	    	<div class="gridBorder">
+    		<div class="gridDiv"></div>
+    	</div>
+	</div>
+</div></div></div>
+<script type="text/javascript">
+	seajs.use('controllers/lease/initDailyReport')
+</script>

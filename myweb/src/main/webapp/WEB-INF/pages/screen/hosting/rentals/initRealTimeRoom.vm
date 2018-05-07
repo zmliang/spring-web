@@ -1,0 +1,904 @@
+#parse('common/top.vm') 
+#parse('common/header.vm') 
+#parse('common/left.vm')
+<style type="text/css">
+#setPsd,
+.isDelBtn,
+.rootDiv,
+#gridFoot {
+    display: none;
+}
+.typeChange {
+    display: flex;
+}
+.btn-group button.trans{
+    background:#fff;
+    flex: 1;
+}
+.btn-group button.btn-mj{
+    background-color: #4680ff;
+}
+.esBox{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 10px 15px;
+}
+#estateBox{
+    overflow: hidden;
+}
+#estateBox:hover{
+    overflow: auto;
+}
+.estateAll{
+    color: red;
+}
+.leaseTd{
+    display: none;
+}
+.door-control-label-item li button.btn{
+    height: 28px;
+    line-height: 20px;
+    border-top: none;
+}
+.noHostingDiv {
+    width: 790px;
+    height: 345px;
+    margin:auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 20px;
+    right: 0;
+}
+.noHostRight {
+    width: 310px;
+    float: right;
+    margin-top: 130px;
+    color:#99A9BF;
+    font-size: 18px;
+}
+.noHostSpan{
+    margin-bottom: 15px;
+}
+</style>
+<div class="realTimeDiv">
+    <div class="clearfix" style="background: #fff;padding: 5px 10px;border-radius: 5px;">
+        <form id='searchForm' class="left"></form>
+        <div class="line-div" style="float: right;width: 400px">
+            <div class="right">
+                <div class="btn left door-control-label" data-status="0" id="labelDoorControl" style="display: none">
+                    智能门禁
+                    <ul class="door-control-label-item" style="display: none">
+                        <li><button id="openDoorRecord" class=" btn">开门记录</button></li>
+                        <li><button id="jurisdictionAbout" class="btn">权限管理</button></li>
+                    </ul>
+                </div>
+                <button type="button" id="changeRoomColor" class="btn left" style="margin-right: 5px">线框模式</button>
+                <div class="btn-guide left" id="btn-newcommer" data-status="0" style="background-color: #fff;">新手提示</div>
+                <button type="button" class="btn left refreshBtn" style="margin-left: 5px">
+                    <i class="icon icon-pagination-refresh" style="font-size: 16px;position: relative;top:2px"></i> 刷新
+                </button>
+                <div class="left showHide on">
+                    <span class="upSpan"></span>
+                    <span class="downSpan"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row colorControlDiv bigBlock">
+        
+        <div class="col-md-12 col-sm-12 col-xs-12 window">
+            <div class="clearfix">
+                <div class="content_box left" style="width: 100%;">
+                    <div class="left" style="width: 208px;margin-right: 10px;">
+                        <div class="clearfix" style="margin-bottom: 5px;margin-top: 5px">
+                            <div class="btn-group typeChange"></div>
+                        </div>
+                        <div class="clearfix" style="margin-bottom: 5px;">
+                            <div class="left" style="width: 49%">
+                                <select name="cityId" class="left">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                            <div class="right" style="width: 49%">
+                                <select name="areaId" class="right">
+                                    <option value=""></option>
+                                </select> 
+                            </div>                                                   
+                        </div>
+                        <div class="clearfix" style="margin-bottom: 10px;">
+                            <input type="text" name="estateName" class="form-control" value="" placeholder="输入小区/公寓" >                   
+                        </div>
+                        <div class="list-group list-group-nowrap" id="estateBox" style="border-radius:4px;margin-bottom: 0;background-color: #fff">
+                        </div>
+                    </div>
+                    <div class="content_right-box" style="overflow: hidden;">
+                        <div class="clearfix searchBtn" style="padding-left: 0px;margin:5px auto 10px auto"></div>
+                        <div class="x_content">
+                            <div class="noData"></div>
+                            <div class='room_out' style="overflow: auto;">
+                                <div class="list_floor">
+                                    <div class="list_floor_inner left width100"></div>
+                                </div>
+                            </div>
+                        </div>
+                            
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/template" id="noHostingTmp">
+    <div class="noHostingDiv">
+    <img src="/hms/images/noHosting.png" class="left">
+    <div class="noHostRight">
+        <div class="left noHostSpan">啊哦，暂无房源可管理，请先添加房源</div>
+        <div class="left">
+            {{#noHostTmp estateUrl}}
+                <button tUrl={{estateUrl}} class="btn btn-mj addEstateBtn">添加集中式房源</button>
+            {{/noHostTmp}}
+            {{#noHostTmp houseUrl}}
+                <button tUrl={{houseUrl}} class="btn btn-mj addEstateBtn">添加分散式房源</button>
+            {{/noHostTmp}}
+            
+        </div>
+    </div>   
+</div>
+</script>
+<!-- 集中式查询 -->
+<script type="text/template" id="leaseSearchTmp">
+    <table>
+        <colgroup>
+            <col width="130">
+            <col width="130">
+            <col width="240">
+            <col width="160">
+        </colgroup>
+        <tbody>
+            <tr>
+                <td style="padding-right: 5px;">
+                <div class="line-div">
+                    <div class="line-div-center">
+                        <select name="floorId">
+                            <option></option>
+                        </select>
+                    </div>
+                </div></td>
+                <td style="padding-right: 5px">
+                <div class="line-div">
+                    <div class="line-div-center">
+                        <select name="typeId">
+                            <option></option>
+                        </select>
+                    </div>
+                </div></td>
+                <td><div class="line-div">
+                    <div class="line-div-label"></div>
+                    <div class="line-div-center">
+                        <input type="text" name="name" class="form-control" placeholder="姓名/手机号码/房间号" >
+                    </div>
+                </div></td>
+                <td class="text-left">
+                    <button type="button" id="search" class="left btn btn-mj">查询</button>
+                    <button type="button" id="empty" class="left btn">清空</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</script>
+<!-- 分散式查询 -->
+<script type="text/template" id="hostingSearchTmp">
+    <table>
+        <colgroup>
+            <col width="240">
+            <col width="160">
+        </colgroup>
+        <tbody>
+            <tr>
+                <td><div class="line-div">
+                    <div class="line-div-label"></div>
+                    <div class="line-div-center">
+                        <input type="text" name="name" class="form-control" placeholder="姓名/手机号码/小区名称" >
+                    </div>
+                </div></td>
+                <td class="text-left">
+                    <button type="button" id="search" class="left btn btn-mj">查询</button>
+                    <button type="button" id="empty" class="left btn">清空</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</script>
+<!-- 合租 -->
+<script type='text/template' id='initJoinTemp'>
+    {{#each this}}
+    <div class="storey left" {{#isOpenHeight}}{{/isOpenHeight}}>
+        <div class="list_storey">
+            <div class="number_floor">
+                <div class="floorLabel">{{#renderName this}}{{/renderName}}</div>
+                <i class="icon icon-pagination_back {{#isOpenClass}}{{/isOpenClass}}"></i>
+            </div>
+            <div class="room_details clearfix" houseId="{{houseId}}">
+                {{#each rooms}} 
+                    {{#roomTemp this}}{{/roomTemp}} 
+                {{/each}}
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</script>
+<!-- 整租 -->
+<script type='text/template' id='initEntireTemp'>
+    <div class="list_floor EntireTemp">
+        <div class="left width100"></div>
+        <div class="storey left">
+            <div class="list_storey">
+                <div class="room_details clearfix" houseId="{{houseId}}">
+                    {{#each this}} {{#roomTemp this}}{{/roomTemp}} {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</script>
+<!-- 整租房间 -->
+<script type='text/template' id='initEntireRoomTemp'>
+    {{#each this}} {{#roomTemp this}}{{/roomTemp}} {{/each}}
+</script>
+<!-- 设置装修弹窗 -->
+<script type='text/template' id='queryDecoTmpl'>
+    <table>
+        <colgroup>
+            <col width="250">
+            <col width="50">
+            <col width="250">
+        </colgroup>
+        <tr>
+            <td>预计装修结束时间</td>
+            <td>&nbsp;</td>
+            <td>
+                <input type="text" placeholder="请选择时间" name="endDateStr" class="icon-calendar form-control left Wdate" style="width:200px" id="dp-endDateStr" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true,minDate:'%y-%M-%d'})">
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="4" style="text-align: left">确定后，房间状态将变成装修中，将不可出租，取消后可继续出租</td>
+        </tr>
+    </table>
+</script>
+<!--新手教程-->
+<script type='text/template' id='tutorialTmpl'>
+    <img src="$!{rc.contextPath}{{imgUrl}}" style="width: 681px; height: 397px; display: block" alt="">
+    <label class="control-label" style="user-select: none;width: 90px; margin: 10px auto 0 auto; display: block;float: right;">
+        <input id="cb-no-newuser" {{#showUserGuide}}{{/showUserGuide}} type="checkbox"> &nbsp;不再提示
+    </label>
+</script>
+<!-- 单个房间 -->
+<script type='text/template' id='oneRoomTemp'>
+    {{#roomTemp this}}{{/roomTemp}}
+</script>
+<script type="text/template" id="initLeaseTmp">
+    <button class="room_state {{#isChecked checkedIndex '1'}}{{/isChecked}}" data-status="1">全部({{roomCount}})</button> 
+    <button class="room_state {{#isChecked checkedIndex '2'}}{{/isChecked}}"  data-status="2">空房({{emptyRoom}})</button>
+    <button class="room_state {{#isChecked checkedIndex '3'}}{{/isChecked}}"  data-status="3">在住({{rentRoom}})</button>
+    <button class="room_state red {{#isChecked checkedIndex '4'}}{{/isChecked}}"  data-status="4">未缴费({{unPayRoom}})</button>   
+    <button class="room_state {{#isChecked checkedIndex '5'}}{{/isChecked}}"  data-status="5">待入住({{orderRoom}})</button>
+    {{#showTmp 1}}
+        <button class="room_state {{#isChecked checkedIndex '6'}}{{/isChecked}}"  data-status="6">已预定({{reservedRoom}})</button>
+    {{/showTmp}}
+    <button class="room_state red {{#isChecked checkedIndex '7'}}{{/isChecked}}"  data-status="7">合同(将)到期({{expireRoom}})</button>
+    {{#showTmp 2}}
+    <button class="room_state {{#isChecked checkedIndex '8'}}{{/isChecked}}"  data-status="8">自用({{selfUseRoom}})</button>
+    <button class="room_state {{#isChecked checkedIndex '9'}}{{/isChecked}}"  data-status="9">空脏({{dirtyAndEmptyRoom}})</button>
+    <button class="room_state {{#isChecked checkedIndex '10'}}{{/isChecked}}"  data-status="10">维修({{maintainRoom}})</button>
+    {{/showTmp}}
+    <button class="room_state {{#isChecked checkedIndex '11'}}{{/isChecked}}"  data-status="11">已出租・无租客({{noTenant}})</button>
+    <button class="room_state {{#isChecked checkedIndex '12'}}{{/isChecked}}"  data-status="12">装修中({{beingDecorted}})</button>
+    <button class="room_state red {{#isChecked checkedIndex '13'}}{{/isChecked}}"  data-status="13">下单中({{ordering}})</button>
+    {{#showTmp 3}}
+    <button class="room_state {{#isChecked checkedIndex '14'}}{{/isChecked}}" data-status="14">保留中({{retainRoom}})</button>
+    {{/showTmp}}
+</script>
+<!-- 智能设备 -->
+<script type="text/template" id="doorTmp">
+    <ul class="nav nav-tabs rootNav">
+        <li dType=1 class="active" isDoor="0"><a href="javascript:;">开门记录</a></li>
+        <li dType=2 style="{{#isShow '1' hasDoor}}{{/isShow}}"><a href="javascript:;">{{doorName}}权限管理</a></li>
+        <li dType=3 style="{{#isShow '1' roomHasDevice}}{{/isShow}}"><a href="javascript:;">{{roomName}}权限管理</a></li>
+        <li dType=4 style="{{#isShow '1' estateHasGuard}}{{/isShow}}"><a href="javascript:;">门禁权限管理</a></li>
+    </ul>
+    <div class="tab-content container active" style="padding: 15px;">
+        {{{htmlTmp 'openLogTemp' this}}}
+    </div>
+    <div class="tab-content container" style="padding: 15px;">
+        {{{htmlTmp 'rootSetTmp'}}}
+    </div>
+    <div class="tab-content container" style="padding: 15px;">
+        <div class="ammeterDiv"></div>
+    </div>
+</script>
+<!-- 开门记录 -->
+<script type="text/template" id="useDoorRecord">
+    <form id="searchForm" class="form-group">
+        <table>
+            <colgroup>
+                <col width="450">
+                <col width="200">
+                <col width="100">
+                <col width="160">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="line-div w75">
+                            <div class="line-div-label">
+                                操作时间：
+                            </div>
+                            <div class="line-div-center">
+                                <input type="text" name="startTime" 
+                                    class="icon-calendar form-control left Wdate" 
+                                    style="width:45%" 
+                                    id="startTime" 
+                                    onfocus="WdatePicker({
+                                        dateFmt:'yyyy-MM-dd',
+                                        isShowClear:true,
+                                        maxDate:'#F{$dp.$D(\'endTime\')}',
+                                        minDate:'#F{$dp.$D(\'endTime\',{M:-3})}'
+                                    })">
+                                <span class="left" style="width:10%">--</span>
+                                <input type="text" id="endTime" name="endTime" 
+                                    class="icon-calendar form-control left Wdate" 
+                                    style="width:45%" 
+                                    onfocus="WdatePicker({
+                                        dateFmt:'yyyy-MM-dd',
+                                        isShowClear:true,
+                                        minDate:'#F{$dp.$D(\'startTime\')}',
+                                        maxDate:'#F{$dp.$D(\'startTime\',{M:3})}'
+                                    })">
+                            </div>
+                        </div>
+                    </td>
+                    <td style="padding-left: 10px">
+                        <div class="line-div">
+                            <div class="line-div-center">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-more"
+                                            style="margin-left: 0;" 
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true" 
+                                            aria-expanded="true">
+                                            全部
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li class="btn-expand" operatorType="0"><a href="#">全部</a></li>
+                                            <li class="btn-expand" operatorType="2"><a href="#">租客</a></li>
+                                            <li class="btn-expand" operatorType="3"><a href="#">管家</a></li>
+                                            <li class="btn-expand" operatorType="4"><a href="#">密码</a></li>
+                                        </ul>
+                                    </div>
+                                    <input placeholder="姓名" class="form-control" name="keyword" id="doorNameAbout">
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="padding-left: 10px;box-sizing: content-box;width: 150px;margin-left: 10px">
+                        <select name="" id="doorControlAbout">
+                        </select>
+                    </td>
+                    <td class="text-right">
+                        <button type="button" class="btn btn-mj search">查询</button>
+                        <button type="button" class="btn clear">清空</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <div id="grid_log"></div>
+</script>
+<!-- 门禁权限设置 -->
+<script type="text/template" id="doorControlTmp">
+        <ul class="nav nav-tabs rootNav"></ul>
+        <div class="tab-content container active" style="padding: 15px;">
+            <div class="line-div">
+                <div class="left">门禁名称<i class="red">*</i></div>
+                <div class="left" style="width:200px;padding-left: 10px">
+                    <input type="text" class="form-control" id="doorControlName">
+                </div>               
+            </div>
+            <div class="line-div">
+                <div class="left">
+                    <div class="btn-group isDelBtn">
+                        <button type="button" class="btn btn-mj" style="margin-left: 0;">未删除密码</button>
+                        <button type="button" class="btn">已删除密码</button>
+                    </div>
+                </div>
+                <div class="right">
+                    <button type="button" class="btn btn-mj" id="lookPsd">查看离线密码</button>
+                    <button type="button" class="btn btn-mj" id="setPsd">设置密码</button>
+                </div>
+            </div>
+
+            <div id="grid-content" style="width: 100%;float:left">
+                <div id="grid_log_door"></div>
+            </div>
+        </div>
+    <!-- <div class="tab-content container active" style="padding: 15px;">
+        {{{htmlTmp 'rootSetTmp'}}}
+    </div> -->
+</script>
+
+<!-- 门锁开门记录 -->
+<script type="text/template" id="openLogTemp">
+    <form id="searchForm" class="form-group">
+        <table>
+            <colgroup>
+                <col width="450">                
+                {{#deviceTmp estateHasGuard}}
+                    <col width="160">
+                {{/deviceTmp}}
+                <col width="200">
+                <col width="160">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="line-div w75">
+                            <div class="line-div-label">
+                                操作时间：
+                            </div>
+                            <div class="line-div-center">
+                                <input type="text" name="startTime" class="icon-calendar form-control left Wdate" style="width:45%" id="startTime" onfocus="WdatePicker({
+                                        dateFmt:'yyyy-MM-dd HH:mm:ss',
+                                        isShowClear:true,
+                                        maxDate:'#F{$dp.$D(\'endTime\')}',
+                                        minDate:'#F{$dp.$D(\'endTime\',{M:-3})}'
+                                    })">
+                                <span class="left" style="width:10%">--</span>
+                                <input type="text" id="endTime" name="endTime" class="icon-calendar form-control left Wdate" style="width:45%" onfocus="WdatePicker({
+                                        dateFmt:'yyyy-MM-dd HH:mm:ss',
+                                        isShowClear:true,
+                                        minDate:'#F{$dp.$D(\'startTime\')}',
+                                        maxDate:'#F{$dp.$D(\'startTime\',{M:3})}'
+                                    })">
+                            </div>
+                        </div>
+                    </td>
+                    {{#deviceTmp estateHasGuard}}
+                        <td style="padding-left: 10px">
+                            <div class="line-div">
+                                <div class="line-div-center">
+                                    <select name="deviceName" id="doorControlAbout">
+                                        <option></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+                    {{/deviceTmp}}                    
+                    <td style="padding-left: 10px">
+                        <div class="line-div">
+                            <div class="line-div-center">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-more" style="margin-left: 0;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            全部
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li class="btn-expand" operatorType="0"><a href="#">全部</a></li>
+                                            <li class="btn-expand" operatorType="2"><a href="#">租客</a></li>
+                                            <li class="btn-expand" operatorType="3"><a href="#">管家</a></li>
+                                            <li class="btn-expand" operatorType="4"><a href="#">密码</a></li>
+                                        </ul>
+                                    </div>
+                                    <input placeholder="姓名" class="form-control" name="keyword">
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <button type="button" class="btn btn-mj search">查询</button>
+                        <button type="button" class="btn clear">清空</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <div id="grid_log"></div>
+</script>
+<!-- 权限设置 -->
+<script type="text/template" id="rootSetTmp">
+    <div class="ammeterDiv" style="line-height: 20px;padding-bottom:10px;border-bottom: 1px solid #ccc">
+    </div>
+    <div class="line-div">
+        <div class="left">
+            <div class="btn-group isDelBtn">
+                <button type="button" class="btn btn-mj" style="margin-left: 0;">未删除密码</button>
+                <button type="button" class="btn">已删除密码</button>
+            </div>
+        </div>
+        <div class="right" style="padding: 5px 0">
+            <button type="button" class="btn btn-mj" id="lookPsd">查看离线密码</button>
+            <button type="button" class="btn btn-mj" id="setPsd">设置密码</button>
+        </div>
+    </div>
+    <div class="rootDiv line-div">
+        <div id="rootGrid"></div>
+    </div>
+    <div style="float: left;padding-top: 10px" id="gridFoot">
+        说明：APP开门权限只能控制APP，无法控制密码；若要停用密码请删除密码；密码数量：25个（包括未删除、失效、未生效）个别门锁暂不支持远程删除密码，需要通过管家APP删除
+    </div>
+</script>
+<!-- 权限 -->
+<script type="text/template" id="oneRootTmp">
+    {{#each this}}
+    <div class="col-md-4">
+        <span style="line-height: 28px;float: left;padding-right: 5px">{{relatePositionName}}</span>
+        <input type="checkbox" name="status{{@index}}" class="tools_switch" switchFlag="{{lodgerStatusStr}}" />
+    </div>
+    {{/each}}
+    <div class="clear"></div>
+</script>
+<!-- 设置密码 -->
+<script type="text/template" id="setPsdTmp">
+    <form id="psdForm">
+        <table>
+            <colgroup>
+                <col width="350">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="line-div w115">
+                            <div class="line-div-label">
+                                密码生效时间：<span class="red">*</span>
+                            </div>
+                            <div class="line-div-center">
+                                <input type="text" name="startTime" class="icon-calendar form-control left Wdate" id="startTimePsd" onfocus="WdatePicker({
+                                        dateFmt:'yyyy-MM-dd HH:mm:ss',
+                                        isShowClear:false,
+                                        maxDate:'#F{$dp.$D(\'endTimePsd\')}'
+                                    })">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="line-div w115">
+                            <div class="line-div-label">
+                                密码失效时间：<span class="red">*</span>
+                            </div>
+                            <div class="line-div-center">
+                                <input type="text" name="endTime" class="icon-calendar form-control left Wdate" id="endTimePsd" onfocus="WdatePicker({
+                                        dateFmt:'yyyy-MM-dd HH:mm:ss',
+                                        isShowClear:false,
+                                        miniDate:'#F{$dp.$D(\'startTimePsd\')}'
+                                    })">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="doorPsdTr" style="{{#isHide 'sc' productBrandName}}{{/isHide}}">
+                    <td>
+                        <div class="line-div w115">
+                            <div class="line-div-label">
+                                门锁密码：<span class="red">*</span>
+                            </div>
+                            <div class="line-div-center input-group">
+                                <input type="text" placeholder="请设置6位密码" name="password" class="form-control">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-mj" id="randomPsd">随机密码</button>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="line-div w115">
+                            <div class="line-div-label">
+                                操作对象：<span class="red">*</span>
+                            </div>
+                            <div class="line-div-center input-group">
+                                <input type="text" placeholder="例如 房间A张三" name="operateObject" class="form-control">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-mj" id="chooseRenterPhone">选择租客号码</button>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="line-div w115">
+                            <div class="line-div-label">
+                                手机号码：<span style="margin-left: 6px; display: inline-block;"></span>
+                            </div>
+                            <div class="line-div-center">
+                                <input type="text" name="phone" placeholder="请输入手机号码" class="form-control">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="font-size: 12px">
+            提示说明：
+            <br> 这里的操作对象只是方便记录密码实际应用的场景，方便查看开门记录的时候有对应显示。
+            <br> 部分品牌门锁添加密码可能存在延迟，请耐心等待。
+        </div>
+    </form>
+</script>
+
+
+<!-- 交租方式 -->
+<script type="text/template" id="setRentTypeTemp">
+    <div class="noRentTypeList hide">
+        当前没有交租方式，请点击编辑后添加交租方式。
+    </div>
+    <div class="rentTypeBox">
+        <!-- <ul class="nav nav-tabs hide">
+            {{#each roomList}}
+                <li class="{{isActive}}">
+                    <a href="#">{{roomName}}</a>
+                </li>
+            {{/each}}
+        </ul> -->
+        <div class="tab-content container active" style="height:380px;padding: 10px 5px;overflow: auto;">
+            <form class="blockFinance"></form>
+            <form class="blockNormal"></form>
+        </div>
+    </div>
+</script>
+
+<!-- 渲染金融交租方式 -->
+<script type="text/template" id="renderFinanceTemp">
+    <div class="row txt-plain">
+        <table class="table_rentType">
+            <colgroup>
+                <col width="160">
+                <col width="240">
+                <col width="80">
+                <col width="80">
+                <col class="col_financeChange" width="240">
+                <col width="120">
+                <col width="40">
+            </colgroup>
+            <tr>
+                <td>
+                    <span style="color: #555;">金融·</span>
+                    交租方式
+                </td>
+                <td>
+                    <div class="left" style="width: 47%;margin: 0;">房价/月</div>
+                    <div class="left" style="width: 47%;margin-left: 8px;margin-right: 0;">押金</div>
+                </td>
+                <td>最短租期</td>
+                <td>最长租期</td>
+                <td class="financeChange">服务费·元/月</td>
+                <td class="financeChange">服务费支付方式</td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+    <div class="rentTypeItems">
+        <table class="table_rentType">
+            <colgroup>
+                <col width="160">
+                <col width="240">
+                <col width="80">
+                <col width="80">
+                <col class="col_financeChange" width="240">
+                <col width="120">
+                <col width="40">
+            </colgroup>
+            {{#each this}}
+            <tr>
+                <div class="row txt-plain valued">
+                    <td>
+                        <label>{{name}}</label>
+                        <input type="hidden" value="{{rentTypeId}}" name="rentTypeId">
+                    </td>
+                    <td>
+                        <div class="toggleDisableItems clearfix" style="position: relative; top: 5px;">
+                            <div class="left input-group" style="width: 47%;margin:0;">
+                                <input class="form-control" validate="number1" type="number" 
+                                    class="form-control" flexible name="rentPrice" value="{{rentPrice}}">
+                                <span class="input-group-addon">元</span>
+                            </div>
+                            <div class="left input-group" style="width: 47%;margin-left: 10px;margin-right: 0;">
+                                <input class="form-control" validate="number1" type="number" 
+                                    class="form-control" flexible name="depositPrice" value="{{depositPrice}}">
+                                <span class="input-group-addon">元</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <select flexible name="minMonthNum" style="width: 100%;">
+                            {{#renderMonth "min" minMonthNum rentQty rentQty maxMonthNum}}{{/renderMonth}}
+                        </select>
+                    </td>
+                    <td>
+                        <select name="maxMonthNum" flexible style="width: 100%;">
+                            {{#renderMonth "max" maxMonthNum minMonthNum rentQty "24"}}{{/renderMonth}}
+                        </select>
+                    </td>
+                    <td class="snServiceFee financeChange">
+                        <select style="width: 95px" name="serviceChargeType" flexible>
+                            {{#selected2 serviceChargeType}}{{/selected2}}
+                        </select>
+                        {{#renderServiceFee serviceChargeType serviceChargeRatio serviceChargePrice}}{{/renderServiceFee}}
+                    </td>
+                    <td class="financeChange">
+                        <select style="width: 95px" name="serviceFeeType" value="{{serviceFeeType}}" flexible>
+                            {{#selected1 serviceFeeType}}{{/selected1}}
+                        </select>
+                    </td>
+                    <td></td>
+                </div>
+            </tr>
+            {{/each}}
+        </table>
+    </div>
+    <div class="divider"></div>
+</script>
+
+<!-- 渲染常规交租方式 -->
+<script type="text/template" id="renderNormalTemp">
+    <div class="row txt-plain">
+        <table class="table_rentType">
+            <colgroup>
+                <col width="160">
+                <col width="240">
+                <col width="80">
+                <col width="80">
+                <col class="col_financeChange" width="240">
+                <col width="120">
+                <col width="40">
+            </colgroup>
+            <tr>
+                <td>
+                    <span style="color: #555;">常规·</span>
+                    交租方式
+                </td>
+                <td>
+                    <div class="left" style="width: 47%;margin: 0;">房价/月</div>
+                    <div class="left" style="width: 47%;margin-left: 8px;margin-right: 0;">押金</div>
+                </td>
+                <td>最短租期</td>
+                <td>最长租期</td>
+                <td class="financeChange">服务费·元/月</td>
+                <td class="financeChange">服务费支付方式</td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+    <div class="rentTypeItems">
+        <table class="table_rentType">
+            <colgroup>
+                <col width="160">
+                <col width="240">
+                <col width="80">
+                <col width="80">
+                <col class="col_financeChange" width="240">
+                <col width="120">
+                <col width="40">
+            </colgroup>
+            {{#each this}}
+            <tr>
+                <div class="row txt-plain valued">
+                    <td>
+                        <label>{{name}}</label>
+                        <input type="hidden" value="{{rentTypeId}}" name="rentTypeId">
+                    </td>
+                    <td>
+                        <div class="toggleDisableItems clearfix" style="position: relative;top: 5px;">
+                            <div class="left input-group" style="width: 47%;margin:0;">
+                                <input class="form-control" validate="number1" type="number" 
+                                    class="form-control" flexible name="rentPrice" value="{{rentPrice}}">
+                                <span class="input-group-addon">元</span>
+                            </div>
+                            <div class="left input-group" style="width: 47%;margin-left: 10px;margin-right: 0;">
+                                <input class="form-control" validate="number1" type="number" 
+                                    class="form-control" flexible name="depositPrice" value="{{depositPrice}}">
+                                <span class="input-group-addon">元</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <select flexible name="minMonthNum" style="width: 100%;">
+                            {{#renderMonth "min" minMonthNum rentQty rentQty maxMonthNum}}{{/renderMonth}}
+                        </select>
+                    </td>
+                    <td>
+                        <select name="maxMonthNum" flexible style="width: 100%;">
+                            {{#renderMonth "max" maxMonthNum minMonthNum rentQty "24"}}{{/renderMonth}}
+                        </select>
+                    </td>
+                    <td class="lsnServiceFee financeChange">
+                        <select style="width: 95px" name="serviceChargeType" flexible>
+                            {{#selected2 serviceChargeType}}{{/selected2}}
+                        </select>
+                        {{#renderServiceFee serviceChargeType serviceChargeRatio serviceChargePrice}}{{/renderServiceFee}}
+                    </td>
+                    <td class="financeChange">
+                        <select style="width: 95px" name="serviceFeeType" value="{{serviceFeeType}}" flexible>
+                            {{#selected1 serviceFeeType}}{{/selected1}}
+                        </select>
+                    </td>
+                    <td class="delete_box" style="width: 40px;font-size: 18px;opacity: 0.8; cursor: pointer;">
+                        <i class="icon-delete"></i>
+                    </td>
+                </div>
+            </tr>
+            {{/each}}
+        </table>
+    </div>
+    <div class="form-group addRentType">
+        <button type="button" class="btn btn-mj">添加交租方式</button>
+    </div>
+</script>
+
+<script type="text/template" id="addRentTypeTemp">
+    <tr>
+        <div class="row txt-plain valued" style="margin-bottom: 5px;">
+            <input type="hidden" name="type" value="1">
+            <td class="rentTypeNameBox">
+                <select flexible name="rentTypeId" class="addRentTypeName" flexible style="width: 100px;">
+                    {{#renderBaseRentType baseRentTypeList}}{{/renderBaseRentType}}
+                </select>
+            </td>
+            <td>
+                <div class="toggleDisableItems clearfix" style="position: relative;top: 5px;">
+                    <div class="left input-group" style="width: 47%;margin:0;">
+                        <input class="form-control" validate="number1" type="number" 
+                            class="form-control" flexible name="rentPrice" value="{{rentPrice}}">
+                        <span class="input-group-addon">元</span>
+                    </div>
+                    <div class="left input-group" style="width: 47%;margin-left: 10px;margin-right: 0;">
+                        <input class="form-control" validate="number1" type="number" 
+                            class="form-control" flexible name="depositPrice" value="{{depositPrice}}">
+                        <span class="input-group-addon">元</span>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <select flexible name="minMonthNum" style="width: 100%;">
+
+                </select>
+            </td>
+            <td>
+                <select name="maxMonthNum" flexible style="width: 100%;">
+                    
+                </select>
+            </td>
+            <td class="lsnServiceFee financeChange">
+                <select style="width: 95px" name="serviceChargeType" flexible>
+                    {{#selected2 serviceChargeType}}{{/selected2}}
+                </select>
+                {{#renderServiceFee serviceChargeType serviceChargeRatio serviceChargePrice}}{{/renderServiceFee}}
+            </td>
+            <td class="financeChange">
+                <select style="width: 95px" name="serviceFeeType" value="{{serviceFeeType}}" flexible>
+                    {{#selected1 serviceFeeType}}{{/selected1}}
+                </select>
+            </td>
+            <td class="delete_box" style="width: 40px;font-size: 18px;opacity: 0.8">
+                <i class="icon-delete"></i>
+            </td>
+        </div>
+    </tr>
+</script>
+
+<!-- 新增交租方式 - 租期渲染 -->
+<script type="text/template" id="renderAddMonthTemp">
+    {{#renderMonth addType addNum1 addNum2 addNum3 addNum4}}{{/renderMonth}}
+</script>
+
+<script type="text/javascript">
+seajs.use('controllers/hosting/initRealTimeRoom.js')
+</script>

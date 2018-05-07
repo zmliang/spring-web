@@ -1,0 +1,288 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row"><div class="col-md-12 col-sm-12 col-xs-12 window">
+    <div class="x_panel window">
+	    <div class="x_title">
+			<div class="clearfix"></div>
+			<div class="searchDiv">
+				<form id="searchForm">
+					<table>
+						<colgroup>
+							<col width="400"><col width="150">
+							<col width="260"><col width="260">
+						</colgroup>
+						<tbody>
+							<tr>
+								<td>
+									<div class="line-div w75">
+										<div class="line-div-label">省市区：</div>
+										<div class="line-div-center">
+											<div id="areaBox" style="width: 300px"></div>
+										</div>
+									</div>
+								</td>
+								<td>
+									<div class="line-div w60">
+										<div class="line-div-label">类型：</div>
+										<div class="line-div-center">
+											<select name="houseRentType">
+												<option value="">全部</option>
+												<option value="1">整租</option>
+												<option value="2">合租</option>
+											</select>
+										</div>
+									</div>
+								</td>
+								<td>
+									<div class="line-div w60">
+										<div class="line-div-label">名称：</div>
+										<div class="line-div-center">
+											<input placeholder="公寓/小区名称" class="form-control" name="estateName">
+										</div>
+									</div>
+								</td>
+								<td>
+									<div class="searchBtn">
+									<button type="button" id="search" class="left btn btn-mj">查询</button>
+									<button type="button" id="clear" class="left btn">清空</button>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+			</div>
+		</div>
+      	<div class="x_content">
+        	<div class="clearfix  gray-bg">
+          	<div class="navbar-left pr75">共 <i class="brick-red apartmentNum"></i> 套房屋，共 <i class="brick-red roomNum"></i> 间房间</div>
+          	<button type="button" class="btn btn-mj right hide" id="addNew">添加房源</button>
+        </div>
+        <div id="gridDiv"></div>
+    </div>
+</div></div>
+
+<script type="text/template" id="setRentTypeTemp">
+	<ul class="nav nav-tabs {{this.showTab}}">
+		{{#each this}}
+        	<li class="{{selected}}"><a href="#">{{roomName}}&nbsp;</a></li>
+		{{/each}}
+	</ul>
+	{{#each this}}
+	<div class="tab-content container {{showTab}} {{selected}}">
+	<div class="blockFinance {{#hideBaseRentTypeList leaseRentTypeList}}{{/hideBaseRentTypeList}}">
+		<div class="row">
+			<div class="full-line txt-plain">金融方案</div>
+		</div>
+		<div class="row txt-plain">
+			<div class="col col-sm-2">可支付交租方式</div>
+			<div class="col col-sm-1">房价∙元/月</div>
+			<div class="col col-sm-1">押金</div>
+			<div class="col col-sm-3">租期范围</div>
+			<div class="col col-sm-3">服务费∙元/月</div>
+			<div class="col col-sm-2">服务费支付方式</div>
+		</div>
+
+		{{#each leaseRentTypeList}}
+        <div class="row valued">
+            <input class="hide" name="baseRentTypeName" value="{{baseRentTypeName}}"/>
+            <input class="hide" name="baseRentTypeId" value="{{baseRentTypeId}}"/>
+            <input class="hide" name="roomRentTypeId" value="{{roomRentTypeId}}"/>
+            <div class="col col-sm-2">{{baseRentTypeName}}</div>
+            <div class="col col-sm-1"><input validate="integer_z" type="number" flexible readonly name="rentPrice" class="form-control" value="{{rentPrice}}"/></div>
+            <div class="col col-sm-1"><input type="number" readonly name="depositPrice" class="form-control" value="{{rentPrice}}"/></div>
+            <div class="col col-sm-3">
+				<div class="left">
+                    <div class="left">最短</div>
+                    <select flexible name="minMonthNum" value="{{minMonthNum}}" disabled readonly>
+                        <option selected="" value="12" data-min="1" data-max="12">12个月</option>
+						<!-- 金融 最短最长都固定死12个月 -->
+                    </select>
+                    <div class="left">最长</div>
+                    <select name="maxMonthNum" value="{{maxMonthNum}}" disabled readonly>
+                        <option selected="" value="12" data-min="1" data-max="12">12个月</option>
+                    </select>
+				</div>
+            </div>
+            <div class="col col-sm-3 lsnServiceFee">
+                <select style="width: 95px" name="serviceChargeType" disabled value="{{serviceChargeType}}" readonly>
+                    {{#selected2 serviceChargeType}}{{/selected2}}
+                </select>
+                {{#renderServiceFee serviceChargeType serviceChargeRatio serviceChargePrice}}{{/renderServiceFee}}
+			</div>
+            <div class="col col-sm-2">
+                <select style="width: 95px" name="serviceFeeType" disabled value="{{serviceFeeType}}" readonly>
+                    {{#selected1 serviceFeeType}}{{/selected1}}
+                </select>
+			</div>
+        </div>
+		{{/each}}
+		<div class="divider"></div>
+    </div>
+
+	<div class="blockNormal {{#hideBaseRentTypeList baseRentTypeList}}{{/hideBaseRentTypeList}}">
+		<div class="row">
+			<div class="full-line">常规方案</div>
+		</div>
+		<div class="row txt-plain">
+			<div class="col col-sm-2" style="margin-top: 5px;">可支付交租方式<span><i class="icon-tips-fill" id="icon-tips{{@index}}" style="position: absolute; top: 4px;font-size: 20px;color: #2e8ded;"></i></span></div>
+			<div class="col col-sm-1">房价∙元/月</div>
+			<div class="col col-sm-1">押金</div>
+			<div class="col col-sm-3">租期范围</div>
+			<div class="col col-sm-3">服务费∙元/月</div>
+			<div class="col col-sm-2">服务费支付方式</div>
+		</div>
+
+		{{#each baseRentTypeList}}
+		<div class="row txt-plain valued">
+            <input class="hide" name="baseRentTypeName" value="{{baseRentTypeName}}"/>
+            <input class="hide" name="baseRentTypeId" value="{{baseRentTypeId}}"/>
+            <input class="hide" name="baseRentTypeId" value="{{baseRentTypeId}}"/>
+            <input class="hide" name="roomRentTypeId" value="{{roomRentTypeId}}"/>
+			<div class="col col-sm-2">
+				<label id="wra_affect"><input id="cb_affect" disabled flexible type="checkbox" {{#checked roomRentTypeId}}{{/checked}} name="checker">&nbsp;{{baseRentTypeName}}</label>
+			</div>
+			<div class="col col-sm-1">
+				<input class="form-control" validate="integer_z" type="number" class="form-control" readonly flexible name="rentPrice" value="{{rentPrice}}">
+			</div>
+			<div class="col col-sm-1">
+                <input class="form-control" validate="integer_z" type="number" class="form-control" readonly flexible name="depositPrice" value="{{depositPrice}}">
+			</div>
+			<div class="col col-sm-3">
+				<div class="left">最短</div>
+                <select flexible name="minMonthNum" disabled flexible readonly>
+                    {{#renderMonth "min" minMonthNum rentQty rentQty maxMonthNum}}{{/renderMonth}}
+                </select>
+                <div class="left">最长</div>
+                <select name="maxMonthNum" flexible disabled readonly>
+                    {{#renderMonth "max" maxMonthNum minMonthNum rentQty "24"}}{{/renderMonth}}
+                </select>
+			</div>
+			<div class="col col-sm-3 lsnServiceFee">
+				<select style="width: 95px" name="serviceChargeType" disabled flexible readonly >
+                    {{#selected2 serviceChargeType}}{{/selected2}}
+				</select>
+                {{#renderServiceFee serviceChargeType serviceChargeRatio serviceChargePrice}}{{/renderServiceFee}}
+			</div>
+			<div class="col col-sm-2">
+                <select style="width: 95px" name="serviceFeeType" disabled value="{{serviceFeeType}}" flexible readonly>
+                    {{#selected1 serviceFeeType}}{{/selected1}}
+                </select>
+			</div>
+		</div>
+		{{/each}}
+	</div>
+	</div>
+	{{/each}}
+</script>
+
+<!-- 收租设置start -->
+<script type="text/template" id="setRentCollectTemp">
+<form id='J_form'>
+	<div class="line-div-label">
+		请选择收租方式
+	</div>
+	<ul class="list-group">
+		<li class="list-group-item" style="border:0 none;">
+			<div class="relative label-wrapper">
+				<label>
+					<input type="radio" id="radio-1" name="rentWay" disabled value="1"/>
+					入住日提前
+				</label>
+				<select name="rentDay" disabled value class="form-control"></select>
+				<label for="radio-1">天收租</label>
+			</div>
+			<div class="dia-dotted-wrapper">
+				<label for="radio-1">解释说明：若设置提前7天收租，假设租赁方式为月付，起租日为2月14号，则下期收租日为3月7号；其他时间依次类推</label>
+			</div>
+		</li>
+		<li class="list-group-item" style="border:0 none;margin-top: -15px;">
+			<div class="relative label-wrapper">
+				<label>
+					<input type="radio" id="radio-2" name="rentWay" disabled value="2"/>
+					每月固定10号，25号收租
+				</label>
+			</div>
+			<div class="dia-dotted-wrapper">
+				<label for="radio-2">解释说明：1~15号入住的，本月25号收取下一期房租，后续都是每月25号收租；16号~月末入住的，下月10号收取下一期房租，后续都是每月10号收租</label>
+			</div>
+		</li>
+	</ul>
+	<div class="relative label-wrapper" style="margin:-15px 20px 0 20px">
+		<label>账单推送时间为收租日提前</label>
+		<select name="rentPressDay" disabled class="form-control"></select>
+		<label>天推送提醒，推送时间为当天</label>
+		<select name="rentPressTime" disabled class="form-control" style="width: 90px;"></select>
+	</div>
+	<div class="prompt-pop">提示：若有金融方案的交租方式，则收租规则按照金融方案默认选取第一种方式，账单提前3天，当天11：00推送</div>
+</form>
+</script>
+<!-- 收租设置end -->
+
+<script type="text/template" id="copyTo">
+	<div class="selectAllBlock">
+		<div class="relative">
+			<div style="float: left; margin-top: -5px; line-height: 28px;">
+				复制项目<span><i class="icon-tips-fill" style="font-size: 20px;color: #2e8ded;position: relative;top: 3px;"></i></span>
+			</div>
+			<button type="button" class="btn btn-mj right" id="btn-change1" style="margin-right: 0">全选/反选</button>
+		</div>
+		<div class="divider" style="margin: 10px 0"></div>
+
+		<div class="relative list-rooms">
+			<div class="item" style="width: 50%;">
+				<label id="wra_affect"><input class="left" type="checkbox" name="payRentType">&nbsp;
+					<select flexible name="roomId" style="width: 130px;margin: -5px 0 -5px 5px;" class="left">
+						{{#reflectRooms houseObj.hostingRoomDOList}}{{/reflectRooms}}
+					</select>
+					交租方式
+				</label>
+			</div>
+			<div class="item" style="width: 25%;">
+				<label id="wra_affect"><input id="cb_affect" type="checkbox" name="rentWay">&nbsp;收租方式</label>
+			</div>
+			<div class="item" style="width: 25%;">
+				<label id="wra_affect"><input id="cb_affect" type="checkbox" name="paymentOfflineTypes">&nbsp;线下支付方式</label>
+			</div>
+		</div>
+    </div>
+
+	<div class="selectAllBlock">
+		<div class="inner-box">
+			<div class="title">
+				选择要复制到的房间
+				<button type="button" id="btn-change2" class="btn btn-right">全选/反选</button>
+			</div>
+			<div class="relative list-rooms">
+				{{#reflectHouses houseList}}{{/reflectHouses}}
+			</div>
+		</div>
+    </div>
+
+	<div class="tip" style="margin: 10px 5px;">
+		温馨提示：若复制到房间是合租的，所有房间的交租方式会一致，请及时修改
+	</div>
+</script>
+<script type="text/template" id="setOffline">
+<form id='J_form' class='offLin'>
+	<div class="tip">
+		请选择允许线下支付方式，至少勾选一种
+	</div>
+
+	<div class="col col-sm-12" style="margin-top: 10px;">
+		<label id="wra_affect"><input value='1' disabled type="checkbox" name="">&nbsp;现金</label>
+	</div>
+	<div class="col col-sm-12" style="margin-top: 10px;">
+		<label id="wra_affect"><input type="checkbox" value='2' disabled name="">&nbsp;支付宝线下</label>
+	</div>
+	<div class="col col-sm-12" style="margin-top: 10px;">
+		<label id="wra_affect"><input type="checkbox" value='3' disabled>&nbsp;微信线下</label>
+	</div>
+</form>
+</script>
+<script type="text/javascript">
+	seajs.use('controllers/hosting/hostingHouseList')
+</script>
+
+ 

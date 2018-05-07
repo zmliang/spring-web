@@ -1,0 +1,114 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12 window">
+        <div class="x_panel window">
+            <form id="searchForm">
+                <table>
+                    <colgroup>
+                        <col width="120">
+                        <col width="120">
+                        <col width="160">
+                        <col width="140">
+                        <col width="100">
+                        <col width="160">
+                        <col width="90">
+                        <col width="240">
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <select name="cityId" class="form-control" style="width: 100%;">
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="padding-left: 10px;">
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <select name="regionId" class="form-control" style="width: 100%;">
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="padding-left: 10px;">
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <input type="text" class="form-control" name="propertyAddrName" placeholder="公寓/小区-房间号">
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="padding-left: 10px;">
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <input type="text" class="form-control" name="guestInfo" placeholder="租客姓名/手机">
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="padding-left: 10px;">
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <select name="billItemType">
+                                            <option value=""></option>
+                                            <option value="1">租金</option>
+                                            <option value="2">押金</option>
+                                            <option value="8">水费</option>
+                                            <option value="9">电费</option>
+                                            <option value="10">网络费</option>
+                                            <option value="13">服务费</option>
+                                            <option value="16">违约金</option>
+                                            <option value="17">赔偿款</option>
+                                            <option value="18">停车费</option>
+                                            <option value="19">卫生费</option>
+                                            <option value="7">其他</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="padding-left: 10px;">
+                                <div class="line-div dateWrapper">
+                                    <div class="line-div-center">
+                                        <div class="input-group left">
+                                            <span class="input-group-addon">期间</span>
+                                            <select name="year" class="form-control" style="width: 100%;">
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="padding-left: 5px;">
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <select name="month" class="form-control" style="width: 100%;">
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="searchBtn">
+                                    <button type="button" id="search" class="left btn btn-mj" style="margin-left: 0;">查询</button>
+                                    <button type="button" id="empty" class="left btn">清空</button>
+                                    <button type="button" id="exportData" class="left btn">导出</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+            <div style="margin-top: 10px;">
+                <div id="gridDiv"></div>
+            </div>
+        </div>
+     </div>
+ </div>
+ 
+ <script type="text/javascript">
+    seajs.use('controllers/report/transfer.js')
+</script>

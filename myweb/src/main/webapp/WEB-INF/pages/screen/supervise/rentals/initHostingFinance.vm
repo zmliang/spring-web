@@ -1,0 +1,79 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row x_host">
+  <div class="col-md-12 col-sm-12 col-xs-12 window">
+    <div class="x_panel x_hosting window">
+      <div class="x_title">
+        <div class="searchDiv hosTing hostiong_financ">
+          <form action="" id='searchForm'>
+            <div class="line-div w60">
+                <div class="line-div-label">省市区:</div>
+                <div class="line-div-center">
+                     <div id="areaBox"></div>
+                </div>
+            </div>
+            <!--<div class="line-div">
+                <div class="left">来源：</div>
+                <select id='channelType' name='channelType' class="form-control default navbar-left width-auto" >
+                    <option value=''>请选择</option>
+                    <option value="1">App</option>
+                    <option value="2">微信</option>
+                    <option value="3">网站</option>
+                    <option value="4">门店</option>
+                </select>
+            </div>-->
+            <div class="line-div">
+                <div class="left">订单状态：</div>
+                <select id='orderStatus' name='orderStatus' class="form-control default navbar-left width-auto" >
+                    <option value=''>请选择</option>
+                    <option value="1">未付款</option>
+                    <option value="2">已付款未签约</option>
+                    <option value="3">已签约</option>
+                    <option value="4">取消</option>
+                    <option value="5">申请退款</option>
+                    <option value="6">关闭</option>
+                    <option value="7">审核中</option>
+                </select>
+            </div>
+            <div class="line-div">
+                <div class="left">入住状态：</div>
+                <select name='inStayStatus' id='inStayStatus' class="form-control default navbar-left width-auto" >
+                    <option value=''>请选择</option>
+                    <option value="1">未入住</option>
+                    <option value="2">在住</option>
+                    <option value="3">搬离</option>
+                    <option value="4">取消</option>
+                </select>
+            </div>
+            <div class="line-div">
+                <input name='name' id='name' type="text" placeholder='姓名/手机号/合同/订单号'>
+            </div>
+            <div class="hosting_search">
+                <div class='hosting_time'>
+                    <div class="line-div">
+                        <div class="line-div-label" style="width: 60px;">时间:</div>
+                        <div class="line-div-center" style="padding-left: 15px;">
+                            <input type="text" id='startDateStr' name="startDateStr" class="form-control left Wdate" style="width:136px" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true,maxDate:'#F{$dp.$D(\'endDateStr\')}'})">
+                            <span class="left" style="padding:0 10px;">-</span>
+                            <input type="text" id='endDateStr' name="endDateStr" class="form-control left Wdate" style="width:136px" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true,minDate:'#F{$dp.$D(\'startDateStr\')}'})">
+                        </div>
+                    </div>
+                </div>
+                <div class="navbar-right w15">
+                <div class="left btn btn-mj" id="search">查询</div>
+                <div class="left btn" id="empty" >清空</div>
+                </div>
+            </div>
+          </form>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content hosting_finance">
+        <div id="gridDiv"></div>
+      </div>
+  </div>
+</div>
+<script type="text/javascript">
+	seajs.use('controllers/supervise/initHostingFinance.js')
+</script>

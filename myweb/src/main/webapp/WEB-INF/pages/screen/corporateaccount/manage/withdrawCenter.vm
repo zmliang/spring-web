@@ -1,0 +1,392 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+
+<div class="x_panel window gridWrapper tabContainer">
+    <div class="corporateBox">
+        <div class="col-md-4">
+            <div class="rightBorder">
+                <div class="line" style="padding-left: 10px">连连可用资金</div>
+                <span class="price corPrice1">0</span>元
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="rightBorder">
+                <div class="line" style="padding-left: 10px">连连未结算资金</div>
+                <span class="price corPrice2">0</span>元
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div>
+                <div class="line" style="padding-left: 10px">累计提现手续费</div>
+                <span class="price corPrice3">0</span>元
+            </div>
+        </div>
+        <div class="clear" style="margin-bottom: 20px;"><p></p></div>
+        <div class="col-md-4">
+            <div class="rightBorder">
+                <div class="line" style="padding-left: 10px">累计完成提现</div>
+                <span class="price corPrice4">0</span>元
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="rightBorder">
+                <div class="line" style="padding-left: 10px">待提现金额</div>
+                <span class="price corPrice5">0</span>元
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div>
+                <div class="line" style="padding-left: 10px">提现中</div>
+                <span class="price corPrice6">0</span>元
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <ul id="switch-tab" class="nav nav-tabs" style="margin: 10px 0 0 0">
+        <li class="active"><a href="#" id="txt-topay">未完成提现(<span class="applyWithdrawNumber">0</span>)</a></li>
+       <!--  <li class=""><a href="#" id="txt-todue">提现中(<span class="withDrawingNumber">0</span>)</a></li> -->
+        <li class=""><a href="#" id="txt-booked">历史提现记录</a></li>
+    </ul>
+    <div class="copSearch noTop">
+        <form id="searchForm" class="clearfix">
+            
+        </form>
+    </div>
+    <div id="gridWrapper">
+        <div id="gridDiv"></div>
+    </div>
+</div>
+
+<script type="text/template" id="searchTable1">
+    <table>
+        <colgroup>
+            <col width="420"><col width="240">
+            <col width="180">
+        </colgroup>
+        <tbody>
+            <tr><td>
+                    <div class="line-div w75">
+                        <div class="line-div-label">
+                            提现时间：
+                        </div>
+                        <div class="line-div-center">
+                            <input type="text" name="applyStartTime" class="icon-calendar form-control left Wdate" style="width:45%" id="applyStartTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,maxDate:'#F{$dp.$D(\'applyEndTime\')}'})">
+                            <span class="left" style="width:10%">--</span>
+                            <input type="text" id="applyEndTime" name="applyEndTime" class="icon-calendar form-control left Wdate" style="width:45%" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,minDate:'#F{$dp.$D(\'applyStartTime\')}'})">
+                        </div>
+                    </div>
+                </td>  
+                <td style="padding-left: 10px;"><div class="line-div">
+                    <div class="line-div-center">
+                        <input class="form-control" name="applyNo" placeholder="提现流水号" />
+                    </div>
+                </div></td>
+                <td class="text-left">
+                    <button type="button" id="search" class="left btn btn-mj">查询</button>
+                    <button type="button" id="clear" class="left btn">清空</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</script>
+<script type="text/template" id="searchTable2">
+    <table>
+        <colgroup>
+            <col width="420"><col width="240">
+            <col width="180">
+        </colgroup>
+        <tbody>
+            <tr><td>
+                    <div class="line-div w75">
+                        <div class="line-div-label">
+                            提现时间：
+                        </div>
+                        <div class="line-div-center">
+                            <input type="text" name="applyStartTime" class="icon-calendar form-control left Wdate" style="width:45%" id="applyStartTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,maxDate:'#F{$dp.$D(\'applyEndTime\')}'})">
+                            <span class="left" style="width:10%">--</span>
+                            <input type="text" id="applyEndTime" name="applyEndTime" class="icon-calendar form-control left Wdate" style="width:45%" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,minDate:'#F{$dp.$D(\'applyStartTime\')}'})">
+                        </div>
+                    </div>
+                </td>  
+                <td style="padding-left: 10px;"><div class="line-div">
+                    <div class="line-div-center">
+                        <select name="orgId">
+                            <option></option>
+                        </select>
+                    </div>
+                </div></td>
+                <td class="text-left">
+                    <button type="button" id="search" class="left btn btn-mj">查询</button>
+                    <button type="button" id="clear" class="left btn">清空</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="line-div w75">
+                        <div class="line-div-label">
+                            操作时间：
+                        </div>
+                        <div class="line-div-center">
+                            <input type="text" name="operateStartTime" class="icon-calendar form-control left Wdate" style="width:45%" id="operateStartTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,maxDate:'#F{$dp.$D(\'operateEndTime\')}'})">
+                            <span class="left" style="width:10%">--</span>
+                            <input type="text" id="operateEndTime" name="operateEndTime" class="icon-calendar form-control left Wdate" style="width:45%" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,minDate:'#F{$dp.$D(\'operateStartTime\')}'})">
+                        </div>
+                    </div>
+                </td>  
+                <td style="padding-left: 10px;"><div class="line-div">
+                    <div class="line-div-center">
+                        <input class="form-control" name="applyNo" placeholder="提现流水号" />
+                    </div>
+                </div></td>
+            </tr>
+        </tbody>
+    </table>
+</script>
+<script type="text/template" id="searchTable3">
+    <table>
+        <colgroup>
+            <col width="420"><col width="140"><col width="220">
+            <col width="180">
+        </colgroup>
+        <tbody>
+            <tr><td>
+                <div class="line-div w75">
+                    <div class="line-div-label">
+                        提现时间：
+                    </div>
+                    <div class="line-div-center">
+                        <input type="text" name="applyStartTime" class="icon-calendar form-control left Wdate" style="width:45%" id="applyStartTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,maxDate:'#F{$dp.$D(\'applyEndTime\')}'})">
+                        <span class="left" style="width:10%">--</span>
+                        <input type="text" id="applyEndTime" name="applyEndTime" class="icon-calendar form-control left Wdate" style="width:45%" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,minDate:'#F{$dp.$D(\'applyStartTime\')}'})">
+                    </div>
+                </div></td>
+                <td style="padding-left: 10px;"><div class="line-div">
+                    <div class="line-div-center">
+                        <select name="payChannel">
+                            <option></option>
+                            <option value="1">成功</option>
+                            <option value="2">失败</option>
+                        </select>
+                    </div>
+                </div></td>
+                <td style="padding-left: 10px;"><div class="line-div">
+                    <div class="line-div-center">
+                        <select name="orgId">
+                            <option></option>
+                        </select>
+                    </div>
+                </div></td>
+                <td class="text-left">
+                    <button type="button" id="search" class="left btn btn-mj">查询</button>
+                    <button type="button" id="clear" class="left btn">清空</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="line-div w75">
+                        <div class="line-div-label">
+                            操作时间：
+                        </div>
+                        <div class="line-div-center">
+                            <input type="text" name="operateStartTime" class="icon-calendar form-control left Wdate" style="width:45%" id="operateStartTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,maxDate:'#F{$dp.$D(\'operateEndTime\')}'})">
+                            <span class="left" style="width:10%">--</span>
+                            <input type="text" id="operateEndTime" name="operateEndTime" class="icon-calendar form-control left Wdate" style="width:45%" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,minDate:'#F{$dp.$D(\'operateStartTime\')}'})">
+                        </div>
+                    </div>
+                </td>
+                <td style="padding-left: 10px;"><div class="line-div">
+                    <div class="line-div-center">
+                        <select name="status">
+                            <option></option> 
+                            <option value="3">成功</option>
+                            <option value="4">失败</option>
+                        </select>
+                    </div>
+                </div></td> 
+                <td style="padding-left: 10px;"><div class="line-div">
+                    <div class="line-div-center">
+                        <input class="form-control" name="applyNo" placeholder="提现流水号" />
+                    </div>
+                </div></td>
+            </tr>
+        </tbody>
+    </table>
+</script>
+<!-- <script type="text/template" id="overlayTemp">
+    <table>
+        <colgroup>
+            <col width="300"><col width="300">
+        </colgroup>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="line-div w100">
+                        <div class="line-div-label">
+                            银行卡类型：
+                        </div>
+                        <div class="line-div-center">
+                            <input class="form-control" value="{{bankStr}}" disabled />
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="line-div w100">
+                        <div class="line-div-label">
+                            开户人姓名：
+                        </div>
+                        <div class="line-div-center">
+                            <input class="form-control" value="{{name}}" disabled />
+                        </div>
+                    </div>
+                </td>  
+                <td>
+                    <div class="line-div w100">
+                        <div class="line-div-label">
+                            收款地址：
+                        </div>
+                        <div class="line-div-center">
+                            <input class="form-control" value="{{address}}" disabled />
+                        </div>
+                    </div>
+                </td>                 
+            </tr>
+            <tr>
+                <td>
+                    <div class="line-div w100">
+                        <div class="line-div-label">
+                            银行卡号：
+                        </div>
+                        <div class="line-div-center">
+                            <input class="form-control" value="{{cardNo}}" disabled />
+                        </div>
+                    </div>
+                </td>  
+                <td>
+                    <div class="line-div w100">
+                        <div class="line-div-label">
+                            开户行名称：
+                        </div>
+                        <div class="line-div-center">
+                            <input class="form-control" value="{{bankName}}" disabled />
+                        </div>
+                    </div>
+                </td>                 
+            </tr>
+        </tbody>
+    </table>
+</script> -->
+<script type="text/template" id="overlayTemp">
+    <table>
+        <colgroup>
+            <col width="300">
+            <col width="340">
+            <col width="300">
+        </colgroup>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="line-div w100">
+                        <div class="line-div-label">
+                            提现流水号：
+                        </div>
+                        <div class="line-div-center">
+                            <input class="form-control" value="{{applyNo}}" disabled />
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="line-div w100">
+                        <div class="line-div-label">
+                            提现时间：
+                        </div>
+                        <div class="line-div-center">
+                            <input class="form-control" value="{{applyUserName}} {{applyTime}}" disabled />
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="line-div w100">
+                        <div class="line-div-label">
+                            银行卡类型：
+                        </div>
+                        <div class="line-div-center">
+                            <input class="form-control" value="{{cardType}}" disabled />
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="line-div w100">
+                        <div class="line-div-label">
+                            开户人姓名：
+                        </div>
+                        <div class="line-div-center">
+                            <input class="form-control" value="{{name}}" disabled />
+                        </div>
+                    </div>
+                </td>  
+                <td>
+                    <div class="line-div w100">
+                        <div class="line-div-label">
+                            银行卡号：
+                        </div>
+                        <div class="line-div-center">
+                            <input class="form-control" name="cardNo" value="{{cardNo}}" disabled />
+                        </div>
+                    </div>
+                </td>  
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="line-div w100">
+                        <div class="line-div-label">
+                            收款地址：
+                        </div>
+                        <div class="line-div-center">
+                            <input class="form-control" value="{{address}}" disabled />
+                        </div>
+                    </div>
+                </td>          
+                <td>
+                    <div class="line-div w100">
+                        <div class="line-div-label">
+                            开户银行：
+                        </div>
+                        <div class="line-div-center">
+                            <input class="form-control" value="{{bankName}}" disabled />
+                        </div>
+                    </div>
+                </td>                 
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <div class="line-div w100" style="height: 60px;">
+                        <div class="line-div-label">
+                            备注说明：
+                        </div>
+                        <div class="line-div-center">
+                            <textarea class="form-control" rows="2" disabled>{{remark}}</textarea>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div id="tab-container" style="position: relative;">
+        <ul id="switch1-tab" class="nav nav-tabs" style="margin: 10px 0 0 0">
+            <li class="active nav-item"><a href="#">资金入账流水</a></li>
+            <li class="nav-item"><a href="#">转账流水</a></li>
+        </ul>
+        <div style="position: absolute; z-index: 99; top: 0; right: 0; line-height: 39px;">金额 <span style="color: red;">{{applyMoney}}</span>，实际到账 <span style="color: red;">{{actualMoney}}</span></div>
+    </div>
+    <div id="gridWrapper1" class="tab-content container active" style="padding: 15px;">
+        <div id="gridDiv1"></div>
+    </div>
+</script>
+<script type="text/javascript">
+    seajs.use('controllers/corporate/withdrawCenter')
+</script>

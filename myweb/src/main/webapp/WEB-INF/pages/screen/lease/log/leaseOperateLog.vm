@@ -1,0 +1,77 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row"><div class="col-md-12 col-sm-12 col-xs-12 window">
+    <div class="x_panel window">
+	    <div class="x_title">
+			<div class="clearfix"></div>
+			<div class="searchDiv">
+				<form id="searchForm">
+				<table>
+					<colgroup>
+						<col width="200">
+						<col width="240">
+						<col width="200">
+						<col width="260">
+						<col width="200">
+					</colgroup>
+					<tr>
+						<td>
+							<div class="line-div w75">
+								<div class="line-div-label">公寓：</div>
+								<div class="line-div-center">
+								<select id="hostingType"  name="hostingType">
+									<option value="1">集中式</option>
+									<option value="2">分散式</option>
+								</select>
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="line-div w75">
+								<div class="line-div-label">公寓：</div>
+								<div class="line-div-center">
+									<select id="estateId"  name="estateId">
+										<option value="">请选择</option>
+									</select>
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="line-div w90">
+								<div class="line-div-label">订单号：</div>
+								<div class="line-div-center">
+									<input type="text" name='orderNo' class="form-control">
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="line-div w90">
+								<div class="line-div-label">房间号</div>
+								<div class="line-div-center">
+									<input type="text" name='roomNo' class="form-control">
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="searchBtn">
+							<button type="button" id="search" class="left btn btn-mj">查询</button>
+							<button type="button" id="clear" class="left btn">清空</button>
+							</div>
+						</td>
+					</tr>
+				</table>
+				</form>
+			</div>
+		</div>
+		<div class="x_content">
+        	<div class="clearfix gray-bg"></div>
+	        <div id="gridDiv"></div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" >
+	 seajs.use('controllers/log/log')
+</script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left_none.vm')
+<div class="hostingLease orderDetail">
+    <input type="hidden" id="houseId" value="$!{houseId}"/>
+    <input type="hidden" id="roomId" value="$!{roomId}"/>
+     <input type="hidden" id="orderId" value="$!{orderId}"/>
+    <div class="content">
+    </div>
+</div>
+<script  type="text/template" id='orderDetail'>
+<div class='schedule'>
+{{#headerDom this}}{{/headerDom}}
+<form id='roomform'>
+    <div class='lease_reserveL'>
+        <div class="div_all">
+            <div class='roomName'>{{roomName}}</div>
+        </div>
+        <div class="div_all">
+            <div class="div_item">
+                <div class="left">房租:</div><input type="text" class='rentFee retP input_item left form-control' name="rentFee" value={{realRentFeeStr}} > <div class="left">元/月</div>
+            </div>
+            <div class="div_item">
+              <div class="left">押金:</div> <input type="text" class="depositPrice retP input_l  form-control"  name='depositPrice' value={{realDepositFeeStr}} > 元
+            </div>
+            <div class="div_item">
+               <div class="left">交租类型:</div> 
+               <input type="text" class='input_l  form-control' value='{{baseRentTypeName}}' >
+            </div>
+        </div>
+        <div class="div_all">
+            <div class="div_item">
+                <div class="left">租期: </div> 
+                <input type="text" class='input_l  form-control' value={{monthNum}}>
+            </div>
+            <div class="div_item">
+                <div class="left">入住时间: </div>
+                <input type="text" class="input_l form-control " value={{startDateStr}}>
+            </div>
+            
+        </div>
+        <div class="div_all">
+            <div class="div_item">
+                <div class="left">客户来源: </div>
+                <input type="text" class="input_l form-control" value={{channelTypeName}}>
+            </div>
+            <div class="div_item">
+                <div class="left">操作员: </div>
+                <input type="text" class="input_l form-control" value={{operator}}>
+            </div>
+        </div>
+        <div class="div_frame">
+            <div class="div_box_frame">
+                 <div class="divFrame">签约人信息</div>
+            </div>
+            <div class="div_box_item">
+                <div class="div_item">
+                    <div class="child_item">
+                        <div class="left">姓 名: </div>
+                        <input class='input_item  form-control' type="text" name='realName' value={{contactName}}>
+                        <input type="text" class='input_2 form-control' value={{contactGender}}>
+                    </div>
+                    <div class="child_item">
+                        <div class="left">手机号码:</div>
+                        <input type="text" name='mobile' class='mobile  form-control' value={{contactMobile}}>
+                    </div>
+                </div>
+                <div class="div_item">
+                    <div class="child_item">
+                        <div class="left">证件类型: </div>
+                        <input type="text" class='contactCardType  form-control'>
+                    </div>
+                    <div class="child_item">
+                        <div class="left">证件号码:</div>
+                        <input type="text" name='cardNo' class='cardNo  form-control' value={{contactCardNo}}>
+                    </div>
+                </div>
+                <div class="div_item " id='selected'>
+                    <div class="child_item">
+                        <div class="left">紧急联系人: </div>
+                        <input  type="text" class='input_l contactEcpName  form-control' name='contactEcpName' value={{contactEcpName}}>
+                    </div>
+                    <div class="child_item">
+                        <div class="left">手机号码:</div>
+                        <input type="text" name='contactEcpMobile' class=' contactEcpMobile  form-control' value={{contactEcpMobile}}>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+    <div class='remarks'>订单备注: <button type="button"  class="btn btn-mj right">添加备注</button></div>
+    <div class="txt">
+    <textarea name="renterRemark" class='orderRemark form-control' id="text_n" cols="30" rows="10" >{{renterRemark}}</textarea>
+    </div>
+</form>
+</div>
+</script>
+<script  type="text/template" id='checkIn'>
+<div class="checkin">
+   <div class="div_all">
+     <div class='name'>{{roomName}} <button type="button" id='add' class="btn btn-mj right">添加入住人</button></div>
+   </div>
+</div>
+<div class="divPage"></div>
+</script>
+<script  type="text/template" id='Add'>
+<table id="J_form">
+    <colgroup>
+        <col width="400">
+    </colgroup>
+    <tr>
+	    <td>
+	        <div class="line-div w90">
+	            <div class="line-div-label">
+	              		姓名：<i class="red">*</i>
+	            </div>
+	            <div class="line-div-center">
+	                <input type="text" placeholder="" autocomplete="off"  validate value="" id='real' name="realName" class="form-control">
+	            </div>
+	        </div>
+	    </td>
+    </tr>
+    <tr>
+	    <td>
+	        <div class="line-div w90">
+	            <div class="line-div-label">
+	              		性别：<i class="red">*</i>
+	            </div>
+	            <div class="line-div-center">
+                    <select name="gender" id="gender">
+                        <option value="1">男</option>
+                        <option value="2">女</option>
+                    </select>
+	            </div>
+	        </div>
+	    </td>
+    </tr>
+    <tr>
+	    <td>
+	        <div class="line-div w90">
+	            <div class="line-div-label">
+	              		身份证：<i class="red">*</i>
+	            </div>
+	            <div class="line-div-center">
+	                <input type="text" placeholder="" autocomplete="off"  validate='icCard' name="cardNo" class="form-control icCard">
+	            </div>
+	        </div>
+	    </td>
+    </tr> 
+    <tr>
+	    <td>
+	        <div class="line-div w90">
+	            <div class="line-div-label">
+	              		手机号码：<i class="red">*</i>
+	            </div>
+	            <div class="line-div-center">
+	                <input type="text" placeholder=""  autocomplete="off"  validate='mobile' name="mobile" class="form-control Mobile">
+	            </div>
+	        </div>
+	    </td>
+    </tr>  
+</table>
+</script>
+<script type="text/template" id='remark'>
+<form id="descForm">
+        <div class="leftDiv">
+            <table class="roomTable">
+                <colgroup>
+                    <col width="300">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <td>
+                        <div class="line-div w90">
+                            <div class="line-div-label">
+                                添加备注：<i class="red">*</i>
+                            </div>
+                            <div class="line-div-center">
+                                <textarea validate="" class="remark"  style='height:115px' name="renterRemark"></textarea>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+    </form>
+</script>
+<!--盘谷分期时，查看合同-->
+<script type="text/template" id='contact'>
+<div class="div_rent">
+    <div class="line-div w90" >
+        <div class="line-div-label">
+            房租合同：
+        </div>
+        <div class="line-div-center">
+            <button type="button"  class="left btn rentContract">查看</button>
+        </div>
+    </div>
+    <div class="line-div w90">
+        <div class="line-div-label">
+            分期合同：
+        </div>
+        <div class="line-div-center">
+            <button type="button"  class="left btn byStages">查看</button>
+        </div>
+    </div>
+</div>
+</script>
+<script type="text/javascript">
+	seajs.use('controllers/supervise/initHostingOrderDetail.js')
+</script>

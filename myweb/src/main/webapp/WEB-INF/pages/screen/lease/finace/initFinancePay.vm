@@ -1,0 +1,153 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row">
+   	<div class="col-md-12 col-sm-12 col-xs-12 window">
+     	<div class="x_panel window">
+			<form id="searchForm" class="form-group">
+				<table>
+					<colgroup>
+                        <col width="140">
+						<col width="120">
+						<col width="120">
+                        <col width="120">
+                        <col width="120">
+                        <col width="120">
+                        <col width="120">
+                        <col width="160">
+					</colgroup>
+					<tbody>
+						<tr>
+                            <td class="text-left">
+                                <div class="btn-group housingType">
+                                    <button type="button" class="btn btn-mj" style="margin-left: 0;">集中式</button>
+                                    <button type="button" class="btn">分散式</button>
+                                </div>
+                            </td>
+                            <td colspan="4" style="padding-left: 10px;">
+                                <div class="line-div w75">
+                                    <div class="line-div-label">
+                                        出账时间：
+                                    </div>
+                                    <div class="line-div-center">
+                                        <input type="text" name="createStartDateStr" class="icon-calendar form-control left Wdate" style="width:45%" id="createStartDateStr" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,maxDate:'#F{$dp.$D(\'createEndDateStr\')}'})">
+                                        <span class="left" style="width:10%">--</span>
+                                        <input type="text" id="createEndDateStr" name="createEndDateStr" class="icon-calendar form-control left Wdate" style="width:45%" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,minDate:'#F{$dp.$D(\'createStartDateStr\')}'})">
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="padding-left: 10px;">
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <select name="feeType" class="form-control" style="width: 100%;">
+                                            <option value=""></option>
+                                            <option value="1">房租</option>
+                                            <option value="2">押金</option>
+                                            <option value="14">期租金</option>
+                                            <option value="15">首期租金</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="padding-left: 10px;">
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <select  name="payType" class="form-control" style="width: 100%;">
+                                            <option value=""></option>
+                                            <option value="1">现金</option>
+                                            <option value="3">支付宝</option>
+                                            <option value="4">微信</option>
+                                            <option value="5">连连支付</option>
+                                            <option value="6">支付宝线下</option>
+                                            <option value="7">微信线下</option>
+                                            <option value="9">银行转账</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-left">
+                                <button type="button" id="search" class="left btn btn-mj">查询</button>
+                                <button type="button" id="empty" class="left btn">清空</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <select name="orgId" class="form-control" style="width: 100%;">
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td colspan="4" style="padding-left: 10px;">
+                                <div class="line-div w75">
+                                    <div class="line-div-label">
+                                        结账时间：
+                                    </div>
+                                    <div class="line-div-center">
+                                        <input type="text" name="finishStartDateStr" class="icon-calendar form-control left Wdate" style="width:45%" id="finishStartDateStr" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,maxDate:'#F{$dp.$D(\'finishEndDateStr\')}'})">
+                                        <span class="left" style="width:10%;">--</span>
+                                        <input type="text" id="finishEndDateStr" name="finishEndDateStr" class="icon-calendar form-control left Wdate" style="width:45%" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,minDate:'#F{$dp.$D(\'finishStartDateStr\')}'})">
+                                    </div>
+                                </div>
+                            </td>
+                            <td colspan="2" style="padding-left: 10px;">
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <input placeholder="姓名/身份证/账单号/订单号" class="form-control" name="name">
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <button type="button" id="exportData" class="left btn">导出</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td width="140">
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <select name="cityId" class="form-control" style="width: 100%;">
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td width="120" style="padding-left: 10px;" class="estateType hide">
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <select name="areaId" class="form-control" style="width: 100%;">
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td width="258" style="padding-left: 10px;">
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <select name="plotId" class="form-control" style="width: 100%;">
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+            <div class="table-topDiv">
+                <span style="margin-right:10px;">账单总金额： <i class="totalFee red"></i> </span>
+                <span style="margin-right:10px;">实收金额： <i class="billFee red"></i> </span>
+                <span style="margin-right:10px;">未结算： <i class="unpayFee red"></i> </span>
+            </div>
+			<div id="gridDiv"></div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+  	seajs.use('controllers/lease/initFinancePay.js')
+</script>

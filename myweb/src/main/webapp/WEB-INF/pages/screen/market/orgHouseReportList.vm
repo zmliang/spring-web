@@ -1,0 +1,34 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12 window">
+    <div class="x_panel window">
+        <div class="right" style="width: 240px;margin-left: 10px;">
+            <iframe id="exeframe" name="exeframe" class="hide" height="0" width="0"></iframe>
+            <form id="searchForm" method="post" target="exeframe" action="downloadOrgHouseReport.htm" onsubmit="return checkSubmit()">
+                <div class="form-group clearfix">
+                    <button type="button" id="search" class="btn btn-mj" style="margin-left: 0;">查询</button>
+                    <button type="button" id="empty" class="btn" style="margin-left: 10px;">清空</button>
+                    <button type="button" id="exportData" class="right btn">导出</button>
+                </div>
+                <div class="form-group clearfix">
+                    <input type="text" name="startDate" class="form-control left Wdate" style="width:45%" id="startDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true,maxDate:'#F{$dp.$D(\'endDate\')}'})">
+                    <span class="left text-center" style="width:10%;"> -- </span>
+                    <input type="text" id="endDate" name="endDate" class="form-control left Wdate" style="width:45%" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true,minDate:'#F{$dp.$D(\'startDate\')}'})">
+                </div>
+                <div class="form-group clearfix" style="margin-bottom: 0;">
+                    <textarea id="orgNames" class="form-control" 
+                        style="width: 240px; height: 300px;"
+                        placeholder="请输入手机号码或组织名称，多个请换行查询"></textarea>
+                </div>
+                <input type="hidden" name="orgNames" value="">
+            </form>
+        </div>
+        <div id="gridDiv"></div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+    seajs.use('controllers/market/orgHouseReport.js')
+</script>

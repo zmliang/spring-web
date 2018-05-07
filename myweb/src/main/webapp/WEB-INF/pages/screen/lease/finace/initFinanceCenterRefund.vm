@@ -1,0 +1,566 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<style type="text/css">
+    .bg-line {
+        float: left;
+        width: 100%;
+        background: #dfe3ec;
+        height: 28px;
+        line-height: 28px;
+        padding-left: 10px;
+    }
+    .w90 {
+        text-align: left;
+    }
+    .icon-delete {
+        color: red;
+        font-size: 22px;
+    }
+    .feeBody .input-group span.editPrice {
+        color: #fff;
+        height: 28px;
+        background-color: #4680ff;
+        border-color: #4680ff;
+        opacity: 1;
+    }
+    .redBorder {
+        border:1px solid red !important;
+    }
+    .errorDate {
+        position: absolute;
+        color: red;
+        width: 400px;
+        right: -8px;
+        top: 8px;
+    }
+    .detailBtn {
+        position: absolute;
+        top: 5px;
+        right: 20px;
+        min-width: 50px;
+        display: none;
+    }
+    #outForm .col-sm-3{
+        width: 30%;
+    }
+    div.allfeeDiv {
+        margin-top: -10px;
+    }
+    div.allfeeDiv *{
+        font-weight: 700;
+        font-size: 15px;
+    }
+</style>
+<div class="row">
+   	<div class="col-md-12 col-sm-12 col-xs-12 window">
+     	<div class="x_panel window">
+     		<input type="hidden" name="organizationId" value="$!{organizationId}" />
+			<div>
+				<form id="searchForm">
+					<table>
+						<colgroup>
+							<col width="140">
+							<col width="110">
+							<col width="110">
+							<col width="110">
+							<col width="110">
+							<col width="110">
+							<col width="110">
+							<col width="240">
+						</colgroup>
+						<tbody>
+							<tr>
+								<td class="text-left">
+									<div class="btn-group housingType">
+                                    	<button type="button" class="btn btn-mj" style="margin-left: 0;">集中式</button>
+                                    	<button type="button" class="btn">分散式</button>
+                                    </div>
+                                </td>
+								<td colspan="4" style="padding-left: 10px;">
+									<div class="line-div w75" style="width: 100%;">
+										<div class="line-div-label">
+											出账时间：
+										</div>
+										<div class="line-div-center">
+											<input type="text" name="createStartDateStr" class="icon-calendar form-control left Wdate" style="width:45%" id="createStartDateStr" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,maxDate:'#F{$dp.$D(\'createEndDateStr\')}'})">
+					                    		<span class="left" style="width:10%">--</span>
+					                    	<input type="text" id="createEndDateStr" name="createEndDateStr" class="icon-calendar form-control left Wdate" style="width:45%" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,minDate:'#F{$dp.$D(\'createStartDateStr\')}'})">
+										</div>
+									</div>
+								</td>
+								<td colspan="2" style="padding-left: 10px;">
+									<div class="line-div">
+										<div class="line-div-center">
+											<input placeholder="姓名/身份证/账单号/订单号" class="form-control" name="name">
+										</div>
+									</div>
+								</td>
+								<td class="text-right">
+									<button type="button" id="search" class="btn btn-mj">查询</button>
+									<button type="button" id="empty" class="btn">清空</button>
+									<button type="button" id="exportData" class="btn">导出</button>
+								</td>
+							</tr>
+							<tr>
+								<td class="colspanTd">
+                                    <div class="line-div">
+                                        <div class="line-div-center">
+                                            <select name="billStatus" class="form-control" style="width: 100%;">
+                                                <option value=""></option>
+                                                <option value="1">未退款</option>
+                                                <option value="2">已退款</option>
+                                                <option value="3">已作废</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+								<td colspan="4" style="padding-left: 10px;">
+									<div class="line-div w75" style="width: 100%;">
+										<div class="line-div-label">
+											退款时间：
+										</div>
+										<div class="line-div-center">
+											<input type="text" name="finishStartDateStr" class="icon-calendar form-control left Wdate" style="width:45%" id="finishStartDateStr" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,maxDate:'#F{$dp.$D(\'finishEndDateStr\')}'})">
+					                    		<span class="left" style="width:10%">--</span>
+					                    	<input type="text" id="finishEndDateStr" name="finishEndDateStr" class="icon-calendar form-control left Wdate" style="width:45%" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,minDate:'#F{$dp.$D(\'finishStartDateStr\')}'})">
+										</div>
+									</div>
+								</td>
+								<td style="padding-left: 10px;">
+                                    <div class="line-div">
+                                        <div class="line-div-center">
+                                            <select name="cityId" class="form-control" style="width: 100%;">
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="padding-left: 10px;" class="estateType hide">
+                                    <div class="line-div">
+                                        <div class="line-div-center">
+                                            <select name="areaId" class="form-control" style="width: 100%;">
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td colspan="2" style="padding-left: 10px;">
+                                    <div class="line-div">
+                                        <div class="line-div-center">
+                                            <select name="estateId" class="form-control" style="width: 100%;">
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+				<div style="margin-top: 10px;">
+					<div class="table-topDiv">
+			            <span style="margin-right:10px;">退款金额：<i class="totalFee red"></i> </span>
+			            <span style="margin-right:10px;">已退款： <i class="billFee red"></i> </span>
+			            <span style="margin-right:10px;">还需退款： <i class="unpayFee red"></i> </span>
+			        </div>
+			        <div class="grid_box">
+						<div id="gridDiv"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 退房 -->
+<script type="text/template" id="renderOut">
+    <div class="backDiv">
+    <form id="outForm">
+        <div class="line-div">
+            <div class="line-div w75" style="width: 240px">
+                <div class="line-div-label">
+                    退房日期：
+                </div>
+                <div class="line-div-center">
+                    <input class="form-control Wdate" disabled name="checkoutDate" 
+                    onfocus="WdatePicker({
+                        dateFmt:'yyyy-MM-dd',isShowClear:true,
+                        onpicked:backDate
+                    })" value="{{checkoutDate}}">
+                </div>
+            </div>
+        </div>
+        <div class="bg-line">
+            <div >预收款及本期发生</div>
+        </div>
+        <div class="left relative" style="width: 100%">
+            <div class="left errorDate">订单已超期，请确认在其他费用中收取超期的租金和服务费。</div>
+            <div class="col-sm-3">
+                <div class="line-div w90">
+                    <div class="line-div-label">
+                        预收押金：
+                    </div>
+                    <div class="line-div-center">
+                        <div class="input-group">
+                            <input type="text" class="form-control depositFee" value="{{depositFee}}" disabled>
+                            <span class="input-group-addon">元</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="left relative" style="width: 100%">
+            
+            <button type="button" class="btn btn-active detailBtn">详情</button>
+            <div class="col-sm-3">
+                <div class="line-div w90">
+                    <div class="line-div-label">
+                        预收房租：
+                    </div>
+                    <div class="line-div-center">
+                        <div class="input-group">
+                            <input type="text" class="form-control rentFee" value="{{rentFee}}" disabled>
+                            <span class="input-group-addon">元</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="line-div w75">
+                    <div class="line-div-label">
+                        平台补贴：
+                    </div>
+                    <div class="line-div-center">
+                        <div class="input-group">
+                            <input type="text" class="form-control rentBonus" value="{{rentBonus}}" disabled>
+                            <span class="input-group-addon">元</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="line-div w75">
+                    <div class="line-div-label">
+                        本期发生：
+                    </div>
+                    <div class="line-div-center">
+                        <div class="input-group">
+                            <input type="text" validate class="form-control numInput currentRent" name="currentRent" disabled value="{{currentRent}}">
+                            <span class="input-group-addon">元</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="left" style="width: 100%">
+            <div class="col-sm-3">
+                <div class="line-div w90">
+                    <div class="line-div-label">
+                        预收服务费：
+                    </div>
+                    <div class="line-div-center">
+                        <div class="input-group">
+                            <input type="text" class="form-control serviceFee" value="{{serviceFee}}" disabled>
+                            <span class="input-group-addon">元</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="line-div w75">
+                    <div class="line-div-label">
+                        本期发生：
+                    </div>
+                    <div class="line-div-center">
+                        <div class="input-group">
+                            <input type="text" class="form-control numInput currentService" name="currentService" disabled value="{{currentService}}">
+                            <span class="input-group-addon">元</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </form>
+        <div class="bg-line">
+            费用明细
+            <button class="btn btn-mj right" id="addNew">新增</button>
+        </div>
+        <div class="left" style="width: 100%;padding: 10px 0">
+            <table class="feeTable">
+                <colgroup>
+                    <col width="100">
+                    <col width="180">
+                    <col width="400">
+                    <col width="60">
+                </colgroup>
+                <thead>
+                    <th>费用</th>
+                    <th>金额（元）</th>
+                    <th>备注</th>
+                    <th></th>
+                </thead>
+                <tbody class="feeBody">
+                    {{#each items}}
+                        <tr>        
+                            <td style="padding-left: 10px">
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <select name="type">
+                                            {{#selectOpt type}}{{/selectOpt}}
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td style="padding-left: 10px">
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <div class="input-group" style="width: 100%">
+                                            
+                                            {{#isShow 1 type}}
+                                                <input type="text" class="form-control feeInput numInput hoverInput" disabled name="fee" value="{{fee}}">
+                                                <span class="input-group-addon editPrice" >修改</span>
+                                            {{else}}
+                                                <input type="text" class="form-control feeInput numInput" name="fee" value="{{fee}}">
+                                                <span class="input-group-addon editPrice" style="display: none">修改</span>
+                                            {{/isShow}}                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td style="padding-left: 10px">
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                         <input class="form-control" name="remark" value="{{remark}}"></input>
+                                    </div>
+                                </div>                           
+                            </td>
+                            <td>
+                                <div class="delIcon">
+                                    <i class="icon-delete"></i>
+                                </div>                           
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            <div class="feeDiv" style="display: none">
+                <div style="width: 100px;text-align: center" class="left">费用合计：</div>
+                <div style="width: 180px;text-align: center" class="priceTotal left"></div>
+            </div>
+        </div>
+        <div class="bg-line">
+            结算信息
+        </div>
+        <div class="left" style="width: 100%">
+            <div class="col-sm-3">
+                <div class="line-div w75">
+                    <div class="line-div-label">
+                        应退押金：
+                    </div>
+                    <div class="line-div-center">
+                        <span class="red returnDepositFee">0</span> 元
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="line-div w75">
+                    <div class="line-div-label">
+                        应退房租：
+                    </div>
+                    <div class="line-div-center">
+                        <span class="red returnRentFee">0</span> 元
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="line-div w90">
+                    <div class="line-div-label">
+                        应退服务费：
+                    </div>
+                    <div class="line-div-center">
+                        <span class="red returnServiceFee">0</span> 元
+                    </div>
+                </div>
+            </div>
+            <div class="line-div allfeeDiv">
+                 <div class="col-sm-3 right">
+                <div class="line-div w90">
+                    <div class="line-div-label">
+                        应退总额：
+                    </div>
+                    <div class="line-div-center">
+                        <span class="red returnTotal">0</span> 元
+                    </div>
+                </div>
+            </div>
+            </div>
+           
+        </div>
+    </div>
+</script>
+<script type="text/template" id="addTrTmp">
+    <tr>
+        
+        <td style="padding-left: 10px">
+            <div class="line-div">
+                <div class="line-div-center">
+                    <select name="type">
+                        {{#selectOpt}}{{/selectOpt}}
+                    </select>
+                </div>
+            </div>
+            
+        </td>
+        <td style="padding-left: 10px">
+            <div class="line-div">
+                <div class="line-div-center">
+                    <div class="input-group" style="width: 100%">
+                        <input type="text" class="form-control feeInput numInput" name="fee">
+                        <span class="input-group-addon editPrice" style="display: none">修改</span>
+                    </div>
+                </div>
+            </div>
+            
+        </td>
+        <td style="padding-left: 10px">
+            <div class="line-div">
+                <div class="line-div-center">
+                     <input class="form-control" name="remark"></input>
+                </div>
+            </div>                           
+        </td>
+        <td>
+            <div class="delIcon">
+                <i class="icon-delete"></i>
+            </div>                           
+        </td>
+    </tr>
+</script>
+
+<!-- 水电费设置 -->
+<script type="text/template" id="settingFee">
+    <div class="clearfix">
+        <form id="setting_form">
+            <table>
+                <colgroup>
+                    <col width="300">
+                    <col width="300">
+                </colgroup>
+                <tr>
+                    <td>
+                        <div class="line-div w90">
+                            <div class="line-div-label">
+                                计算方式：
+                            </div>
+                            <div class="line-div-center">
+                                <select class="form-control" name="chargeType">
+                                    {{#renderChargType chargeType}}{{/renderChargType}}
+                                </select>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="billFeeItem line-div w90">
+                            <div class="line-div-label">
+                                单价金额：<i class="red">*</i>
+                            </div>
+                            <div class="line-div-center input-group">
+                                <input type="text" class="form-control pInput postNum" validate
+                                    name="costPrice" value="">
+                                <span class="input-group-addon" style="border-left:0;display: {{display type '8'}}">元/吨</span>
+                                <span class="input-group-addon" style="display: {{display type '9'}}">元/度</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="countFeeType">
+                    <td>
+                        <div class="line-div w90">
+                            <div class="line-div-label">
+                                本次抄表：<i class="red">*</i>
+                            </div>
+                            <div class="line-div-center input-group">
+                                <input type="text" class="form-control validateNum postNum" validate {{isDisable isEle}}
+                                    name="thisNum" value="{{thisNum}}">
+                                <span class="input-group-addon" style="border-left:0;display: {{display type '8'}}">吨</span>
+                                <span class="input-group-addon" style="display: {{display type '9'}}">度</span>
+                                <span class="input-group-addon editSpan" style="display: {{display isEle '1'}}">自定义</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="line-div w90">
+                            <div class="line-div-label">
+                                抄表时间：<i class="red">*</i>
+                            </div>
+                            <div class="line-div-center">
+                                <input type="text" id="thisRecordTime" 
+                                    name="thisRecordTime" value="{{thisRecordTime}}"
+                                    class="icon-calendar form-control Wdate"
+                                    onfocus="WdatePicker({
+                                        dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,
+                                        onpicked:dateReading
+                                    })">
+                            </div>
+                            <button type="button" class="btn btn-mj getReading" style="position: absolute;right:-85px;display: {{display isEle '1' type}}">获取读数</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="countFeeType">
+                    <td>
+                        <div class="line-div w90">
+                            <div class="line-div-label">
+                                上次抄表：<i class="red">*</i>
+                            </div>
+                            <div class="line-div-center input-group">
+                                <input type="text" class="form-control validateNum postNum" validate {{isDisable isEle}}
+                                    name="lastNum" value="{{lastNum}}">
+                                <span class="input-group-addon" style="border-left:0;display: {{display type '8'}}">吨</span>
+                                <span class="input-group-addon" style="display: {{display type '9'}}">度</span>
+                                <span class="input-group-addon editSpan" style="display: {{display isEle '1'}}">自定义</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="line-div w90">
+                            <div class="line-div-label">
+                                抄表时间：<i class="red">*</i>
+                            </div>
+                            <div class="line-div-center">
+                                <input type="text" id="lastRecordTime" 
+                                    name="lastRecordTime" value="{{lastRecordTime}}"
+                                    class="icon-calendar form-control Wdate"
+                                    onfocus="WdatePicker({
+                                        dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,
+                                        onpicked:lastReading
+                                    })">
+                            </div>
+                            <button type="button" class="btn btn-mj oldOrder hide" style="position: absolute;right:-85px">抄表记录</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="countFeeType">
+                    <td>
+                        <div class="line-div w90">
+                            <div class="line-div-label">
+                                总计金额：<i class="red">*</i>
+                            </div>
+                            <div class="line-div-center input-group">
+                                <input type="text" class="form-control validateNum toFixed realPayFee" 
+                                    readonly value="{{realPayFee}}">
+                                <span class="input-group-addon">元</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</script>
+
+<script type="text/javascript">
+  	seajs.use('controllers/lease/initFinanceCenterRefund.js')
+</script>

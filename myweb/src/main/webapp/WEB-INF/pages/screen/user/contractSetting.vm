@@ -1,0 +1,497 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<style type="text/css">
+	.underline {
+		display: inline-block;
+		min-width: 50px;
+		font-weight: 700;
+		padding: 0 15px;
+		border-bottom: 1px solid #000;
+	}
+	div.line-div .line-div-center input.readInput{
+	    width: 20px;
+	    float: left;
+	    position: relative;
+	    top: -4px;
+	}
+	.readSpan{
+	    float: left;
+	}
+	.readSpan a{
+	    text-decoration: underline;
+	}
+	.lookSignature{
+	    float: right;
+	    position: relative;
+	    top:-8px;
+	    border:1px solid #4680FF;
+	    color: #4680FF;
+	}
+	.line{
+	    width: 100%;
+	    height: 24px;
+	    float: left;
+	    text-align: left;
+	}
+	.protocolImg{
+		position: absolute;
+		right: 30px;
+		top: 0;
+	}
+	.prtUrl{
+		padding: 10px;
+		border:1px solid #6E6E6E;
+	}
+	.sort
+</style>
+<div class="row">
+   	<div class="col-md-12 col-sm-12 col-xs-12 window">
+     	<div class="x_panel window">
+     		<input type="hidden" name="organizationId" value="$!{organizationId}" />
+     		<input type="hidden" name="userId" value="$!{userInfo.userId}" />
+			<ul class="nav nav-tabs">
+	        	<li class="active"><a href="javascript:;">电子合同设置</a></li>
+	        	<li><a href="javascript:;">合同模板</a></li>
+			</ul>
+			<div class="tab-content container active" style="padding: 15px;">
+				<div class="well well-sm">
+					<div class="form-group clearfix" style="margin-bottom: 0;">
+		                <div class="line-div w90">
+		                  	<div class="line-div-label">
+		                    	电子签章：
+		                  	</div>
+		                  	<div class="line-div-center">
+		                  		<label class="renderStatusTag"></label>
+		                    	<button type="button" class="btn btn-mj right" id="settings">设置</button>
+		                    	
+		                  	</div>
+		                </div> 
+		            </div>
+		            <div class="form-group agreementAccess hide clearfix" style="margin-bottom: 0;">
+		                <div class="line-div w90">
+		                  	<div class="line-div-label">
+		                    	同意：
+		                  	</div>
+		                  	<div class="line-div-center">
+		                  		<a class="agreeLookProxy" style="text-decoration: underline;" href="javascript:;">《电子签章授权委托书》</a>
+		                  		<a class="agreeLookProtocol" style="text-decoration: underline;" href="javascript:;">《麦滴管家SaaS平台授权调用电子签名协议》</a>
+		                  	</div>
+		                </div> 
+		            </div>
+				</div>
+			</div>
+			<div class="tab-content container" style="padding: 15px;">
+				<div class="col-md-3" style="width:315px;margin-right:-315px;padding-left: 0;">
+				    <div class="cardList personalItem hide">
+				    	<div class="card_body" style="padding: 0px;">
+				    		<div class="card-img">
+				    			<img src="$!{rc.contextPath}/images/thumbnail.png" class="image">
+				    		</div>
+				    		<div class="card-title">
+				    			<h4>个人模板</h4>
+				    		</div>
+				    	</div>
+				    </div>
+				    <div class="cardList personalItem hide" style="margin-top: 15px;">
+				    	<div class="card_body" style="padding: 0px;">
+				    		<div class="card-img">
+				    			<img src="$!{rc.contextPath}/images/thumbnail.png" class="image">
+				    		</div>
+				    		<div class="card-title">
+				    			<h4>个人案例</h4>
+				    		</div>
+				    	</div>
+				    </div>
+				    <div class="cardList companyItem hide">
+				    	<div class="card_body" style="padding: 0px;">
+				    		<div class="card-img">
+				    			<img src="$!{rc.contextPath}/images/thumbnail.png" class="image">
+				    		</div>
+				    		<div class="card-title">
+				    			<h4>企业模板</h4>
+				    		</div>
+				    	</div>
+				    </div>
+				    <div class="cardList companyItem hide" style="margin-top: 15px;">
+				    	<div class="card_body" style="padding: 0px;">
+				    		<div class="card-img">
+				    			<img src="$!{rc.contextPath}/images/thumbnail.png" class="image">
+				    		</div>
+				    		<div class="card-title">
+				    			<h4>企业案例</h4>
+				    		</div>
+				    	</div>
+				    </div>
+				</div>
+				<div class="col-md-9" style="margin-left:315px; padding-left: 0; padding-right: 0; height: 100%;">
+					<div class="panel panel-default" style="height: 100%;">
+						<div class="panel-heading"></div>
+							<div class="panel-body" id="pdfView" style="padding: 0;"></div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/template" id="enterpriseTmp">
+	<div class="formDiv relative">
+		<div class="protocolImg">
+			<div class="left" style="margin-right: 10px;text-align: center;">电子签章<br>(模板)</div>
+			<div class="prtUrl left">
+				<img src="{{electronicSealUrl}}" style="width: 150px;">
+			</div>
+		</div>
+		<form id="levelForm">
+	    <table>
+	        <colgroup>
+	          <col width="450">
+	          <col width="350">
+	        </colgroup>
+	        <tr>
+	            <td>
+	                <div class="form-group clearfix">
+	                    <div class="line-div w140">
+	                        <div class="line-div-label">
+	                            企业名称:<i class="red">*</i>
+	                        </div>
+	                        <div class="line-div-center">
+	                            <input class="form-control" readonly name="epName" value="{{epName}}">
+	                        </div>
+	                    </div> 
+	                </div>
+	            </td>
+	        </tr>
+	        <tr>
+	            <td>
+	                <div class="form-group clearfix">
+	                    <div class="line-div w140">
+	                        <div class="line-div-label">
+	                            统一社会信用代码:<i class="red">*</i>
+	                        </div>
+	                        <div class="line-div-center" style="padding-left: 140px;">
+	                            <input class="form-control" readonly name="uscc" value="{{uscc}}">
+	                        </div>
+	                    </div> 
+	                </div>
+	            </td>
+	        </tr>
+	        <tr>
+	            <td>
+	                <div class="form-group clearfix">
+	                    <div class="line-div w140">
+	                        <div class="line-div-label">
+	                            法人姓名:<i class="red">*</i>
+	                        </div>
+	                        <div class="line-div-center">
+	                            <input class="form-control" readonly name="principal" value="{{principal}}">
+	                        </div>
+	                    </div> 
+	                </div>
+	            </td>
+	        </tr> 
+	        <tr>
+	            <td>
+	                <div class="form-group clearfix">
+	                    <div class="line-div w140">
+	                        <div class="line-div-label">
+	                            法人身份证:<i class="red">*</i>
+	                        </div>
+	                        <div class="line-div-center">
+	                            <input class="form-control" readonly name="principalIdCard" value="{{principalIdCard}}">
+	                        </div>
+	                    </div> 
+	                </div>
+	            </td>
+	        </tr>
+	        <tr class="lookTr">
+	            <td>
+	                <div class="form-group clearfix">
+	                    <div class="line-div w140">
+	                        <div class="line-div-label">
+	                            手机号码:<i class="red">*</i>
+	                        </div>
+	                        <div class="line-div-center">
+	                            <input class="form-control" readonly validate name="phone" value="{{phone}}">
+	                        </div>
+	                    </div> 
+	                </div>
+	            </td>
+	            
+	        </tr>
+	        <tr class="lookTr">
+	        	<td>
+	                <div class="form-group clearfix">
+	                    <div class="line-div w140">
+	                        <div class="line-div-label">
+	                            验证码:<i class="red">*</i>
+	                        </div>
+	                        <div class="line-div-center">
+	                            <div class="input-group">
+	                                <input type="text" class="form-control" name="verifiy"
+	                                    >
+	                                <span class="input-group-btn">                          
+	                                    <button type="button" class="btn btn-mj getCode" style="min-width: initial">
+	                                        获取验证码
+	                                    </button>                      
+	                                </span>
+	                            </div>
+	                        </div>
+	                    </div> 
+	                </div>
+	            </td>
+	        </tr>
+	        <tr>
+	            <td colspan="2">
+	                <div class="form-group clearfix" style="padding-top: 10px">
+	                    <div class="line-div w140" style="min-height: 110px">
+	                        <div class="line-div-label">
+	                           营业执照照片 <br>(至少上传一张):<i class="red">*</i>
+	                        </div>
+	                        <div class="line-div-center" style="text-align: left;">
+	                            <div class="picList">
+	                                <ul class="pic-items"></ul>
+	                                <label class="addImgCard" for="smallImage">
+	                                    <input class="hide" id="smallImage" type="file" 
+	                                        accept="image/jpg,image/jpeg,image/png" multiple="multiple">
+	                                    <i class="icon-plus"></i>
+	                                </label>
+	                            </div>
+	                        </div>
+	                    </div> 
+	                </div>
+	            </td>
+	        </tr>
+	        <tr>
+	            <td colspan="2">
+	                <div class="form-group clearfix">
+	                    <div class="line-div w140" style="height: 40px">
+	                        <div class="line-div-label">
+	                            电子签章/公章:<i class="red">*</i>
+	                        </div>
+	                        <div class="line-div-center">
+	                            <div class="line">
+	                                <label class="left">
+	                                    <input type="checkbox" name="" class="readInput agreeProtocol">我已阅读并同意
+	                                </label>                               
+	                                <span class="readSpan"><a class="lookProtocol" href="javascript:void(0)">《麦滴管家SaaS系统调用电子签章协议》</a></span>
+	                            </div>
+	                            <div class="line">
+	                                <label class="left">
+	                                    <input type="checkbox" name="" class="readInput agreeProxy">我已阅读并同意
+	                                </label>
+	                                <span class="readSpan"><a class="lookProxy" href="javascript:void(0)">《电子签章授权委托书》</a>并生成电子签名/公章用于
+	                                签署在线房租合同、分期协议</span>
+	                            </div>
+	                        </div>
+	                    </div> 
+	                </div>
+	            </td>
+	        </tr> 
+	             
+	    </table>
+	    </form>
+	</div>
+</script>
+<script type="text/template" id="editModel">
+  	<form id="levelForm">
+    	<table>
+			<colgroup>
+				<col width="300">
+				<col width="300">
+			</colgroup>
+			<tr>
+				<td>
+			        <div class="form-group clearfix">
+			          	<div class="line-div w110">
+			          		<div class="line-div-label">合同联系电话:<i class="red">*</i></div>
+				            <div class="line-div-center">
+				              	<input class="form-control" name="onlineContractMobile" value="{{phone}}" />
+				            </div>
+			        	</div>
+			        </div>
+		        </td>
+		        <td>
+			        <div class="form-group clearfix">
+			          	<div class="line-div w75">
+				            <div class="line-div-label">实名认证:</div>
+				            <div class="line-div-center">
+				              	<input class="form-control" value="{{principal}} &nbsp;&nbsp; {{principalIdCard}}" readonly />
+				            	
+				            </div>
+			        	</div>
+			        </div>
+		        </td>
+    		</tr>
+        	<tr>
+        		<td colspan="2">
+			        <div class="form-group clearfix">
+			          	<div class="line-div w110">
+				            <div class="line-div-label">您的电子签名:</div>
+				            <div class="line-div-center text-left">
+				            	{{#renderOnlineTag status}}{{/renderOnlineTag}}
+				            </div>
+				        </div>
+			    	</div>
+        		</td>
+        	</tr>
+    	</table>
+  	</form>
+  	<div class="picList">
+    	<ul class="pic-items">
+    	</ul>
+	    <div class="addImgCard hide">
+	      	<i class="icon-plus"></i>
+	    </div>
+  	</div>
+  	<p style="margin-top:20px;">点击确定后，系统会提交审核申请</p>
+  	<div class="line-div agreeDiv">	                        
+        <div class="line-div-center">
+            <div class="line">
+                <label class="left">
+                    <input type="checkbox" name="" class="readInput agreeProxy">我已阅读并同意
+                </label>
+                <span class="readSpan"><a class="lookProxy" href="javascript:void(0)">《电子签章授权委托书》</a>并生成电子签名/公章用于
+                签署在线房租合同、分期协议</span>
+            </div>
+        </div>
+    </div> 
+</script>
+<!-- 图片渲染 -->
+<script type="text/template" id="renderPicList">
+    {{#each this}}
+        <li class="pic-item">
+            <div class="sortItem" style="width: 120px;height: 120px;border:1px solid rgb(192, 204, 218)">
+                <img src="{{pictureUrl}}" width="120" height="90" />
+                <span class="pic-model">
+                    <i class="icon-delete"></i>
+                    <i class="icon-search"></i>
+                </span>
+                <label class="pic-imageName">{{imageName}}</label>
+            </div>
+        </li>
+    {{/each}}
+</script>
+<!-- 个人签名图片渲染 -->
+<script type="text/template" id="renderPerson">
+    <li class="relative pic-item noCover" style="width: 120px;height: 120px;border:1px solid rgb(192, 204, 218)">
+      <img src="{{this}}" width="120" height="90" />
+      <span class="pic-model" style="height: 100%;">
+          <i class="icon-search"></i>
+        </span>
+      </span>
+    </li>
+</script>
+<!-- 图片裁剪 -->
+<script type="text/template" id="uploadPic">
+    <div class="container" style="max-width: 1140px;">
+        {{#each this}}
+        <div class="left" style="margin: 10px;">
+            <div class="img-container">
+                <img src="" alt="" />
+            </div>
+            <div class="docs-buttons clearfix">
+                <div class="img-imageName left">
+                    <input class="form-control" name="picName" value="" maxlength="30" 
+                        placeholder="图片名称，最多30个字符" style="width: 170px;"> 
+                </div>
+                <div class="btn-group right">
+                    <button class="btn btn-mj" data-method="zoom" data-option="0.1" type="button" tips="放大图片" style="min-width:inherit">
+                        <span class="icon icon-zoom-in"></span>
+                    </button>
+                    <button class="btn btn-mj" data-method="zoom" data-option="-0.1" type="button" tips="缩小图片" style="min-width:inherit">
+                        <span class="icon icon-zoom-out"></span>
+                    </button>
+                    <button class="btn btn-mj" data-method="rotate" data-option="45" type="button" tips="顺时针旋转45°" style="min-width:inherit">
+                        <span class="icon icon-rotate-right"></span>
+                    </button>
+                    <label class="btn btn-mj btn-upload" tips="替换图片" style="min-width:inherit">
+                        <input type="file" class="hide" name="inputImage"
+                            accept="image/jpg,image/jpeg,image/png">
+                        <span class="icon icon-uploadFile"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</script>
+<!-- 签章协议 -->
+<script type="text/template" id="protocolTmp">
+    <div class="protocolDiv">
+        <h2>麦滴管家SaaS系统调用电子签章协议</h2>
+        <h3>一、 概述</h3>
+        <p>1. 本电子合同使用协议（以下简称“本协议”）由杭州复恒科技有限公司（麦滴管家平台运营商，以下称为“麦滴管家”）与您订立的有效合约。您（即“麦滴管家账户所有者”，下同）通过网络页面确认并接受本协议或以其他方式选择接受本协议，即表示您与麦滴管家已达成协议并同意接受本协议的全部约定内容。</p>
+        <p>2. 在接受本协议之前，请您仔细阅读本协议的全部内容（特别是以粗体标注的内容 ）。如您不同意接受本协议的任意内容，或者无法准确理解相关条款含义的，请不要进行后续操作。如果您对本协议的条款有疑问的，请通过麦滴管家客服渠道进行询问（麦滴管家客服热线：400-882-7099）麦滴管家将向您解释条款内容。</p>
+        <p>3. 您同意，麦滴管家有权随时对本协议内容进行单方面的变更，并以在https://www.mdguanjia.com网站公告的方式提前予以公布，无需另行单独通知您；若您在本协议内容公告变更生效后继续使用本服务的，表示您已充分阅读、理解并接受变更修改后的协议内容，也将遵循变更修改后的协议内容使用本服务；若您不同意变更修改后的协议内容，您应在变更生效前停止使用本服务。</p>
+        <h3>二、 权利义务</h3>
+        <p>1. 您应确保您是使用本服务的电子签章的持有人，可合法、有效使用该电子签章且未侵犯任何第三方合法权益，否则因此造成麦滴管家、电子签章持有人损失的，您应负责赔偿并承担全部法律责任。</p>
+        <p>2. 您同意麦滴管家直接使用您在注册麦滴管家平台账户时提供的个人信息为您开通本服务，并确保开通本服务的账户为本人所有，确认通过使用该账户进行的一切行为均代表您本人意志，由其产生的一切行为均有您本人承担相应的法律后果。</p>
+        <p>3. 您同意并不可撤销的授权麦滴管家有权向合法经营的第三方查询或核实您所提供个人信息，并有权保存、整理或加工查询获取的信息（法律、法规、监管政策禁止查询的除外），若因您提供的个人信息虚假或无效导致的一切法律后果均有您本人承担。</p>
+        <p>4. 您同意麦滴管家有权依据其自身判断对涉嫌欺诈或被他人控制并用于欺诈目的的麦滴管家账户采取相应的措施，上述措施包括但不限于对您的麦滴管家账户中的余额进行止付、终止或中止为您提供麦滴管家服务、处置涉嫌欺诈的资金等。</p>
+        <p>5. 您应妥善保管麦滴管家账户、密码、麦滴管家账户绑定的手机号码、来自于麦滴管家向您发送的校验码。如您遗失或泄露前述信息的，您应及时通知麦滴管家，以减少可能发生的损失。您确认，无论是否已通知麦滴管家，因您的原因所致损失需由您自行承担。</p>
+        <p>6. 您在使用本服务时，应当认真确认交易信息，包括且不限于服务名称、数量、金额等，并按麦滴管家业务流程发出符合麦滴管家要求的指令。您认可和同意：您发出的指令不可撤回或撤销，麦滴管家一旦根据您的指令使用您的电子签章进行合同签署，您不应以非本人意愿交易或其他任何原因要求麦滴管家撤销合同或承担其他责任。</p>
+        <p>7. 您在对使用本服务过程中发出指令的真实性及有效性承担全部责任；您承诺，麦滴管家依照您的指令进行操作的一切风险由您承担。</p>
+        <p>8. 您认可麦滴管家账户的使用记录数据、交易金额数据等均以麦滴管家系统平台记录的数据为准。</p>
+        <p>9. 您同意麦滴管家有权留存您在麦滴管家网站填写的相应信息，并授权麦滴管家查询该帐号的相关信息，包括且不限于电子签章等内容，以供后续向您持续性地提供相应服务（包括但不限于将本信息用于向您推广、提供其他更加优质的产品或服务）。</p>
+        <p>10. 出现下列情况之一的，麦滴管家有权立即终止您使用麦滴管家相关服务而无需承担任何责任：
+        </p>
+        <p style="padding-left: 60px;text-indent: 0;">
+                ① 将本服务用于非法目的；<br>
+                ② 违反本协议的约定；<br>
+                ③ 违反麦滴管家及/或麦滴管家关联公司及/或麦滴管家旗下其他公司网站的条款、协议、规则、通告等相关规定及您与前述主体签署的任一协议，而被上述任一主体终止提供服务的；<br>
+                ④ 麦滴管家认为向您提供本服务存在风险的；<br>
+                ⑤ 您的电子签章无效、有效期届满或注销（如有）。
+        <p>
+        <h3>三、 承诺与保证</h3>
+        <p>1. 您承诺对通过麦滴管家提供的所有信息（内容包括但不限于个人信息、商业信息，形式包括但不限于文字、图片）的真实性、准确性、即时性、完整性和合法性独立承担所有责任。麦滴管家按照您设置的相关信息为您提供相应服务，对于因您提供信息不真实、不准确、不完整或无效等原因造成的损失均由您本人承担。</p>
+        <p>2. 您确认，若您为法人用户，麦滴管家将默认您电子合同的签署字样为法定代表人指定企业名称。您确认，该账户的操作均代表您真实意愿，您认可并愿意承担该签署字样（法定代表人指定企业名称）签署的电子合同所产生的所有后果。</p>
+        <p>3. 您授权麦滴管家在您使用本服务期间或本服务终止后，有权保留您在使用本服务期间所形成的相关信息数据，同时该授权不可撤销。</p>
+        <h3>四、 其他条款</h3>
+        <p>1. 因本协议产生之争议，均应依照中华人民共和国法律予以处理，并由麦滴管家所在地的人民法院管辖。</p>
+        <p>2. 您同意，本协议之效力、解释、变更、执行与争议解决均适用中华人民共和国法律，没有相关法律规定的，参照通用国际商业惯例和（或）行业惯例。</p>
+        <p>3. 本协议部分内容被有管辖权的法院认定为违法或无效的，不因此影响其他内容的效力。</p>
+    </div>
+</script>
+<!-- 授权委托书 -->
+<script type="text/template" id="proxyTmp">
+    <div class="protocolDiv">
+        <h4 class="text-center">电子签章授权委托书</h4>
+        <br />
+        <p style="margin-left:2em;">
+            兹授权<span class="underline weight"> 杭州复恒科技有限公司 </span>
+            在<span class="underline weight"> {{name}} </span>与租客签约时，调用电子签名完成自动签约。
+        </p>
+        <p style="margin-left:2em;">
+            在上述授权范围内，<span class="underline weight"> 杭州复恒科技有限公司 </span> 
+            有权代表<span class="underline weight"> {{name}} </span> 
+            在租房合同、分期协议上调用签名进行在线签约。
+        </p>
+        <p>如因该授权委托产生的一切经营风险和法律风险，由
+            <span class="underline weight"> {{name}} </span>自行承担。
+        </p>
+        <p style="margin-left:2em;">本授权书不可以转授权。</p>
+        <p style="margin-left:2em;">
+            以上授权的有效期限为
+            <span class="underline weight"> {{onlineContractEffectiveDateStr}} </span> 至 
+            <span class="underline weight"> {{onlineContractIneffectiveDateStr}} </span> 。
+        </p>
+        <p style="text-align: right;">
+            授权人（签字）：
+            <span class="underline weight"> {{name}} </span>
+        </p>
+        <p style="text-align: right;">
+            <span class="underline weight"> {{onlineContractEffectiveDateStr}} </span>
+        </p>
+        <p style="margin-top: 15px;" class="agreement text-center hide">
+            <label>
+                <input type="checkbox" class="checkBox">
+                已阅读并同意
+                <a href="javascript:;">《麦滴管家SaaS平台授权调用电子签名协议》</a>
+            </label>
+        </p>
+    </div>
+</script>
+<script type="text/javascript">
+  	seajs.use('controllers/settings/contractSetting.js')
+</script>

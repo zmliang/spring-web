@@ -1,0 +1,170 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row">
+	<div class="col-md-12 col-sm-12 col-xs-12 window">
+		<div class="x_panel window">
+			<div class="x_content">
+				<div class="clearfix gray-bg">
+				  	<select id="cityId" class="form-control default navbar-left width-auto" >
+				    
+				  	</select>
+					<div class="navbar-right">
+				        <button type="button" class="btn btn-mj" id="btnSort">APP展示排序</button>
+					</div>
+				</div>
+			<div id="gridDiv"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/template" id="addAndEdit">
+  <form id="J_form">
+    <table>
+		<colgroup>
+			<col width="400">
+			<col width="300">
+		</colgroup>
+	    <tr>
+	        <td>
+	          	<div class="line-div w90">
+		            <div class="line-div-label">
+		              公寓名称：
+		            </div>
+		            <div class="line-div-center">
+		                <input type="text" placeholder="中文数字（长度小于30个字符）" value="{{estateName}}" name="" class="form-control" disabled >
+		            </div>
+	          	</div>
+	        </td>
+	        <td>
+	            <div class="line-div w90">
+	              <div class="line-div-label">公寓类型：</div>
+	              <div class="line-div-center">
+	              	{{#renderType type}}{{/renderType}}
+	              </div>
+	            </div>
+	        </td>
+	    </tr>
+	  	<tr>
+	    	<td >
+	          	<div class="line-div w90">
+		            <div class="line-div-label">
+		                所在地区：
+		            </div>
+		            <div class="line-div-center areaSelect">
+		                <div id="areaBox" style="width: 300px"></div>
+		            </div>
+	          	</div>
+	    	</td>
+	   		<td>
+		      	<div class="line-div w90">
+			        <div class="line-div-label">
+			            板块信息：
+			        </div>
+			        <div class="line-div-center">
+			            <input type="text" class="form-control" name="" value="{{zoneName}}" disabled>
+			        </div>
+		      	</div>
+		    </td>
+	  	</tr>
+      	<tr>
+        <td colspan="2">
+          	<div class="line-div w90">
+	            <div class="line-div-label">
+	                具体位置：
+	            </div>
+	            <div class="line-div-center areaSelect">
+	                <input type="text" value="{{subdistrictNameAddress}}" class="form-control addressDetail" disabled>
+	            </div>
+          	</div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div class="line-div w90">
+              <div class="line-div-label">看房电话：</div>
+              <div class="line-div-center">
+                  <input type="text" name="contactName" style="width: 100px;margin-right: 10px;" class="left form-control" placeholder="姓" value="{{contactName}}" disabled>
+                  <select class="left" style="width:84px;" name='contactGender' disabled>
+                      {{#genderTmp contactGender}}{{/genderTmp}}
+                  </select>
+                  <input type="text" placeholder="请输入电话号码" class="form-control left" name="contactMobile" value="{{contactMobile}}" style="width:405px;margin-left: 10px;" disabled>
+              </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+			<div class="line-div w90">
+				<div class="line-div-label">地图坐标：</div>
+				<div class="line-div-center">
+				    <input type="text" style="width:520px" placeholder="" value="{{lnglat}}" class="form-control left" name="lnglat" disabled>
+				    <button type="button" class="btn btn-mj right getPoint" style="margin-right: 0">查看地图</button>
+				</div>
+			</div>
+		</td>         
+	</tr>
+    <tr>
+        <td colspan="2">
+          	<div class="line-div">
+              	<span class="grey-title">公寓简介：</span>
+              	<textarea validate placeholder="" name="" disabled class="description" style="width:610px">{{introduction}}</textarea>            
+          </div>
+        </td>
+    </tr>
+    <tr>
+      	<td colspan="2">
+			<div class="line-div w90">
+			  <div class="line-div-label">公寓照片：</div>
+			  <div class="line-div-center text-left">
+			    <div class="picList">
+			      <ul class="pic-items">
+			        {{#each estateImageList}}
+			        <li class="relative pic-item">
+			          <img src="{{this}}" alt="" title="" />
+			          <span class="pic-model">
+			              <i class="icon-search"></i>
+			            </span>
+			          </span>
+			        </li>
+			        {{/each}}
+			      </ul>
+			    </div>
+			  </div>
+			</div>
+		</td>
+	</tr>
+    </table>
+</form>
+</script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=nESYZ8nMNrXWN3aY6uzUBqNp"></script>
+<script type="text/javascript">
+	seajs.use('controllers/market/estateList.js')
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

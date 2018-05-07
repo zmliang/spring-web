@@ -1,0 +1,192 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<style>
+.table-bordered {
+    margin-bottom: 0;
+    width: auto;
+    max-width: none;
+    table-layout: fixed;
+}
+.table-bordered th {
+    background-color: #eef0f6;
+    vertical-align: middle !important;
+    color: #1f283d;
+    font-size: 12px;
+    font-weight: 700 !important;
+}
+.table.table-bordered > thead > tr > th {
+    border-top: 1px solid #dfe3ec !important;
+    border-right: 1px solid #dfe3ec !important;
+    border-bottom: 0 !important;
+    line-height: 1;
+}
+.table.table-bordered > thead > tr > th div {
+    padding: 0 12px;
+    font-size: 12px;
+}
+.table.table-bordered > tbody > tr > td div {
+    padding: 0 12px;
+    min-width: 60px;
+    font-size: 12px;
+}
+.table-bordered > tbody > tr > td, .table-bordered > thead > tr > th {
+    border-left: 0;
+    border-bottom: 0;
+}
+.table-bordered > tbody > tr > td {
+    width: 80px;
+    height: 50px;
+    vertical-align: middle;
+}
+.table-bordered > tbody > tr:hover > td {
+    background-color: #eef0f6;
+    border: 1px solid #ddd;
+}
+.table-bordered > tbody > tr > td.highlight {
+    background-color: #eef0f6;
+    border: 1px solid #ddd;
+}
+.table-bordered > tbody > tr > td:first-child div {
+    width: 160px;
+}
+#head-table {
+    border-bottom: none;
+    border-top: none;
+}
+.table-bordered tr:nth-child(even) {
+    background-color: #fafafa;
+}
+.fixed-table {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+.fixed-table.top {
+    top: 0;
+    height: 69px;
+}
+.fixed-table.bottom {
+    bottom: 0;
+}
+.fixed-table.bottom table {
+    border-bottom: none;
+}
+.fixed-table.bottom td {
+    background-color: #fff;
+}
+.fixed-table.bottom td div {
+    line-height: 1.2;
+}
+#data-wrapper .noDataImg {
+    width: 200px;
+    height: 160px;
+    padding-top: 170px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 20px;
+    right: 0;
+    text-align: center;
+    margin: auto;
+    color: #4680FF;
+    font-size: 16px;
+    background: url(/hms/js/components/grid/images/noGridData.png) center no-repeat;
+}
+</style>
+<div class="x_panel window gridWrapper tabContainer" style="padding: 10px 20px;">
+    <form id="searchForm" class="clearfix">
+        <table>
+            <colgroup>
+                <col width="420"><col width="230">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="line-div w75">
+                            <div class="line-div-label">
+                                查询日期：
+                            </div>
+                            <div class="line-div-center">
+                                <input type="text" name="startDate" class="icon-calendar form-control left Wdate" style="width:45%" id="startSearchTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true,maxDate:'#F{$dp.$D(\'endSearchTime\')||\'new Date()\'}'})">
+                                <span class="left" style="width:10%">--</span>
+                                <input type="text" id="endSearchTime" name="endDate" class="icon-calendar form-control left Wdate" style="width:45%" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true,minDate:'#F{$dp.$D(\'startSearchTime\')}', maxDate: new Date()})">
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-left">
+                        <button type="button" id="search" class="left btn btn-mj">查询</button>
+                        <button type="button" id="clear" class="left btn">清空</button>
+                        <button type="button" id="exportData" class="left btn">导出</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <div id="main-wrapper" style="position: relative; margin-top: 10px; padding-bottom: 50px; overflow: hidden; border: 1px solid #dfe3ec">
+        <div>
+            <table id="head-table" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th rowspan="3" name="name" isRead="false"><div>门店</div></th>
+                        <th colspan="6" isRead="false"><div>回款类型</div></th>
+                        <th colspan="8" isRead="false"><div>回款渠道</div></th>
+                        <th rowspan="3" name="totalFee" isRead="false"><div>合计</div></th>
+                    </tr>
+                    <tr>
+                        <th rowspan="2" name="rentFee" isRead="false"><div>房租</div></th>
+                        <th rowspan="2" name="depositFee" isRead="false"><div>押金</div></th>
+                        <th rowspan="2" name="waterFee" isRead="false"><div>水费</div></th>
+                        <th rowspan="2" name="electricFee" isRead="false"><div>电费</div></th>
+                        <th rowspan="2" name="serviceFee" isRead="false"><div>服务费</div></th>
+                        <th rowspan="2" name="otherFee" isRead="false"><div>其他</div></th>
+                        <th colspan="4" isRead="false"><div>线上（平台代收）</div></th>
+                        <th colspan="4" isRead="false"><div>线下</div></th>
+                    </tr>
+                    <tr>
+                        <th name="onlineAlipayFee" isRead="false"><div>支付宝</div></th>
+                        <th name="onlineWechatFee" isRead="false"><div>微信</div></th>
+                        <th name="onlineFastpayFee" isRead="false"><div>快捷支付</div></th>
+                        <th name="onlineWithholdFee" isRead="false"><div>金融代扣</div></th>
+                        <th name="offlineAlipayFee" isRead="false"><div>支付宝</div></th>
+                        <th name="offlineWechatFee" isRead="false"><div>微信</div></th>
+                        <th name="offlineBankcardFee" isRead="false"><div>银行转账</div></th>
+                        <th name="offlineCashFee" isRead="false"><div>现金</div></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div id="data-wrapper" style="height: 400px; overflow-x: hidden;">
+            <div class="noDataImg" style="display: none"></div>
+            <table id="data-table" class="table table-bordered table-condensed">
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="fixed-table bottom">
+            <table id="total-table" class="table table-bordered table-condensed" style="display: none;">
+                <tbody>
+                    <tr>
+                        <td><div>合计</div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    seajs.use('controllers/report/incomeList')
+</script>

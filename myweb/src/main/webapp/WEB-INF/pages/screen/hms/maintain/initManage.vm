@@ -1,0 +1,212 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+
+<div class="col-md-6">
+  <button class="btn btn-success clearCache">
+    清除缓存
+  </button>
+  <button class="btn btn-success editAccount">
+    修改企业账号信息
+  </button>
+   <button class="btn btn-success editOrg">
+    添加菜单
+  </button>
+  <button class="btn btn-success markTestOrg">
+    标记测试组织
+  </button>
+</div>
+
+<script type="text/templage" id="editOrg">
+    <form id="searchForm">
+        <table>
+            <colgroup>
+                <col width="100">
+                <col width="300">
+            </colgroup>
+        </table>
+        <table>
+            <colgroup>
+                <col width="430">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td class="text-left">
+                        <div class="line-div w140">
+                           <div class="line-div-label">菜单ID: <i class="red">*</i></div>
+                            <div class="line-div-center">
+                                <input class="form-control" validate name="permId" placeholder="菜单ID"/>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">
+                        <div class="line-div w140">
+                           <div class="line-div-label">组织类型: <i class="red">*</i></div>
+                            <div class="line-div-center">
+                                <select name="orgType" id="orgType">
+                                    <option value="">请选择</option>
+                                    <option value="1">个人和企业(包含托底方)</option>
+                                    <option value="2">企业组织(包含托底方)</option>
+                                    <option value="3">个人组织</option>
+                                    <option value="4">托底方</option>
+                                </select>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <p style="color:#ccc;margin-top: 30px">请先行修改【权限模板】配置，否则新建组织会无法拥有这些菜单。</p>
+</script>
+
+<script type="text/templage" id="AccountInfo">
+    <form id="searchForm">
+        <table>
+            <colgroup>
+                <col width="150">
+                <col width="300">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="line-div">
+                            <div class="line-div-center">
+                                <input type="text" class="form-control" placeholder="请输入组织id" name="organizationId">
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-left">
+                        <button type="button" id="search" class="left btn btn-mj search">查询</button>
+                        <button type="button" id="clear" class="left btn reset">清空</button>
+                        <button type="button" id="clear" class="left btn create">创建E签宝账户</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr style="margin-bottom: 20px;width: 100%; margin-top: 5px" />
+        <table>
+            <colgroup>
+                <col width="430">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td class="text-left">
+                        <div class="line-div w140">
+                           <div class="line-div-label">企业名称: <i class="red">*</i></div>
+                            <div class="line-div-center">
+                                <input class="form-control" validate name="organizationName" placeholder="企业名称" value="{{organizationName}}" />
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                  <td class="text-left">
+                        <div class="line-div w140">
+                           <div class="line-div-label">统一社会信用代码: <i class="red">*</i></div>
+                            <div class="line-div-center">
+                                <input class="form-control" validate name="orgLicence" placeholder="统一社会信用代码" value="{{orgLicence}}" />
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">
+                        <div class="line-div w140">
+                           <div class="line-div-label">法人姓名: <i class="red">*</i></div>
+                            <div class="line-div-center">
+                                <input class="form-control" validate name="orgLegalPersonName" placeholder="法人身份证号" value="{{orgLegalPersonName}}" />
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">
+                        <div class="line-div w140">
+                           <div class="line-div-label">法人身份证号: <i class="red">*</i></div>
+                            <div class="line-div-center">
+                                <input class="form-control" validate name="orgLegalPersonCardNo" placeholder="法人身份证号" value="{{orgLegalPersonCardNo}}" />
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</script>
+
+<script type="text/templage" id="orgInfo">
+    <form>
+        <table>
+            <colgroup>
+                <col width="220"><col width="240">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td class="text-left">
+                        <div class="line-div w70">
+                         	<div class="line-div-label">组织ID: </div>
+                          <div class="line-div-center">
+                             <input class="form-control" disabled value="{{organizationId}}" />
+                          </div>
+                        </div>
+                    </td>
+                    <td class="text-left">
+                      <div class="line-div w110">
+                       	<div class="line-div-label">主账号手机: </div>
+                      	<div class="line-div-center">
+                          <input class="form-control" disabled value="{{orgContactMobile}}" />
+                      	</div>
+                      </div>
+                    </td>
+                </tr>
+                <tr>
+                  <td class="text-left" colspan="2">
+                    <div class="line-div w70">
+                       <div class="line-div-label">组织名称: </div>
+                        <div class="line-div-center">
+                            <input class="form-control" disabled value="{{organizationName}}" />
+                        </div>
+                    </div>
+                	</td>
+                </tr>
+                <tr>
+                  <td class="text-left" colspan="2">
+                    <div class="line-div w70">
+                       <div class="line-div-label">组织缩写: </div>
+                        <div class="line-div-center">
+                            <input class="form-control" disabled value="{{displayName}}" />
+                        </div>
+                    </div>
+                	</td>
+                </tr>
+                <tr>
+                  <td class="text-left" colspan="2">
+                    <div class="line-div w70">
+                       <div class="line-div-label">创建时间: </div>
+                        <div class="line-div-center">
+                            <input class="form-control" disabled value="{{gmtCreate}}" />
+                        </div>
+                    </div>
+                	</td>
+                </tr>
+                <tr>
+                  <td class="text-left" colspan="2">
+                    <div class="line-div w70">
+                       <div class="line-div-label">创建人: </div>
+                        <div class="line-div-center">
+                            <input class="form-control" disabled value="{{createName}}" />
+                        </div>
+                    </div>
+                	</td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</script>
+
+<script type="text/javascript">
+  seajs.use('controllers/maintain/initManage.js')
+</script>

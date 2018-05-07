@@ -1,0 +1,188 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12 window">
+    <div class="x_panel window">
+		  <div class="x_title">
+        <form id="searchForm"><table>
+          	<colgroup>
+               	<col width="200">
+               	<col width="200">
+               	<col width="200">
+               	<col width="200">
+               	<col width="200">
+            </colgroup>
+          	<tbody>
+          		<tr>
+                  	<td style="min-width: 190px;">
+                      	<div class="line-div w60">
+                          	<div class="line-div-label">省市区:</div>
+                          	<div class="line-div-center">
+                              	<div id="areaBox" style="width: 150px"></div>
+                          	</div>
+                      	</div>
+                  	</td>
+                  	<td>
+                  		<div class="line-div w90">
+                          	<div class="line-div-label">出租类型:</div>
+                          	<div class="line-div-center">
+                              	<select name="houseRentType">
+                              		<option selected value="">全部</option>
+                              		<option value="1">整租</option>
+                              		<option value="2">合租</option>
+                              	</select>
+                          	</div>
+                      	</div>
+                  	</td>
+                  	<td>
+                  		<div class="line-div w60">
+                          	<div class="line-div-label">客控:</div>
+                          	<div class="line-div-center">
+                              	<select name="hostingDevice">
+                              		<option selected value="">全部</option>
+                              		<option value="1">有客控</option>
+                              		<option value="2">无客控</option>
+                              	</select>
+                          	</div>
+                      	</div>
+                  	</td>
+                  	<td>
+                  		<div class="line-div w60">
+                  		  <input style="width: auto; margin-left: 10px;" name="estateName" placeholder="公寓/小区名称" class="form-control"></input>
+                      	</div>
+                  	</td>
+              		<td>
+	                    <div class="searchBtn" style="padding-left:0">
+	                      <button type="button" id="search" class="left btn btn-mj">查询</button>
+	                      <button type="button" id="clear" class="left btn">清空</button>
+	                    </div>
+	                </td>
+          		</tr>
+      		</tbody>
+      	</table></form>
+			</div>
+      <div class="L-roomSelect clearfix">
+      	<div class="left" id="txt-plain">
+      	  	<label>房源数：<i class="brick-red">0</i></label>
+      		<label>房间数：<i class="brick-red">0</i></label>
+      		<label>已发布：<ic class="brick-red">0</i></labe>
+      	</div>
+        <div id="btn-withdraw" class="btn-btn right">从客户端撤销</div>
+        <div id="btn-publish" class="btn-btn right">发布到客户端</div>
+        <div id="btn-remove" class="btn-btn right">停用租务管理</div>
+        <div id="btn-upload" class="btn-btn right">启用租务管理</div>
+        <!-- <div id="btn-export" class="btn-btn right" style="margin-right: 20px;height: 28px;line-height: 28px">导出</div> -->
+      </div>
+      <div id="gridDiv"></div>
+    </div>
+  </div>
+</div>
+<!-- 客控弹窗列表 start -->
+<script type="text/template" id="showModel">
+    <div style="float: left;width: 100%;">
+        <div id="showGrid"></div>
+    </div>
+</script>
+<!-- 客控弹窗列表 end -->
+<!-- 客控设备新增/edit start -->
+<script type="text/template" id="showAddDevice">
+<form id="J_form">
+	<table>
+	  <colgroup>
+	    <col width="400">
+	  </colgroup>
+	  <tr>
+	    <td>
+	      <div class="line-div w90">
+	        <div class="line-div-label">
+	          设备名称：<i class="red">*</i>
+	        </div>
+	        <div class="line-div-center" >
+	            <input type="text" value="{{name}}" name="name" validate class="form-control">
+	        </div>
+	      </div>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td>
+	      <div class="line-div w90">
+	        <div class="line-div-label">
+	          设备&nbsp;&nbsp;&nbsp;ID：<i class="red">*</i>
+	        </div>
+	        <div class="line-div-center">
+	            <input type="text" value="{{deviceId}}" name="deviceId" validate class="form-control">
+	        </div>
+	      </div>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td>
+	      <div class="line-div w90">
+	        <div class="line-div-label">
+	          设备类型：<i class="red">*</i>
+	        </div>
+	        <div class="line-div-center">
+		        <select name="deviceType" class="form-control default navbar-left width-auto" >
+		            <option value="3">门锁</option>
+                </select>
+	        </div>
+	      </div>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td>
+	      <div class="line-div w90">
+	        <div class="line-div-label">
+	          配套位置：<i class="red">*</i>
+	        </div>
+	        <div class="line-div-center" >
+		        <select disabled name="type" class="form-control default navbar-left width-auto" >
+                    {{#selectType type}}{{/selectType}}
+                </select>
+	        </div>
+	      </div>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td>
+	      <div class="line-div w90">
+	        <div class="line-div-label">
+	          设备状态：<i class="red">*</i>
+	        </div>
+	        <div class="line-div-center">
+		        <select name="status" class="form-control default navbar-left width-auto" >
+                    {{#selected status}}{{/selected}}
+                </select>
+	        </div>
+	      </div>
+	    </td>
+	  </tr>
+	</table>
+</form>
+</script>
+<!-- 客控设备新增/edit end -->
+
+
+<script type="text/javascript">
+	seajs.use('controllers/supervise/publish_hosting')
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

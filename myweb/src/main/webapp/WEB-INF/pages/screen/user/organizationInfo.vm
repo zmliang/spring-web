@@ -1,0 +1,145 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12 window">
+    <div class="x_panel window">
+      <div class="panel-body">
+        <input type="hidden" name="organizationInfoType" value="1" />
+        <input type="hidden" name="orgAddrProvinceId" value="$!{organizationInfo.orgAddrProvinceId}" />
+        <input type="hidden" name="orgAddrCityId" value="$!{organizationInfo.orgAddrCityId}" />
+        <input type="hidden" name="orgAddrRegionId" value="$!{organizationInfo.orgAddrRegionId}" />
+        <div style="margin-bottom: 20px;">
+          #if($organizationInfo.status == 1)
+            <span class="mj-tag mj-tag-success">$!{organizationInfo.statusStr}</span>
+          #elseif($organizationInfo.status == 2)
+            <span class="mj-tag mj-tag-danger">$!{organizationInfo.statusStr}</span>
+          #else($organizationInfo.status == 3)
+            <span class="mj-tag">$!{organizationInfo.statusStr}</span>
+          #end
+        </div>
+        <form id="organizationInfoForm">
+          <table>
+            <colgroup>
+              <col width="400">
+              <col width="300">
+            </colgroup>
+              <tr><td>
+              <div class="form-group clearfix">
+                <div class="line-div w110">
+                  <div class="line-div-label">
+                    企业名称:
+                  </div>
+                  <div class="line-div-center">
+                    <input class="form-control" readonly name="organizationName" value="$!{organizationInfo.organizationName}">
+                  </div>
+                </div> 
+              </div>
+              </td><td>
+              <div class="form-group clearfix">
+                <div class="line-div w110">
+                  <div class="line-div-label">
+                    企业缩写名:
+                  </div>
+                  <div class="line-div-center">
+                    <input class="form-control" readonly name="displayName" value="$!{organizationInfo.displayName}">
+                  </div>
+                </div> 
+              </div>
+              </td></tr>
+              <tr><td colspan="2">
+              <div class="form-group clearfix">
+                <div class="line-div">
+                  <div class="line-div-label" style="width: 140px;">
+                    统一社会信用代码:
+                  </div>
+                  <div class="line-div-center" style="padding-left: 140px;">
+                    <input class="form-control" readonly name="orgLicence" value="$!{organizationInfo.orgLicence}">
+                  </div>
+                </div> 
+              </div>
+              </td></tr>
+              <tr><td>
+              <div class="form-group clearfix">
+                <div class="line-div w110">
+                  <div class="line-div-label">企业注册地址:</div>
+                  <div class="line-div-center">
+                    <div id="areaBoxInfo"></div>
+                  </div>
+                </div>
+              </div>
+              </td><td>
+              <div class="form-group clearfix">
+                <input class="form-control" readonly name="orgAddrDetail" value="$!{organizationInfo.orgAddrDetail}" style="margin-left: 20px;width: 280px;">
+              </div>
+              </td></tr>
+              <tr><td>
+              <div class="form-group clearfix">
+                <div class="line-div w110">
+                  <div class="line-div-label">法人姓名:</div>
+                  <div class="line-div-center">
+                    <input class="form-control" readonly name="orgLegalPersonName" value="$!{organizationInfo.orgLegalPersonName}">
+                  </div>
+                </div>
+              </div>
+              </td><td>
+              <div class="form-group clearfix">
+                <div class="line-div w110">
+                  <div class="line-div-label">法人身份证号:</div>
+                  <div class="line-div-center">
+                    <input class="form-control" readonly name="orgLegalPersonCardNo" value="$!{organizationInfo.orgLegalPersonCardNo}">
+                  </div>
+                </div>
+              </div>
+              </td></tr>
+              <tr><td>
+              <div class="form-group clearfix">
+                <div class="line-div w110">
+                  <div class="line-div-label">联系人姓名:</div>
+                  <div class="line-div-center">
+                    <input class="form-control" readonly name="orgContactName" value="$!{organizationInfo.orgContactName}">
+                  </div>
+                </div>
+              </div>
+              </td><td>
+              <div class="form-group clearfix">
+                <div class="line-div w110">
+                  <div class="line-div-label">联系人号码:</div>
+                  <div class="line-div-center">
+                    <input class="form-control" readonly name="orgContactMobile" value="$!{organizationInfo.orgContactMobile}">
+                  </div>
+                </div>
+              </div>
+              </td></tr>
+              <tr><td colspan="2">
+              <div class="form-group clearfix">
+                <div class="line-div w110">
+                  <div class="line-div-label">营业执照照片:</div>
+                  <div class="line-div-center">
+                    <div class="picList">
+                      <ul class="pic-items" style="float: left;">
+                        #foreach($item in $organizationInfo.picUrlList)
+                        <li class="relative pic-item noCover">                          
+                          <img src="$item" width="120" height="120" />
+                          <!-- <span class="pic-model">
+                              <i class="icon-search"></i>
+                            </span>
+                          </span> -->
+                        </li>
+                        #end
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </td></tr>
+          </table>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  seajs.use('controllers/user/password.js')
+</script>

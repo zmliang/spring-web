@@ -1,0 +1,148 @@
+<!--精彩活动页面-->
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row">
+  <div id="TYPE" TYPE="1"></div>
+  <div class="col-md-12 col-sm-12 col-xs-12 window">
+    <div class="x_panel window">
+      <div class="x_content">
+        <div class="clearfix gray-bg">
+          <select id="estateId" class="form-control default navbar-left width-auto" >
+            <option value="">全部</option>
+            <option value="2">已上线</option>
+            <option value="1">待上线</option>
+          </select>
+			<div class="navbar-right">
+                <button type="button" class="btn btn-mj" id="btnSort">APP展示排序</button>
+				<button type="button" class="btn btn-mj" id="addNew">新增</button>
+			</div>
+        </div>
+        <div id="gridDiv"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--活动新增/编辑操作-->
+<script type="text/template" id="addAndEdit">
+	<form id="J_form">
+		<table>
+	      	<colgroup>
+	        	<col width="400">
+	        	<col width="200">
+	      	</colgroup>
+	      	<tr>
+		        <td colspan="2">
+		          	<div class="line-div w75">
+		            	<div class="line-div-label">
+		              		麦友昵称：
+		            	</div>
+			            <div class="line-div-center">
+			                <input type="text" validate placeholder="标题长度小于20个字符" value="{{title}}" maxlength="20" validate name="title" class="form-control">
+			            </div>
+		            </div>
+		        </td>
+	      	</tr>
+	      	<tr>
+		        <td colspan="2">
+		          	<div class="line-div w75">
+		            	<div class="line-div-label">
+		              		公寓：
+		            	</div>
+			            <div class="line-div-center">
+			                <input type="text" validate placeholder="" value="{{estateName}}" maxlength="20" validate name="estateName" class="form-control">
+			            </div>
+		            </div>
+		        </td>
+	      	</tr>
+	      	<tr>
+		        <td colspan="2">
+		          	<div class="line-div w75">
+		            	<div class="line-div-label">
+		              		链接：
+		            	</div>
+			            <div class="line-div-center">
+			                <input type="text" validate placeholder="" value="{{linkUrl}}" validate name="linkUrl" class="form-control">
+			            </div>
+		            </div>
+		        </td>
+	      	</tr>
+	      	<tr>
+		        <td>
+		          	<div class="line-div w75">
+		            	<div class="line-div-label">
+		              		上线时间：
+		            	</div>
+			            <div class="line-div-center">
+			                <input type="text" id='dp-effectiveTime' value="{{effectiveTimeText}}" name="effectiveTime" class="form-control left Wdate" style="width:155px" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true})">
+			            </div>
+		            </div>
+		        </td>
+		        <td>
+		        	<label id="wra_affect"><input id="cb_affect" type="checkbox" name="">&nbsp;立即上线</label>
+		        </td>
+	      	</tr>
+	      	
+			<tr>
+				<td colspan="2" style="text-align: left;">
+				    <div class="line-div w75">
+				      <div class="line-div-label">图片：</div>
+				      <div class="line-div-center ellipsis">
+				      		<button type="button" class="btn btn-mj selectImg">选择图片</button>
+				      		<input type="file" name="image" class="fileImg" id="imageFile" style="display: none;">
+				      		<label class="imageName"></label>
+				      </div>
+				    </div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+			        <p class="brick-red">请上传1024px × 1024px的图片，格式为JPG，PNG，大小控制在1MB内</p>
+				</td>
+			</tr>
+	      	<tr>
+		        <td colspan="2">
+		          	<div class="line-div w75">
+		            	<div class="line-div-label">
+		              		简介：
+		            	</div>
+			            <div class="line-div-center">
+			                <textarea style="height: 100px;" validate placeholder="" validate name="introduction" class="form-control">{{introduction}}</textarea>
+			            </div>
+		            </div>
+		        </td>
+	      	</tr>
+	    </table>
+	</form>
+</script>
+<script type="text/javascript">
+	seajs.use('controllers/market/activityList')
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

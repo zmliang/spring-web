@@ -1,0 +1,59 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row">
+   <div class="col-md-12 col-sm-12 col-xs-12 window">
+     <div class="x_panel window">
+       <div class="x_title">
+          <div class="clearfix gray-bg mb10">
+             <div class="left" style="width:58%;height:24px;">
+                <div class="left " style="width:32.3%;">
+                    <label class="  content-label pl0 left">消息类别：
+                    </label>
+                    <div class="col-sm-7 col-md-7 col-xs-7 col-lg-7  content-text">
+                        <input type="text" required="required" class="form-control content-input">
+                    </div>
+                </div>
+                <div class="left " style="width:37.3%;">
+                    <label class="content-label pl0 left">推送类型：</label>
+                    <div class="col-sm-7 col-md-7 col-xs-7 col-lg-7 content-text">
+                        <select class=" form-control navbar-left content-input" required="">
+                            <option value="全部">全部</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="left " style="width:30.3%;">
+                     <label class=" content-label pl0 left">状态：</label>
+                     <div class="col-sm-8 col-md-8 col-xs-8 col-lg-8 content-text">
+                         <select class=" form-control navbar-left content-input" required="">
+                            <option value="全部">全部</option>
+                         </select>
+                     </div>
+                </div>
+             </div>
+             <div class="left">
+                 <div class="btn-auto w100h24 pull-left bgcolor-blue" style="margin-left:0px;">查询</div>
+                 <div class="btn-auto w100h24 pull-left ">清空</div>
+                 <div class="btn-auto w100h24 pull-left">刷新</div>
+             </div>
+          </div>
+       </div>
+       <div class='x_content'>
+            <div class="clearfix gray-bg">
+                <div class="navbar-left w16 bulk_action">
+                    <!--<button type="button" class="btn btn-link batchDel">删除</button>-->
+                </div>
+               <div class="navbar-left pull-right ">
+                   <div class="btn-btn pull-left">启用</div>
+                   <div class="btn-btn pull-left btn-danger">停用</div>
+                   <div class="btn-btn pull-left btn-danger">作废</div>
+               </div>
+               <div class="navbar-left pull-right">
+                   <button type="button" class="btn btn-mj add-push">新增</button>
+               </div>
+           </div>
+           <div id="gridDiv"></div>
+       </div>
+     </div>
+   </div>
+</div>

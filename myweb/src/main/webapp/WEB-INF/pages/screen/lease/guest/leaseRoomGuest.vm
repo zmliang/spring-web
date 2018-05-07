@@ -1,0 +1,65 @@
+#parse('common/top.vm')
+#parse('common/header_lease.vm')
+<div class="row"><div class="col-md-12 col-sm-12 col-xs-12 window L-main">
+    <div class="x_title">
+		<div class="clearfix"></div>
+		<form id="searchForm">
+			<input type="hidden" name="estateId" value="$!{estateId}">
+			<table>
+				<colgroup>
+					<col width="200"><col width="240">
+				</colgroup>
+				<tbody>
+					<tr>
+						<td>
+							<div class="line-div w80">
+								<div class="line-div-label">是否入住：</div>
+								<div class="line-div-center">
+									<select name="isDelete" class="form-control" >
+									<option value="">全部</option>
+									<option value="0">在住</option>
+									<option value="1">未入住</option>
+									<option value="3">待入住</option>
+									</select>
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="line-div ml10">
+								<div class="line-div-center">
+									<input placeholder="姓名/手机号/身份证" class="form-control" name="name">
+								</div>
+							</div>
+						</td>
+						<td> 
+							<div class="searchBtn">
+							<button type="button" id="search" class="left btn btn-mj">查询</button>
+							<button type="button" id="clear" class="left btn">清空</button>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+  	<div class="x_content">
+    	<div class="clearfix">
+            <div class="gray-bg clearfix">
+                <div class="left" id="txt-plain">租客数量：<span class='guestCount'></span>在住：<span class='inuseGuestCount'></span>未入住：<span class='leaveGuestCount'></span>
+                待入住：<span class='toStayIngCount'></span></div>
+            </div>
+        </div>
+        <div id="gridDiv"></div>
+    </div>
+</div></div>
+<script  type="text/template" id='inuseCount'>
+    <div class="inusetop">
+       <div class="left">姓名：{{realName}}</div>
+       <div class="left">手机号码：{{mobile}}</div>
+       <div class="left">身份证：{{cardNo}}</div>
+    </div>
+    <div id="Count"></div>
+</script>
+<script type="text/javascript">
+	seajs.use('controllers/lease/initLeaseRoomGuest')
+</script>

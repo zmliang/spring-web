@@ -1,0 +1,195 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<style>
+.table-bordered {
+    margin-bottom: 0;
+    width: auto;
+    max-width: none;
+    table-layout: fixed;
+}
+.table-bordered th {
+    background-color: #eef0f6;
+    vertical-align: middle !important;
+    color: #1f283d;
+    font-size: 12px;
+    font-weight: 700 !important;
+}
+.table.table-bordered > thead > tr > th {
+    border-top: 1px solid #dfe3ec !important;
+    border-right: 1px solid #dfe3ec !important;
+    border-bottom: 0 !important;
+    line-height: 1;
+}
+.table.table-bordered > thead > tr > th div {
+    padding: 0 12px;
+    font-size: 12px;
+}
+.table.table-bordered > tbody > tr > td div {
+    padding: 0 12px;
+    min-width: 60px;
+    font-size: 12px;
+}
+.table-bordered > tbody > tr > td, .table-bordered > thead > tr > th {
+    border-left: 0;
+    border-bottom: 0;
+}
+.table-bordered > tbody > tr > td {
+    width: 80px;
+    height: 50px;
+    vertical-align: middle;
+}
+.table-bordered > tbody > tr:hover > td {
+    background-color: #eef0f6;
+    border: 1px solid #ddd;
+}
+.table-bordered > tbody > tr > td.highlight {
+    background-color: #eef0f6;
+    border: 1px solid #ddd;
+}
+.table-bordered > tbody > tr > td:first-child div {
+    width: 160px;
+}
+#head-table {
+    border-bottom: none;
+    border-top: none;
+}
+.table-bordered tr:nth-child(even) {
+    background-color: #fafafa;
+}
+.fixed-table {
+    position: absolute; 
+    left: 0;
+    bottom: 0; 
+    width: 100%;
+}
+.fixed-table.top {
+    top: 0;
+    height: 69px;
+}
+.fixed-table.bottom {
+    bottom: 0;
+}
+.fixed-table.bottom table {
+    border-bottom: none;
+}
+.fixed-table.bottom td {
+    background-color: #fff;
+}
+.fixed-table.bottom td div {
+    line-height: 1.2;
+}
+#data-wrapper .noDataImg {
+    width: 200px;
+    height: 160px;
+    padding-top: 170px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 20px;
+    right: 0;
+    text-align: center;
+    margin: auto;
+    color: #4680FF;
+    font-size: 16px;
+    background: url(/hms/js/components/grid/images/noGridData.png) center no-repeat;
+}
+</style>
+<div class="x_panel window tabContainer" style="padding: 10px 20px;">
+    <form id="searchForm" class="clearfix">
+        <table>
+            <colgroup>
+                <col width="240"><col width="230">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="line-div w75">
+                            <div class="line-div-label">
+                                查询日期：
+                            </div>
+                            <div class="line-div-center">
+                                <input type="text" name="startDate" class="icon-calendar form-control left Wdate" id="searchTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true, maxDate: new Date()})">
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-left">
+                        <button type="button" id="search" class="left btn btn-mj">查询</button>
+                        <button type="button" id="clear" class="left btn">清空</button>
+                        <button type="button" id="exportData" class="left btn">导出</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <div id="main-wrapper" style="position: relative; margin-top: 10px; padding-bottom: 50px; overflow: hidden; border: 1px solid #dfe3ec">
+        <div>
+            <table id="head-table" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th name="name" rowspan="2" isRead="false"><div>门店</div></th>
+                        <th name="roomCount" rowspan="2" isRead="false"><div>房间数</div></th>
+                        <th name="orderCount" rowspan="2" isRead="false"><div>已出租数</div></th>
+                        <th name="rentRate" rowspan="2" isRead="false"><div>出租率</div></th>
+                        <th name="totalAverageRentFee" rowspan="2" isRead="false"><div>平均租金</div></th>
+                        <th name="panguCount" rowspan="2" isRead="false"><div>租客分期户数</div></th>
+                        <th name="panguRate" rowspan="2" isRead="false"><div>分期占比</div></th>
+                        <th colspan="3" isRead="false">租期1-3个月</th>
+                        <th colspan="3" isRead="false">租期4-6个月</th>
+                        <th colspan="3" isRead="false">租期7-12个月</th>
+                        <th colspan="3" isRead="false">租期13-24个月</th>
+                    </tr>
+                    <tr>
+                        <th name="orderCount1" isRead="false"><div>单数</div></th>
+                        <th name="totalRentFee1" isRead="false"><div>租金</div></th>
+                        <th name="averageRentFee1" isRead="false"><div>平均租金</div></th>
+                        <th name="orderCount2" isRead="false"><div>单数</div></th>
+                        <th name="totalRentFee2" isRead="false"><div>租金</div></th>
+                        <th name="averageRentFee2" isRead="false"><div>平均租金</div></th>
+                        <th name="orderCount3" isRead="false"><div>单数</div></th>
+                        <th name="totalRentFee3" isRead="false"><div>租金</div></th>
+                        <th name="averageRentFee3" isRead="false"><div>平均租金</div></th>
+                        <th name="orderCount4" isRead="false"><div>单数</div></th>
+                        <th name="totalRentFee4" isRead="false"><div>租金</div></th>
+                        <th name="averageRentFee4" isRead="false"><div>平均租金</div></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div id="data-wrapper" style="height: 400px; overflow-x: hidden; ">
+            <div class="noDataImg" style="display: none"></div>
+            <table id="data-table" class="table table-bordered table-condensed">
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="fixed-table bottom">
+            <table id="total-table" class="table table-bordered table-condensed" style="display: none;">
+                <tbody>
+                    <tr>
+                        <td><div>合计</div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type="text/template" id="orderModal">
+    <div id="gridWrapper"><div id="gridDiv"></div></div>
+</script>
+
+<script type="text/javascript">
+    seajs.use('controllers/report/salesList')
+</script>

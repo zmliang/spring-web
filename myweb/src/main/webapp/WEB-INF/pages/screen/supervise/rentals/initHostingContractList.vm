@@ -1,0 +1,81 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row"><div class="col-md-12 col-sm-12 col-xs-12 window">
+    <div class="x_panel window">
+	    <div class="x_title">
+			<div class="clearfix"></div>
+			<div class="searchDiv" >
+				<form id="searchForm">
+					<table>
+						<colgroup>
+								<col width="300"><col width="160"><col width="180"><col width="200">
+						</colgroup>
+						<tbody>
+							<tr>
+								<td>
+									<div class="line-div w60">
+										<div class="line-div-label">时间：</div>
+										<div class="line-div-center">
+											<input type="text" id='startDateStr' name="startDateStr" class="form-control left Wdate" style="width:100px" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true,maxDate:'#F{$dp.$D(\'endDateStr\')}'})">
+											<span class="left" style="padding:0 10px;">-</span>
+											<input type="text" id='endDateStr' name="endDateStr" class="form-control left Wdate" style="width:100px" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true,minDate:'#F{$dp.$D(\'startDateStr\')}'})">
+										</div>
+									</div>
+								</td>
+								<td>
+									<div class="line-div w60">
+										<div class="line-div-label">状态：</div>
+										<div class="line-div-center">
+											<select name="contractStatus" class="form-control" >
+											<option value="">全部</option>
+											<option value="2">已签</option>
+											<option value="1">未签</option>
+											<option value="3">作废</option>
+											</select>
+										</div>
+									</div>
+								</td>
+								<td>
+									<div class="line-div w60">
+										<div class="line-div-label">类型：</div>
+										<div class="line-div-center">
+										<select name="type" id="">
+												<option value="">请选择</option>
+												<option value="1">租房</option>
+												<option value="5">分期</option>
+												<!--<option value="2">增配</option>
+												<option value="3">换房</option>
+												<option value="4">贷款</option>-->
+										</select>
+										</div>
+									</div>
+								</td>
+								<td>
+									<div class="line-div ml10">
+										<div class="line-div-center">
+											<input placeholder="姓名/合同号/身份证/订单号" class="form-control" name="name">
+										</div>
+									</div>
+								</td>
+								<td>
+									<div class="searchBtn">
+									<button type="button" id="search" class="left btn btn-mj">查询</button>
+									<button type="button" id="clear" class="left btn">清空</button>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+			</div>
+		</div>
+      	<div class="x_content">
+		    <div class="clearfix gray-bg" ></div>
+            <div id="gridDiv"></div>
+        </div>
+    </div>
+</div></div>
+<script type="text/javascript">
+	seajs.use('controllers/supervise/initHostingContractList.js')
+</script>

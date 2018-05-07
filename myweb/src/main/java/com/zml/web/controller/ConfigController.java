@@ -30,17 +30,38 @@ public class ConfigController {
 
     @RequestMapping(value = "/config")
     public ModelAndView getMPageConfigs(){
-        final int threshold=configService.getQsThreshold();
-        logger.trace("threshold:"+threshold);
-        ModelAndView mv=new ModelAndView();
-        mv.setViewName("index");
-        return mv;
+        return View();
     }
 
     @RequestMapping(value = "/")
     public ModelAndView requestDefault(){
         ModelAndView mv=new ModelAndView();
-        mv.setViewName("home");
+        mv.setViewName("main");
+        return mv;
+    }
+
+    @RequestMapping(value = "/life")
+    public ModelAndView onLife(){
+        return View();
+    }
+    @RequestMapping(value = "/work")
+    public ModelAndView onWork(){
+        return View();
+    }
+    @RequestMapping(value = "/tech")
+    public ModelAndView onTech(){
+        return View();
+    }
+    @RequestMapping(value = "/gym")
+    public ModelAndView onGym(){
+        return View();
+    }
+
+    private ModelAndView View(){
+        final int threshold=configService.getQsThreshold();
+        logger.trace("threshold:"+threshold);
+        ModelAndView mv=new ModelAndView();
+        mv.setViewName("index");
         return mv;
     }
 

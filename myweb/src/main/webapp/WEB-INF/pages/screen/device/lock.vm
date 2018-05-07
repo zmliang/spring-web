@@ -1,0 +1,301 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<style type="text/css">
+    #setPsd, .isDelBtn, .rootDiv, #gridFoot{
+        display: none;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12 window">
+        <div class="x_panel window">
+            <form id="searchForm">
+                <table>
+                    <colgroup>
+                        <col width="130">
+                        <col width="150">
+                        <col width="150">
+                        <col width="100">
+                        <col width="110">
+                        <col width="160">
+                        <col width="160">
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <select name="cityId"></select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="padding-left: 10px">
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <select name="areaId">
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="padding-left: 10px">
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <select name="subdistrictId"></select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="padding-left: 10px">
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <select name="isUsual">
+                                            <option value=""></option>
+                                            <option value="1">离线</option>
+                                            <option value="2">低电量</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="padding-left: 10px">
+                                <div class="line-div">
+                                    <div class="line-div-center">
+                                        <select name="isOline">
+                                            <option value=""></option>
+                                            <option value="0">离线</option>
+                                            <option value="1">在线</option>
+                                            <option value="2">暂不支持</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>                 
+                            <td>
+                                <div class="line-div">
+                                    <div class="line-div-label"></div>
+                                    <div class="line-div-center" style="padding-left: 10px">
+                                        <input type="text" name="roomNo" class="form-control" placeholder="公寓/小区/房间号" >
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <button type="button" id="search" class="left btn btn-mj">查询</button>
+                                <button type="button" id="clear" class="left btn">清空</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+            <div style="margin-top: 10px;">
+                <div class="grid_box">
+                    <div id="gridDiv"></div>
+                </div>
+            </div>            
+        </div>
+    </div>
+</div>
+<!-- 门锁开门记录 -->
+<script type="text/template" id="openLogTemp">
+    <form id="searchForm" class="form-group">
+        <table>
+            <colgroup>
+                <col width="420">
+                <col width="200">
+                <col width="160">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="line-div w75">
+                            <div class="line-div-label">
+                                操作时间：
+                            </div>
+                            <div class="line-div-center">
+                                <input type="text" name="startTime" 
+                                    class="icon-calendar form-control left Wdate" 
+                                    style="width:45%" 
+                                    id="startTime" 
+                                    onfocus="WdatePicker({
+                                        dateFmt:'yyyy-MM-dd HH:mm:ss',
+                                        isShowClear:true,
+                                        maxDate:'#F{$dp.$D(\'endTime\')}',
+                                        minDate:'#F{$dp.$D(\'endTime\',{M:-3})}'
+                                    })">
+                                <span class="left" style="width:10%">--</span>
+                                <input type="text" id="endTime" name="endTime" 
+                                    class="icon-calendar form-control left Wdate" 
+                                    style="width:45%" 
+                                    onfocus="WdatePicker({
+                                        dateFmt:'yyyy-MM-dd HH:mm:ss',
+                                        isShowClear:true,
+                                        minDate:'#F{$dp.$D(\'startTime\')}',
+                                        maxDate:'#F{$dp.$D(\'startTime\',{M:3})}'
+                                    })">
+                            </div>
+                        </div>
+                    </td>
+                    <td style="padding-left: 10px">
+                        <div class="line-div">
+                            <div class="line-div-center">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-more"
+                                            style="margin-left: 0;" 
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true" 
+                                            aria-expanded="true">
+                                            全部
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li class="btn-expand" operatorType="0"><a href="#">全部</a></li>
+                                            <li class="btn-expand" operatorType="2"><a href="#">租客</a></li>
+                                            <li class="btn-expand" operatorType="3"><a href="#">管家</a></li>
+                                            <li class="btn-expand" operatorType="4"><a href="#">密码</a></li>
+                                        </ul>
+                                    </div>
+                                    <input placeholder="姓名" class="form-control" name="keyword">
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <button type="button" class="btn btn-mj search">查询</button>
+                        <button type="button" class="btn clear">清空</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <div id="grid_log"></div>
+</script>
+<!-- 权限设置 -->
+<script type="text/template" id="rootSetTmp">
+    <div class="ammeterDiv" style="line-height: 20px;padding-bottom:10px;border-bottom: 1px solid #ccc">
+    </div>
+    <div class="line-div">
+        <div class="left">
+            <div class="btn-group isDelBtn">
+                <button type="button" class="btn btn-mj" style="margin-left: 0;">未删除密码</button>
+                <button type="button" class="btn">已删除密码</button>
+            </div>
+        </div>
+        <div class="right" style="padding: 5px 0">
+            <button type="button" class="btn btn-mj" id="lookPsd">查看离线密码</button>
+            <button type="button" class="btn btn-mj" id="setPsd">设置密码</button>
+        </div>
+    </div>
+    <div class="rootDiv line-div">
+        <div id="rootGrid"></div>
+    </div> 
+    <div style="float: left;padding-top: 10px" id="gridFoot"> 
+        说明：APP开门权限只能控制APP，无法控制密码；若要停用密码请删除密码；密码数量：25个（包括未删除、失效、未生效）个别门锁暂不支持远程删除密码，需要通过管家APP删除
+    </div>
+</script>
+<!-- 权限 -->
+<script type="text/template" id="oneRootTmp">
+    {{#each this}}
+        <div class="col-md-4">
+            <span style="line-height: 28px;float: left;padding-right: 5px">{{relatePositionName}}</span>
+            <input type="checkbox" name="status{{@index}}" class="tools_switch" switchFlag="{{lodgerStatusStr}}" />
+        </div>
+    {{/each}}
+    <div class="clear"></div>
+</script>
+<!-- 设置密码 -->
+<script type="text/template" id="setPsdTmp">
+    <form id="psdForm">
+        <table>
+            <colgroup>
+                <col width="340">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="line-div w115">
+                            <div class="line-div-label">
+                                密码生效时间：<span class="red">*</span>
+                            </div>
+                            <div class="line-div-center">
+                                <input type="text" name="startTime" 
+                                    class="icon-calendar form-control left Wdate" 
+                                    id="startTimePsd" 
+                                    onfocus="WdatePicker({
+                                        dateFmt:'yyyy-MM-dd HH:mm:ss',
+                                        isShowClear:false,
+                                        maxDate:'#F{$dp.$D(\'endTimePsd\')}'
+                                    })">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="line-div w115">
+                            <div class="line-div-label">
+                                密码失效时间：<span class="red">*</span>
+                            </div>
+                            <div class="line-div-center">
+                                <input type="text" name="endTime" 
+                                    class="icon-calendar form-control left Wdate" 
+                                    id="endTimePsd" 
+                                    onfocus="WdatePicker({
+                                        dateFmt:'yyyy-MM-dd HH:mm:ss',
+                                        isShowClear:false,
+                                        miniDate:'#F{$dp.$D(\'startTimePsd\')}'
+                                    })">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                 <tr class="doorPsdTr" style="{{#isHide 'sc' productBrandName}}{{/isHide}}">
+                    <td>
+                        <div class="line-div w115">
+                            <div class="line-div-label">
+                                门锁密码：<span class="red">*</span>
+                            </div>
+                            <div class="line-div-center input-group">
+                                <input type="text" placeholder="请设置6位密码" name="password" class="form-control">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-mj" id="randomPsd">随机密码</button>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="line-div w115">
+                            <div class="line-div-label">
+                                操作对象：<span class="red">*</span>
+                            </div>
+                            <div class="line-div-center input-group">
+                                <input type="text" placeholder="例如 房间A张三" name="operateObject" class="form-control">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-mj" id="chooseRenterPhone">选择租客号码</button>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="line-div w115">
+                            <div class="line-div-label">
+                                手机号码：<span style="margin-left: 6px; display: inline-block;"></span>
+                            </div>
+                            <div class="line-div-center">
+                                <input type="text" name="phone" placeholder="请输入手机号码" class="form-control">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="font-size: 12px">
+            提示说明：<br>
+            这里的操作对象只是方便记录密码实际应用的场景，方便查看开门记录的时候有对应显示。<br>
+            部分品牌门锁添加密码可能存在延迟，请耐心等待。
+        </div>
+    </form>
+</script>
+<script type="text/javascript">
+    seajs.use('controllers/device/lock.js')
+</script>

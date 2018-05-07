@@ -1,0 +1,194 @@
+#parse('common/top.vm')
+#parse('common/header_lease.vm')
+<div class="row">
+   <div class="col-md-12 col-sm-12 col-xs-12 window L-main">
+       <div class="x_title">
+          <div class="searchDiv">
+                <form id="searchForm">
+                  <table>
+                      <colgroup>
+                        <col width="260">
+                        <col width="200">
+                        <col width="200">
+                        <col width="300">
+                      </colgroup>
+                      <tr>
+                        <td>
+                              <div class="line-div w90">
+                                  <div class="line-div-label">消息类别：</div>
+                                  <div class="line-div-center">
+                                      <input name="msgCategory" type="text" class="form-control">
+                                  </div>
+                              </div>
+                          </td>
+                          <td>
+                              <div class="line-div w90">
+                                  <div class="line-div-label">推送类型：</div>
+                                  <div class="line-div-center">
+                                      <select name="type" class="form-control navbar-left content-input" >
+                                          <option value="">请选择</option>
+                                          <option value="2">全部</option>
+                                          <option value="3">个人</option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </td>
+                          <td>
+                              <div class="line-div w60">
+                                  <div class="line-div-label">状态：</div>
+                                  <div class="line-div-center">
+                                      <select name="status" class=" form-control navbar-left content-input" >
+                                          <option value="">全部</option>
+                                          <option value="1">已推送</option>
+                                          <option value="0">未推送</option>
+                                       </select>
+                                  </div>
+                              </div>
+                          </td>
+                          <td>
+                            <div class="searchBtn">
+                              <button type="button" id="search" class="left btn btn-mj">查询</button>
+                              <button type="button" id="clear" class="left btn">清空</button>
+                            </div>
+                            
+                          </td>
+                      </tr>
+                  </table>
+                </form>
+            </div>
+       </div>
+       <div class='x_content'>
+            <div class="clearfix gray-bg text-right">
+               <button type="button" class="btn btn-mj pullBtn">推送</button>
+               <button type="button" class="btn btn-mj add-push" id='addNew'>新增</button>
+           </div>
+           <div id="gridDiv"></div>
+       </div>
+   </div>
+</div>
+<!-- 添加和修改公寓模板 start-->
+<script type="text/template" id="AddandEdit">
+  <form id="J_form">
+    <table>
+      <colgroup>
+        <col width="660">
+      </colgroup>
+      <tr>
+        <td>
+          <div class="line-div w110">
+            <div class="line-div-label">
+              消息类别：<i class="red">*</i>
+            </div>
+            <div class="line-div-center ">
+               <input type="text" validate name="msgCategory" class="form-control col-md-12 content-input" value="{{msgCategory}}" placeholder="请输入推送消息的类别，例如停电公告，方便后期查询统计">
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="line-div w110" style="height: 50px">
+            <div class="line-div-label">推送内容：<i class="red">*</i></div>
+            <div class="line-div-center">
+                <textarea id="taContent" name="msgContent" style="width:100%;height:50px;" placeholder="最多输入100个字" maxlength="100"
+                     onkeyup="this.value=this.value.substring(0, 100)">{{msgContent}}</textarea>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="line-div w110">
+              <div class="line-div-label">附带H5页面：</div>
+              <div class="line-div-center">
+                  <input type="text" placeholder="请输入推送消息H5链接地址；例如http://www.baidu.com" value="{{linkUrl}}" name="linkUrl" class="form-control">
+              </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="line-div w110">
+             <div class="line-div-label">推送类型：<i class="red">*</i></div>
+             <div class="line-div-center">
+                <select name="type" class="left pushType" style="width: 200px">
+                    {{#selected targetType}}{{/selected}}
+                </select>
+             </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class='push'>
+          <div class="line-div grey">
+              <div class='push_grey'>
+                  <span class="grey-title">请添加推送对象：</span>
+                   <div class="groupBtn">
+                       <a href="javascript:void(0)"  class="addLi"><i class="icon-jiahao" style="position: relative;top:-2px"></i>添加</a>
+                       <a href="javascript:void(0)"  class="clearLi"><i class="icon-refresh"></i>清空</a>
+                   </div>
+              </div>
+              <div class="areaCenter">
+                <ul class="nav pushNav">
+                    {{#each idAndNames}}
+                      <li>{{name}}<i class="icon-chahao" tId="{{id}}"></i></li>
+                    {{/each}}
+                </ul>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </form>
+</script>
+<!--添加和修改公寓模板 end-->
+
+<!-- 添加推送对象 -->
+<script type="text/template" id="pushObj">
+    <div class="div-line">
+        <div class="list-search relative">
+          <input type="text" placeholder="关键词/拼音" value="" class="search-s">
+          <i class="icon-search"></i>
+          <button class="search-empty">清空</button>
+        </div>
+        <div class="list-box">
+          <ul class="nav">
+           {{#each this}}
+              <li>
+                <label>
+                <input type="checkbox" {{checked}} tName="{{name}}" class="checkBox" tId="{{id}}"><span>{{name}}</span></label>
+              </li>
+            {{/each}}
+          </ul>
+        </div>
+    </div>
+</script>
+<!--end-->
+
+<!--查看 start-->
+<script type="text/template" id="Look">
+<div class="popup-main w618h190">
+   <div class="left notify-time">
+       <div class="left notify" style="width: 530px">
+
+       <div class="notify-tt">
+           <p>
+               <span class='txt-orange txt-x16 orange'>[通知]&nbsp;&nbsp;</span>
+               <span class="txt-x16">推送类型：</span>
+               <span class="txt-x16 txt-type">{{typeStr}}</span>
+           </p>
+           <p>
+               <span class="txt-x14">{{msgContent}}</span>
+           </p>
+       </div>
+       <div class="notify-bt">
+           <div class="notify-a">
+               <a href="#" class="txt-x14 pull-right txt-a colorc8">{{urlStr}}</a>
+           </div>
+       </div>
+   </div>
+ </div></div>
+</script>
+<!--查看 end-->
+<script type="text/javascript">
+	seajs.use('controllers/lease/initPushList')
+</script>

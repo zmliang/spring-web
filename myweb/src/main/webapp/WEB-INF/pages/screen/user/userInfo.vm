@@ -1,0 +1,268 @@
+#parse('common/top.vm') #parse('common/header.vm') #parse('common/left.vm')
+<style type="text/css">
+.cropper-crop-box,
+.cropper-view-box,
+.img-preview {
+    border-radius: 50%;
+}
+
+.img-preview {
+    width: 150px;
+    margin-left: 40px;
+}
+
+.cropper-view-box {
+    box-shadow: 0 0 0 1px #39f;
+    outline: 0;
+}
+</style>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12 window">
+        <div class="x_panel window">
+            <div class="panel-body">
+                <input type="hidden" name="cardAddrProvinceId" value="$!{userInfo.cardAddrProvinceId}" />
+                <input type="hidden" name="cardAddrCityId" value="$!{userInfo.cardAddrCityId}" />
+                <input type="hidden" name="cardAddrRegionId" value="$!{userInfo.cardAddrRegionId}" />
+                <input type="hidden" name="addrProvinceId" value="$!{userInfo.addrProvinceId}" />
+                <input type="hidden" name="addrCityId" value="$!{userInfo.addrCityId}" />
+                <input type="hidden" name="addrRegionId" value="$!{userInfo.addrRegionId}" />
+                <form id="formData">
+                    <input type="hidden" name="userId" value="$!{userInfo.userId}" />
+                    <input type="hidden" name="picUrl" value="$!{userInfo.picUrl}" />
+                    <table>
+                        <colgroup>
+                            <col width="300">
+                            <col width="100">
+                            <col width="200">
+                        </colgroup>
+                        <tr>
+                            <td>
+                                <div class="form-group clearfix">
+                                    <div class="line-div w100" style="height: 50px;line-height: 50px;">
+                                        <div class="line-div-label">
+                                            头像:
+                                        </div>
+                                        <div class="line-div-center">
+                                            #if($userInfo.picUrl == '' || !$userInfo.picUrl)
+                                            <img src="$!{rc.contextPath}/images/noavatar_small.png" class="user-avatar img-circle" width="45" height="45" /> #else
+                                            <img src="$!{userInfo.picUrl}" class="user-avatar img-circle" width="45" height="45" /> #end
+                                            <label for="smallImage" class="btn btn-mj right hide" style="margin-top: 12px;">
+                                                <input class="hide" id="smallImage" name="smallImage" type="file" accept="image/jpg,image/jpeg,image/png,image/gif">
+                                                更换头像
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-group clearfix">
+                                    <div class="line-div w100">
+                                        <div class="line-div-label">
+                                            姓名:
+                                        </div>
+                                        <div class="line-div-center">
+                                            <input class="form-control" #if($userInfo.authentication==2 ) do_not_edit #end name="name" validate value="$!{userInfo.name}" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group clearfix">
+                                    <div class="line-div w100">
+                                        #if($userInfo.authentication == 0)
+                                        <span class="mj-tag">
+                          未提交资料
+                        </span> #elseif ($userInfo.authentication == 1)
+                                        <span class="mj-tag">
+                          审核中
+                        </span> #elseif ($userInfo.authentication == 2)
+                                        <span class="mj-tag mj-tag-success">
+                          认证通过
+                        </span> #else ($userInfo.authentication == 3)
+                                        <span class="mj-tag mj-tag-danger">
+                          审核不通过
+                        </span> #end
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-group clearfix">
+                                    <div class="line-div w100">
+                                        <div class="line-div-label">
+                                            性别:
+                                        </div>
+                                        <div class="genderGroup" style="padding-left: 100px;text-align: left;">
+                                            <label style="margin-bottom: 0;">
+                                                #if($userInfo.gender == 1)
+                                                <input type="radio" name="gender" value="1" disabled checked> #else
+                                                <input type="radio" name="gender" value="1" disabled> #end 男
+                                            </label>
+                                            <label style="margin-left: 20px; margin-bottom: 0;">
+                                                #if($userInfo.gender == 2)
+                                                <input type="radio" name="gender" value="2" disabled checked> #else
+                                                <input type="radio" name="gender" value="2" disabled> #end 女
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-group clearfix">
+                                    <div class="line-div w100">
+                                        <div class="line-div-label">
+                                            身份证号码:
+                                        </div>
+                                        <div class="line-div-center">
+                                            <input class="form-control" name="cardNo" value="$!{userInfo.cardNo}" #if($userInfo.authentication==2 ) do_not_edit #end readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="form-group clearfix">
+                                    <div class="line-div w100">
+                                        <div class="line-div-label">
+                                            身份证居住地:
+                                        </div>
+                                        <div class="line-div-center">
+                                            <div id="areaBox1"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group clearfix">
+                                    <div class="line-div-center" style="margin-left: 10px;">
+                                        <input class="form-control" name="cardAddrDetail" value="$!{userInfo.cardAddrDetail}" placeholder="详细地址" readonly />
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="form-group clearfix">
+                                    <div class="line-div w100">
+                                        <div class="line-div-label">
+                                            现在居住地:
+                                        </div>
+                                        <div class="line-div-center">
+                                            <div id="areaBox2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group clearfix">
+                                    <div class="line-div-center" style="margin-left: 10px;">
+                                        <input class="form-control" name="addrDetail" value="$!{userInfo.addrDetail}" placeholder="详细地址" readonly />
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-group clearfix">
+                                    <div class="line-div w100">
+                                        <div class="line-div-label">最近登录时间:</div>
+                                        <div class="line-div-center">
+                                            <input type="text" name="" class="form-control" value="$!{userInfo.lastLoginDateStr}" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-group clearfix">
+                                    <div class="line-div w100">
+                                        <div class="line-div-label">注册时间:</div>
+                                        <div class="line-div-center">
+                                            <input type="text" name="" class="form-control" value="$!{userInfo.registerDateStr}" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                <div style="margin-top: 20px;">
+                    <button type="button" class="btn btn-mj" id="editForm">编辑</button>
+                    #if($userInfo.authentication != 2)
+                    <button type="button" class="btn btn-mj" id="realNameAuth">实名认证</button>
+                    #end
+                    <button type="button" class="btn btn-mj hide" id="saveForm">保存</button>
+                    <button type="button" class="btn hide" id="cancleForm">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/template" id="uploadPic">
+    <!-- 图片裁剪 -->
+    <div class="container" style="max-width: 1140px;">
+        <div class="left" style="margin: 10px;">
+            <div class="img-container">
+                <img src="" alt="" />
+            </div>
+            <div class="docs-buttons clearfix">
+                <div class="btn-group right">
+                    <button class="btn btn-mj" data-method="zoom" data-option="0.1" type="button" tips="放大图片" style="min-width:inherit">
+                        <span class="icon icon-zoom-in"></span>
+                    </button>
+                    <button class="btn btn-mj" data-method="zoom" data-option="-0.1" type="button" tips="缩小图片" style="min-width:inherit">
+                        <span class="icon icon-zoom-out"></span>
+                    </button>
+                    <button class="btn btn-mj" data-method="rotate" data-option="45" type="button" tips="顺时针旋转45°" style="min-width:inherit">
+                        <span class="icon icon-rotate-right"></span>
+                    </button>
+                    <label class="btn btn-mj btn-upload" tips="替换图片" style="min-width:inherit">
+                        <input type="file" class="hide" name="inputImage" accept="image/jpg,image/jpeg,image/png">
+                        <span class="icon icon-uploadFile"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/template" id="authPanel">
+    <table id="J_form">
+        <colgroup>
+            <col width="350">
+        </colgroup>
+        <tr>
+            <td>
+                <div class="line-div w90">
+                    <div class="line-div-label">
+                        姓名：<i class="red">*</i>
+                    </div>
+                    <div class="line-div-center">
+                        <input type="text" name="realName" value="{{realName}}" validate class="form-control">
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="line-div w90">
+                    <div class="line-div-label">
+                        身份证号：<i class="red">*</i>
+                    </div>
+                    <div class="line-div-center">
+                        <input type="text" placeholder="" maxlength="18" name="cardNo" value="{{cardNo}}" validate class="form-control">
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</script>
+<script type="text/javascript">
+seajs.use('controllers/user/userInfo.js')
+</script>

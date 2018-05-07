@@ -1,0 +1,99 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="x_panel window gridWrapper tabContainer">
+    <input type="hidden" id="userMobile" value="$!{mobile}">
+    <div class="corporateBox">
+        <div class="col-md-6">
+            <div class="rightBorder">客户资金<span class="price corPrice1">0</span>元</div>
+        </div>
+        <div class="col-md-6">
+            <div class="rightBorder">账户数量<span class="price corPrice2">0</span>个</div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="copSearch">
+        <form id="searchForm" class="clearfix">
+            <table>
+                <colgroup>
+                    <col width="300">
+                    <col width="180">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td style="padding-left: 10px;"><div class="line-div">
+                            <div class="line-div-center">
+                                <input class="form-control" name="org" placeholder="组织名称/组织缩写/联系电话" />
+                            </div>
+                        </div></td>
+                        <td class="text-left">
+                            <button type="button" id="search" class="left btn btn-mj">查询</button>
+                            <button type="button" id="clear" class="left btn">清空</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div id="gridWrapper">
+        <div id="gridDiv"></div>
+    </div>
+</div>
+<script type="text/template" id="overlayTmp">
+    <div>
+        <div class="col-md-12">
+            <div class="txt-switcher left corSwitch" style="margin-bottom: 0">
+                <div class="txt">提现功能</div>
+                <input type="checkbox" name="status" class="tools_switch" switchFlag="{{statusStr}}" />
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/javascript">
+    seajs.use('controllers/corporate/customerList')
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

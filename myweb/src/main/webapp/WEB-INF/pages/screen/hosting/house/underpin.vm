@@ -1,0 +1,164 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12 window">
+        <div class="x_panel window">
+            <div class="panel panel-default" style="margin-bottom: 0;">
+                <div class="panel-heading clearfix" style="padding:6px;height:40px;background: #eef0f6;border:0 none;">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-mj btn_housingType">
+                            集中式
+                        </button>
+                        <button type="button" class="btn btn_housingType">
+                            分散式
+                        </button>
+                    </div>
+                    <span class="totalNum red" style="margin-left: 10px;"></span>
+                </div>
+            </div>
+            <div class="searchDiv clearfix" style="margin: 5px 0">
+                <div class="settingPermision hide right" style="padding:5px 0">
+                    共<span class="estateRoomCount"></span>间房间，当前公寓状态：<span class="estateHouseType"></span>
+                    <button type="button" class="btn btn-mj">
+                        设置
+                    </button>
+                </div>
+                <form class="left" id="searchForm">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td width="130">
+                                    <div class="line-div">
+                                        <div class="line-div-center">
+                                            <select name="orgId" class="default form-control">
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td width="130" style="padding-left: 10px;">
+                                    <div class="line-div">
+                                        <div class="line-div-label"></div>
+                                        <div class="line-div-center">
+                                            <select name="cityId" class="default form-control">
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td width="130" class="housingType hide" style="padding-left: 10px;">
+                                    <div class="line-div">
+                                        <div class="line-div-label"></div>
+                                        <div class="line-div-center">
+                                            <select name="regionId" class="default form-control">
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td width="155" style="padding-left: 10px;">
+                                    <div class="line-div">
+                                        <div class="line-div-label"></div>
+                                        <div class="line-div-center">
+                                            <select name="subdistrictId" class="default form-control">
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td width="130" class="houseStatusToggle hide" style="padding-left: 10px;">
+                                    <div class="line-div">
+                                        <div class="line-div-center">
+                                            <select name="houseStatus" class="default form-control">
+                                                <option value=""></option>
+                                                <option value="1">对方自营中</option>
+                                                <option value="2">代管</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td width="100" class="roomNoToggle" style="padding-left: 10px;">
+                                    <div class="line-div">
+                                        <div class="line-div-label"></div>
+                                        <div class="line-div-center">
+                                            <input type="text" name="roomNo" class="form-control" placeholder="房间号">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td width="170" class="text-left">
+                                    <button type="button" id="search" class="left btn btn-mj">查询</button>
+                                    <button type="button" id="clear" class="left btn">清空</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+            <div class="gridBox">
+                <div id="gridDiv"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 查看交租计划 -->
+<script type='text/template' id='watchPlan'>
+    <table style="margin-bottom: 20px;">
+        <colgroup>
+            <col width="200px">
+            <col width="280px">
+            <col width="280px">
+        </colgroup>
+        <tr>
+            <td id="div-dia-name" style="text-align: left;">租客：{{contactName}}</td>
+            <td id="div-dia-mobile" style="text-align: left;">手机号码：{{contactMobile}}</td>
+            <td id="div-dia-payType" style="text-align: left;">交租方式：{{payTypeStr}}</td>
+        </tr>
+        <tr>
+            <td id="div-dia-rentFee" style="text-align: left;">房租：{{rentFee}}元/月</td>
+            <td id="div-dia-dateStart" style="text-align: left;">合同开始时间：{{startDateStr}}</td>
+            <td id="div-dia-dateEnd" style="text-align: left;">合同结束时间：{{endDateStr}}</td>
+        </tr>
+    </table>
+    <div id="gridWatch"></div>
+    <div class="noData"></div>
+</script>
+
+<script type="text/javascript">
+    seajs.use('controllers/hosting/underpin.js');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

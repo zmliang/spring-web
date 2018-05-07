@@ -1,0 +1,133 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12 window">
+        <div class="x_panel window">
+            <div class="clearfix"></div>
+            <div class="city left" style="width:250px;clear:none;">
+                <div class="apartment-list">公寓列表</div>
+                <div class='div_ul_list'>
+                    <ul id="tableList_e"></ul>
+                </div>
+            </div>
+
+            <div class="x_content left" style="width:calc(100% - 260px);clear:none; margin-left: 10px;">
+                <div class="clearfix gray-bg">
+                    <div class="navbar-left bulk_action">
+                        <div class="f16 left"><div class="blue left estate_list"></div><span>-增配产品表</span></div>
+                    </div>
+                    <div class="navbar-left pull-right">
+                        <div class="btn-btn pull-left state-enable btn-enable">启用</div>
+                        <div class="btn-btn pull-left state-disable btn-danger btn-disable">停用</div>
+                    </div>
+                    <div class="navbar-left pull-right"><button id="addNew" type="button" class="btn btn-mj increased">新增</button></div>
+                </div>
+                <div id="gridDiv"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑增配类型start -->
+<script type="text/template" id="addAndEdit">
+    <form id="J_form">
+        <table>
+            <colgroup>
+                <col width="300">
+                <col width="300">
+            </colgroup>
+            <tr>
+                <td>
+                    <div class="line-div w90">
+                        <div class="line-div-label">
+                            类型：<i class="red">*</i>
+                        </div>
+                        <div class="line-div-center">
+                            <select name="type">
+                                {{#selected1 type}}{{/selected1}}
+                            </select>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="line-div w110">
+                        <div class="line-div-label">
+                            增配编码：<i class="red">*</i>
+                        </div>
+                        <div class="line-div-center">
+                            <input name="facilityCode" value="{{facilityCode}}" type="text" class="form-control"  placeholder="大写字母+数字(6位)" >
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="line-div w90">
+                        <div class="line-div-label">
+                            增配名称：<i class="red">*</i>
+                        </div>
+                        <div class="line-div-center">
+                            <input name="facilityName" value="{{facilityName}}" type="text" class="form-control" validate placeholder="1-10 个汉字！">
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="line-div w110">
+                        <div class="line-div-label">
+                            单价：<i class="red">*</i>
+                        </div>
+                        <div class="line-div-center">
+                            <input name="price" validate value="{{price}}" type="text" class="form-control" placeholder="请输入数字！">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="line-div w90">
+                        <div class="line-div-label">
+                            计费单位：<i class="red">*</i>
+                        </div>
+                        <div class="line-div-center">
+                            <input name="unit" validate value="{{unit}}" type="text" class="form-control"  placeholder="元、度、吨等">
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="line-div w110">
+                        <div class="line-div-label">
+                            押金：<i class="red">*</i>
+                        </div>
+                        <div class="line-div-center">
+                            <input name="deposit" validate value="{{deposit}}" type="text" class="form-control" placeholder="请输入数字！">
+                        </div>
+                    </div>
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    <div class="line-div w90">
+                        <div class="line-div-label">
+                            状态：<i class="red">*</i>
+                        </div>
+                        <div class="line-div-center">
+                            <select name="status" disabled>
+                                {{#selected status}}{{/selected}}
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</script>
+<!-- 编辑增配类型end -->
+
+
+<script type="text/javascript">
+    seajs.use('controllers/house/estateFacilityList')
+</script>
+
+

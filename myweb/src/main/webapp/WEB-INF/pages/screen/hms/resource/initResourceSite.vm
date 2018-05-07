@@ -1,0 +1,319 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row">
+  	<div class="col-md-12 col-sm-12 col-xs-12 window">
+    	<div class="x_panel window" style="padding: 10px;">
+			<div class="filter-nav">
+				<div class="btn-group" role="group" aria-label="...">
+				  	<button type="button" class="btn active">不包括删除</button>
+				  	<button type="button" class="btn">包括删除</button>
+				</div>
+				<div class="navbar-right">
+					<button type="button" class="btn btn-mj" id="addNew">新增</button>
+				</div>
+				<div class="panel panel-default" style="border-bottom:0;margin-top: 20px;margin-bottom:0;margin-top: 10px;">
+				  	<div class="panel-heading">
+				  		<span>模块</span>
+				  		<span style="margin-left: 67px;">权限</span>
+				  	</div>
+				  	<div class="panel-body" style="padding: 0;">
+						<div class="filter-mod">
+						</div>
+				  	</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 权限树 -->
+<script type="text/template" id="renderTree">
+	{{#each this}}
+	<div class="filter-item">
+		<label class="item-mod-a item-m-1" itemUrl="{{url}}" errorMsg="{{errorMsg}}" isDel="{{isDelete}}" resourceConfigId="{{resourceConfigId}}">{{name}}</label>
+		<div class="item-wrap wrap-box">
+			{{#each children}}
+			<div class="item-mod">
+				<label class="item-mod-a item-m-2" itemUrl="{{url}}" errorMsg="{{errorMsg}}" isDel="{{isDelete}}" resourceConfigId="{{resourceConfigId}}">{{name}}</label>
+				<div class="item-wrap">
+					{{#each children}}
+	            	<div class="item-item-mod">
+	                    <label class="item-mod-a item-m-3" itemUrl="{{url}}" errorMsg="{{errorMsg}}" isDel="{{isDelete}}" resourceConfigId="{{resourceConfigId}}">{{name}}</label>
+	                    <div class="item-wrap">
+							{{#each children}}
+			            	<div class="item-item-mod">
+			                    <label class="item-mod-a item-m-4" itemUrl="{{url}}" errorMsg="{{errorMsg}}" isDel="{{isDelete}}" resourceConfigId="{{resourceConfigId}}">{{name}}</label>
+			                    <div class="item-wrap">
+									{{#each children}}
+					            	<div class="item-item-mod">
+					                    <label class="item-mod-a item-m-5" itemUrl="{{url}}" errorMsg="{{errorMsg}}" isDel="{{isDelete}}" resourceConfigId="{{resourceConfigId}}">{{name}}</label>
+					                    <div class="item-wrap">
+											{{#each children}}
+							            	<div class="item-item-mod">
+							                    <label class="item-mod-a item-m-6" itemUrl="{{url}}" errorMsg="{{errorMsg}}" isDel="{{isDelete}}" resourceConfigId="{{resourceConfigId}}">{{name}}</label>
+							                </div>
+							                {{/each}}
+							            </div> 
+					                </div>
+					                {{/each}}
+					            </div> 
+			                </div>
+			                {{/each}}
+	            		</div> 
+	                </div>
+	                {{/each}}
+	            </div> 
+            </div>
+            <em class="cutline"></em>
+            {{/each}}
+        </div>
+	</div>
+	{{/each}}
+</script>
+
+<!-- 编辑弹窗 -->
+<script type="text/template" id="editPermit">
+	<form class="permitForm">
+	<table>
+	    <colgroup>
+	        <col width="300"><col width="400">
+	    </colgroup>
+	    <tr><td>
+			<div class="line-div w75">
+				<div class="line-div-label">菜单名称:<i class="red">*</i></div>
+				<div class="line-div-center">
+				    <input type="text" name="name" class="form-control" value="{{name}}" {{#isEdit resourceConfigId}}{{/isEdit}}>
+				</div>
+			</div> 
+	    	</td><td>
+			<div class="line-div w110">
+				<div class="line-div-label">菜单URL:</div>
+				<div class="line-div-center">
+				  	<input type="text" name="url" class="form-control" value="{{url}}" {{#isEdit resourceConfigId}}{{/isEdit}}>
+				</div>
+			</div> 
+	    	</td>
+	    </tr>
+	    <tr><td>
+			<div class="line-div w75">
+				<div class="line-div-label">菜单图标:</div>
+				<div class="line-div-center">
+				  	<input type="text" name="icon" class="form-control" value="{{icon}}" {{#isEdit resourceConfigId}}{{/isEdit}} />
+				</div>
+			</div> 
+			</td><td>
+			<div class="line-div w110">
+				<div class="line-div-label">父菜单ID:</div>
+				<div class="line-div-center">
+				  	<input type="text" name="parentId" class="form-control" value="{{parentId}}" {{#isEdit resourceConfigId}}{{/isEdit}} />
+				  	<button type="button" class="btn selectParent" style="position: absolute;top: 0;right: -5px;" {{#isEdit resourceConfigId}}{{/isEdit}}>选择</span>
+				</div>
+			</div> 
+			</td></tr>
+		<tr><td>
+			<div class="line-div w75">
+				<div class="line-div-label">排序:</div>
+				<div class="line-div-center">
+				  	<input type="text" name="orderNum" class="form-control" value="{{orderNum}}" {{#isEdit resourceConfigId}}{{/isEdit}} />
+				</div>
+			</div> 
+			</td><td>
+			<div class="line-div w110">
+				<div class="line-div-label">需要权限:</div>
+				<div class="line-div-center">
+				  	<input type="text" name="requirePermCode" class="form-control" value="{{requirePermCode}}" {{#isEdit resourceConfigId}}{{/isEdit}} />
+				</div>
+			</div> 
+			</td></tr>
+		<tr><td>
+			<div class="line-div w75">
+				<div class="line-div-label">权限名称:<i class="red">*</i></div>
+				<div class="line-div-center">
+				  	<input type="text" name="permName" class="form-control" value="{{permName}}" {{#isEdit resourceConfigId}}{{/isEdit}} />
+				</div>
+			</div> 
+			</td><td>
+			<div class="line-div w110">
+				<div class="line-div-label">权限菜单名称:<i class="red">*</i></div>
+				<div class="line-div-center">
+				  	<input type="text" name="permModuleName" class="form-control" value="{{permModuleName}}" {{#isEdit resourceConfigId}}{{/isEdit}} />
+				</div>
+			</div> 
+			</td></tr>
+		<tr><td>
+			<div class="line-div w75">
+				<div class="line-div-label">类型:<i class="red">*</i></div>
+				<div class="line-div-center">
+					<select class="form-control" name="type" {{#isEdit resourceConfigId}}{{/isEdit}}>
+						{{#typeTemp type}}{{/typeTemp}}
+                  	</select>
+				</div>
+			</div> 
+			</td><td>
+			<div class="line-div w110">
+				<div class="line-div-label">是否隐藏:</div>
+				<div class="line-div-center">
+					<select class="form-control" name="isDelete" {{#isEdit resourceConfigId}}{{/isEdit}}>
+						{{#isDeleteTemp isDelete}}{{/isDeleteTemp}}
+                  	</select>
+				</div>
+			</div> 
+			</td></tr>
+	    <tr><td>
+			<div class="line-div w75">
+				<div class="line-div-label">权限组:</div>
+				<div class="line-div-center">
+				  	<input style="padding-right: 50px;" type="text" name="permGroupId" class="form-control" value="{{permGroupId}}" {{#isEdit resourceConfigId}}{{/isEdit}} />
+				  	<button type="button" class="btn selectGroup" style="position: absolute;top: 0;right: -5px;" {{#isEdit resourceConfigId}}{{/isEdit}}>选择</span>
+				</div>
+			</div> 
+			</td><td>
+			<div class="line-div w110">
+				<div class="line-div-label">权限说明:</div>
+				<div class="line-div-center">
+				  	<input type="text" name="remark" class="form-control" value="{{remark}}" {{#isEdit resourceConfigId}}{{/isEdit}} />
+				</div>
+			</div> 
+			</td>
+		</tr>
+	</table>
+	</form>
+</script>
+
+<!-- 父菜单ID选择 -->
+<script type="text/template" id="selectTree1">
+	<div class="filter-nav">
+        <div class="panel panel-default" style="border-bottom:0;margin-bottom:0;margin-top: 10px;">
+            <div class="panel-heading" style="padding:3px 15px;">
+                <span>模块</span>
+                <span style="margin-left: 85px;">权限</span>
+            </div>
+            <div class="panel-body" style="padding: 0;">
+                <div class="filter-mod">
+                    {{#each this}}
+                    <div class="filter-item">
+                        <label class="item-mod-a item-m-1">
+                            <input type="radio" name="selectParent" orderNum="{{orderNum}}" resourceConfigId="{{resourceConfigId}}" value="1" 
+                              {{#isChecked checked}}{{/isChecked}} />
+                            {{name}}</label>
+                        <div class="item-wrap wrap-box">
+                            {{#each children}}
+                            <div class="item-mod">
+                                <label class="item-mod-a item-m-2">
+                                    <input type="radio" name="selectParent" orderNum="{{orderNum}}"resourceConfigId="{{resourceConfigId}}" value="1" 
+                                      {{#isChecked checked}}{{/isChecked}} />
+                                    {{name}}</label>
+                                <div class="item-wrap">
+                                    {{#each children}}
+                                    <div class="item-item-mod">
+                                        <label class="item-mod-a item-m-3">
+                                          <input type="radio" name="selectParent" orderNum="{{orderNum}}" resourceConfigId="{{resourceConfigId}}" value="1" 
+                                            {{#isChecked checked}}{{/isChecked}} />
+                                        {{name}}</label>
+                                        <div class="item-wrap"></div>
+                                    </div>
+                                    {{/each}}
+                                </div> 
+                            </div>
+                            <em class="cutline"></em>
+                            {{/each}}
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!-- 权限组选择 -->
+<script type="text/template" id="selectTree2">
+	<div class="filter-nav">
+        <div class="panel panel-default" style="border-bottom:0;margin-bottom:0;margin-top: 10px;">
+            <div class="panel-heading" style="padding:3px 15px;">
+                <span>模块</span>
+                <span style="margin-left: 85px;">权限</span>
+            </div>
+            <div class="panel-body" style="padding: 0;">
+                <div class="filter-mod">
+                    {{#each this}}
+                    <div class="filter-item">
+                        <label class="item-mod-a item-m-1">
+                            <input type="radio" name="selectGroup" orderNum="{{orderNum}}"resourceConfigId="{{resourceConfigId}}" value="1" 
+                              {{#isChecked checked2}}{{/isChecked}} />
+                            {{name}}</label>
+                        <div class="item-wrap wrap-box">
+                            {{#each children}}
+                            <div class="item-mod">
+                                <label class="item-mod-a item-m-2">
+                                    <input type="radio" name="selectGroup" orderNum="{{orderNum}}"resourceConfigId="{{resourceConfigId}}" value="1" 
+                                      {{#isChecked checked2}}{{/isChecked}} />
+                                    {{name}}</label>
+                                <div class="item-wrap">
+                                    {{#each children}}
+                                    <div class="item-item-mod">
+                                        <label class="item-mod-a item-m-3">
+                                          <input type="radio" name="selectGroup" orderNum="{{orderNum}}" resourceConfigId="{{resourceConfigId}}" value="1" 
+                                            {{#isChecked checked2}}{{/isChecked}} />
+                                        {{name}}</label>
+                                        <div class="item-wrap">
+                                        	{{#each children}}
+			                                    <div class="item-item-mod">
+			                                        <label class="item-mod-a item-m-3">
+			                                          <input type="radio" name="selectGroup" orderNum="{{orderNum}}" resourceConfigId="{{resourceConfigId}}" value="1" 
+			                                            {{#isChecked checked2}}{{/isChecked}} />
+			                                        {{name}}</label>
+			                                        <div class="item-wrap">
+			                                        	{{#each children}}
+						                                    <div class="item-item-mod">
+						                                        <label class="item-mod-a item-m-3">
+						                                          <input type="radio" name="selectGroup"  orderNum="{{orderNum}}" resourceConfigId="{{resourceConfigId}}" value="1" 
+						                                            {{#isChecked checked2}}{{/isChecked}} />
+						                                        {{name}}</label>
+						                                        <div class="item-wrap">
+						                                        	{{#each children}}
+									                                    <div class="item-item-mod">
+									                                        <label class="item-mod-a item-m-3">
+									                                          <input type="radio" name="selectGroup" orderNum="{{orderNum}}" resourceConfigId="{{resourceConfigId}}" value="1" 
+									                                            {{#isChecked checked2}}{{/isChecked}} />
+									                                        {{name}}</label>
+									                                        <div class="item-wrap">
+									                                        	{{#each children}}
+												                                    <div class="item-item-mod">
+												                                        <label class="item-mod-a item-m-3">
+												                                          <input type="radio" name="selectGroup" orderNum="{{orderNum}}" resourceConfigId="{{resourceConfigId}}" value="1" 
+												                                            {{#isChecked checked2}}{{/isChecked}} />
+												                                        {{name}}</label>
+												                                        <div class="item-wrap">
+												                                        	
+												                                        </div>
+												                                    </div>
+												                                {{/each}}
+									                                        </div>
+									                                    </div>
+									                                {{/each}}
+						                                        </div>
+						                                    </div>
+						                                {{/each}}
+			                                        </div>
+			                                    </div>
+			                                {{/each}}
+                                        </div>
+                                    </div>
+                                    {{/each}}
+                                </div> 
+                            </div>
+                            <em class="cutline"></em>
+                            {{/each}}
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/javascript">
+	seajs.use('controllers/operation/initResourceSite.js')
+</script>

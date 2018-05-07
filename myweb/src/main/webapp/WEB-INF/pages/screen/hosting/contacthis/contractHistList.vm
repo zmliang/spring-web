@@ -1,0 +1,64 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row"><div class="col-md-12 col-sm-12 col-xs-12 window">
+    <div class="x_panel window">
+    	<div class="x_title">
+			<div class="clearfix"></div>
+			<div class="searchDiv">
+				<form id="searchForm">
+				<table>
+					<colgroup>
+						<col width="200">
+						<col width="240">
+						<col width="200">
+						<col width="260">
+						<col width="200">
+					</colgroup>
+					<tr>
+						<td>
+							<div class="line-div w60">
+								<div class="line-div-label">姓名：</div>
+								<div class="line-div-center">
+									<input type="text" name='name' class="form-control">
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="line-div w90">
+								<div class="line-div-label">身份证号：</div>
+								<div class="line-div-center">
+									<input type="text" name='cardNo' class="form-control">
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="line-div w90">
+								<div class="line-div-label">手机号码：</div>
+								<div class="line-div-center">
+									<input type="text" name='mobile' class="form-control">
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="searchBtn">
+							<button type="button" id="search" class="left btn btn-mj">查询</button>
+							<button type="button" id="clear" class="left btn">清空</button>
+							</div>
+						</td>
+					</tr>
+				</table>
+				</form>
+			</div>
+		</div>
+		<div class="x_content">
+		    <div class="clearfix gray-bg"></div>
+	        <div id="gridDiv"></div> 
+		</div>
+	</div>
+</div>
+<script type="text/javascript" >
+	 seajs.use('controllers/log/contracthis')
+</script>
+</body>
+</html>

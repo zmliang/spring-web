@@ -1,0 +1,114 @@
+#parse('common/top.vm')
+#parse('common/header_lease.vm')
+<div class="row">
+   <div class="col-md-12 col-sm-12 col-xs-12 window L-main">
+   		<ul class="nav nav-tabs orderNav">
+        	<li orderType="1" class="active"><a href="javascript:;">租房订单</a></li>
+        	<li orderType="4"><a href="javascript:;">预定订单</a></li>
+		</ul>
+		<div class="tab-content container active" style="padding: 15px">
+			<div class="searchDiv" style="margin-bottom: 10px;">
+				<form id="searchForm">
+					<table>
+				    	<colgroup>
+				    		<col width="150">
+				    		<col width="150">
+				    		<col width="150">
+				    		<col width="240">
+				    		<col width="260">
+				    	</colgroup>
+				    	<tr>
+				    		<input type="hidden" name="estateId" value="$!{estateId}">
+				    		<td colspan="3">
+					            <div class="line-div w90">
+					                <div class="line-div-label">创建日期：</div>
+					                <div class="line-div-center">
+					                    <input type="text" name="startDateStr" class="form-control left Wdate" style="width:45%" id="startDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true,maxDate:'#F{$dp.$D(\'endDate\')}'})">
+					                    <span class="left text-center" style="width:10%;"> -- </span>
+					                    <input type="text" id="endDate" name="endDateStr" class="form-control left Wdate" style="width:45%" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true,minDate:'#F{$dp.$D(\'startDate\')}'})">
+					                </div>
+					            </div>
+					        </td>
+					        <td style="padding-left: 10px">
+					            <div class="line-div">					  
+					                <div class="line-div-center">
+					                    <input class="form-control" name="name" placeholder="订单号/姓名/身份证/手机号码"></input>
+					                </div>
+					            </div>
+					        </td>
+					        <td>
+					        	<div class="searchBtn">
+					        		<button type="button" id="search" class="left btn btn-mj" style="margin-left: 0;">查询</button>
+						        	<button type="button" id="clear" class="left btn">清空</button>
+						        	<button type="button" id="export" class="left btn">导出</button>
+					        	</div>
+					        	
+					        </td>
+					    </tr>
+					    <tr>
+					    	<td style="padding-left: 10px">
+					            <div class="line-div">					  
+					                <div class="line-div-center">
+					                    <select name="status">
+					                    	<option value=""></option>
+					                    	<option value="1">未付款</option>
+					                    	<option value="3">生效</option>
+					                    	<option value="4">取消</option>
+					                    	<option value="6">关闭</option>
+					                    	<option value="7">审核中</option>
+					                    	<option value="99">完成</option>
+					                    </select>
+					                </div>
+					            </div>
+					        </td>
+					        <td style="padding-left: 10px;" class="inStayTd">
+					            <div class="line-div">					  
+					                <div class="line-div-center">
+					                    <select name="inStayStatus">
+					                    	<option value=""></option>
+					                    	<option value="2">在住</option>
+					                    	<option value="3">搬离</option>
+					                    	<option value="4">取消</option>
+					                    	<option value="5">待入住</option>
+					                    	<option value="1">未入住</option>
+					                    </select>
+					                </div>
+					            </div>
+					        </td>
+					        <td style="padding-left: 10px" class="rentTd">
+					            <div class="line-div">					  
+					                <div class="line-div-center">
+					                    <select name="rentType">
+					                    	<option ></option>
+					                    	<option value="1">普通</option>
+					                    	<option value="3">自用房</option>
+					                    	<option value="2">磐谷分期</option>
+					                    </select>
+					                </div>
+					            </div>
+					        </td>
+					        <td style="padding-left: 10px">
+					            <div class="line-div">					  
+					                <div class="line-div-center">
+					                    <input class="form-control" name="roomNo" placeholder="房间号"></input>
+					                </div>
+					            </div>
+					        </td>
+					    </tr>
+				    </table>
+				</form>
+			</div>
+			<div class="table-topDiv" style="display: none;margin-top: 0;">
+                <span class="totalFee" style="margin-right:10px;"></span>
+                <span class="billFee" style="margin-right:10px;"></span>
+				<span class="discountFee" style="margin-right:10px;"></span>
+	        </div>
+			<div class="gridBorder" style="padding-top: 0">
+		    	<div id="gridDiv"></div>
+		    </div>
+		</div>
+
+</div></div></div>
+<script type="text/javascript">
+	seajs.use('controllers/lease/initLeastFinace')
+</script>

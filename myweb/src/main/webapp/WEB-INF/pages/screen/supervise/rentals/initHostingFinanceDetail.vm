@@ -1,0 +1,231 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="mainBody main_section hostingLease" >
+    <input type="hidden" id="orderStatus" value="$!{orderStatus}">
+    <input type="hidden" id="orderId" value="$!{orderId}">
+    <div class="mainNav-cx clearfix content "></div>
+</div>
+
+</div> 
+<script type="text/template" id="htmlTemp">
+<div class='schedule'>
+    <div class="top">
+        <div class="title_top">财务详情</div>
+        <button type="button"  id="returnPre" class="btn right">返回</button>
+    </div>
+    <div class="header">
+        <div class="left">订单号：<span>{{orderNo}}</span></div> 
+        <div class="left">生成时间：<span>{{satrtDate}}</span></div>
+       {{#checkOutTemp  orderStatus orderRoomStatus}}{{/checkOutTemp}}
+    </div>
+    <form id="roomForm" style="text-align: center;">
+        <div class="div_moddle">
+            <div class="div_all">
+                <div class='roomName  left'>{{roomName}}</div>
+                <div class="left price">房租：{{depositFee}}</div>
+                <div class="left price">押金：{{rentFee}}元</div>
+            </div>
+            <div class="div_all">
+                <div class="div_item">
+                    <div class="left">实际成交房租：</div>
+                    <input type="text" class='rentFee retP input_item left form-control' disabled name="rentFee" value={{realRentFee}} > 
+                    <div class="left">元/月</div>
+                </div>
+                <div class="div_item">
+                <div class="left">实际成交押金:</div> 
+                <input type="text" class="depositPrice retP input_l  form-control" disabled name='depositPrice' value={{realDepositFee}} > 元
+                </div>
+                <div class="div_item">
+                <div class="left">交租类型:</div> 
+                <div class="left">{{rentPayType}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="table-topDiv">
+           {{#btnTemp orderStatus orderRoomStatus }}{{/btnTemp}}
+           <!--  <button type="button" class="btn btn-mj print">打印单据</button> -->
+        </div>
+        <div id="printDiv">
+            <div class="gridDiv"></div>
+            <div class="table-bottomDiv">
+                <span style="padding-left: 20px">总消费：<span class="allFee"></span></span>
+                <span style="padding-left: 20px">已收款：<span class="payed"></span></span>
+                <span style="padding-left: 20px">未结算：<span class="unpay"></span></span>
+            </div>
+        </div>
+    </form>
+</div>
+</script>
+<script type="text/template" id="plan">
+<div id="planDiv"></div>
+</script>
+<!-- 生成账单模板 -->
+<script type="text/template" id="recordedTemp">
+    <form id="tableForm">
+    <table>
+        <colgroup>
+            <col width="300">
+        </colgroup>
+        <tr>
+            <td>
+                <div class="line-div w90">
+                <div class="line-div-label">
+                    费用类型：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <select name="type" id="priceType">
+                        <option value="1">房租</option>
+                        <option value="8">水费</option>
+                        <option value="9">电费</option>
+                        <option value="6">退款</option>
+                    </select>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="line-div w90">
+                <div class="line-div-label">
+                    月份：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <select name="month">
+                        <option value="1">1月</option>
+                        <option value="2">2月</option>
+                        <option value="3">3月</option>
+                        <option value="4">4月</option>
+                        <option value="5">5月</option>
+                        <option value="6">6月</option>
+                        <option value="7">7月</option>
+                        <option value="8">8月</option>
+                        <option value="9">9月</option>
+                        <option value="10">10月</option>
+                        <option value="11">11月</option>
+                        <option value="12">12月</option>
+                    </select>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="line-div w90">
+                <div class="line-div-label">
+                    基数金额：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <input validate name="billFee" type="text" class="form-control pubMoney">
+                </div>
+            </td>
+        </tr>
+        <tr class="numTr">
+            <td>
+                <div class="line-div w90">
+                <div class="line-div-label">
+                    数量：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <input validate="integer_z" name="number" type="text" class="form-control count">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="line-div w90">
+                <div class="line-div-label">
+                    实收金额：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <input readonly type="text" style="width: 150px;" class="form-control priceCount left">
+                    <span class="right" style="margin-top: 2px"><i class="icon-tips-fill" style="font-size: 20px;color: #2e8ded;"></i></span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="line-div w90" style="height: 50px">
+                    <div class="line-div-label">
+                        备注：<i class="red">*</i>
+                    </div>
+                    <div class="line-div-center">
+                         <textarea validate placeholder="最多150个汉字" id="taContent" class='w162h50' rows="3"  maxlength="150" name='desc'
+                              onkeyup="this.value=this.value.substring(0, 150)"
+                         >{{desc}}</textarea>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    </form>
+</script>
+<script type="text/template" id="surfaceTemp">
+    <tr class="surface">
+        <td>
+            <div class="line-div w90">
+            <div class="line-div-label">
+                上次表数：<i class="red">*</i>
+            </div>
+            <div class="line-div-center">
+                <input validate name="lastNum" type="text" class="form-control lastSurface">
+            </div>
+        </td>
+    </tr>
+    <tr class="surface">
+        <td>
+            <div class="line-div w90">
+            <div class="line-div-label">
+                本次表数：<i class="red">*</i>
+            </div>
+            <div class="line-div-center">
+                <input validate name="thisNum" type="text" class="form-control thisSurface">
+            </div>
+        </td>
+    </tr>
+</script>
+<script type="text/template" id="numTemp">
+    <tr class="numTr">
+        <td>
+            <div class="line-div w90">
+            <div class="line-div-label">
+                数量：<i class="red">*</i>
+            </div>
+            <div class="line-div-center">
+                <input validate="integer_z" name="number" type="text" class="form-control count">
+            </div>
+        </td>
+    </tr>
+</script>
+<!-- 退房模板 -->
+<script type="text/template" id="checkOutTemp">
+    <p>温馨提示：完成退房前请确认账务已结算完成；<br/>点击结算后，客户将会失去房间的所有权限。</p>
+</script>
+<!-- 单笔结账弹框 -->
+<script type="text/template" id="payTemp">
+    <form id="payForm">
+    <table>
+        <colgroup>
+            <col width="300">
+        </colgroup>
+        <tr>
+            <td>
+                <div class="line-div w90">
+                <div class="line-div-label">
+                    支付方式：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <select name="payType">
+                       
+                        <option value="6">支付宝支付</option>
+                        <option value="7">微信支付</option>
+                       
+                    </select>
+                </div>
+            </td>
+        </tr>
+        
+    </table>
+    </form>
+</script>
+<script type="text/javascript">
+    seajs.use('controllers/supervise/initHostingFinaceDetail.js')
+</script>

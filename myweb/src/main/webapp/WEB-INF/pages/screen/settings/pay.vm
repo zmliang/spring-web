@@ -1,0 +1,311 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12 window">
+        <div class="x_panel window x_panel x_hosting">
+            <div id="div-data" class="hide" data-isAdmin="$!{user.isAdmin}"></div>
+            <div class="panel-body">
+                <div id="list-setting" class="room_out ONELINE">
+
+                </div>
+                <div class="label-content" style="color: #475669">
+
+                    支付设置说明：<br/>
+                    1.平台线上支付是麦滴管家解决用户无法拥有自己的支付方式而开放的在线支付渠道<br/>
+                    2.使用平台线上支付，请遵守<strong style="text-decoration: underline; cursor: pointer" id="btn-contract">《麦滴管家租务管理平台线上支付条约》</strong><br/>
+                    3.相关的平台线上支付事项可以联系 400-882-7099<br/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/template" id="list_item">
+{{#each this}}
+    <div class="room_list item_pay"
+         data-type="{{type}}"
+         data-alipayAppId="{{alipayAppId}}"
+         data-alipayPrivateKey="{{alipayPrivateKey}}"
+         data-alipayPublicKey="{{alipayPublicKey}}"
+         data-alipayStatus="{{alipayStatus}}"
+         data-onlineStatus="{{onlineStatus}}"
+         data-organizationId="{{organizationId}}"
+         data-organizationPaymentId="{{organizationPaymentId}}"
+         data-weixinAppId="{{weixinAppId}}"
+         data-weixinMchId="{{weixinMchId}}"
+         data-weixinPayPartnerKey="{{weixinPayPartnerKey}}"
+         data-weixinStatus="{{weixinStatus}}"
+         data-agreeTreaty="{{agreeTreaty}}"
+         style="width:auto;height:auto;">
+         <div class="" style="text-align: right;margin-top: -15px;margin-left:20px;margin-bottom: 0 ">
+             {{#success statusText}}
+             {{/success}}
+         </div>
+        <div class="center" style="height: auto;">
+            <img src="$!{rc.contextPath}/images/{{imgSrc}}" title="" alt="" width="240" height="80">
+            <p style="color: #99a9bf">{{text2}}</p>
+        </div>
+        <div class="bottom btn-setting">设置</div>
+    </div>
+{{/each}}
+</script>
+<script type="text/template" id="paySetting-0">
+<form id="J_form" class="form-payment">
+    <input type="text" class="hide" name="organizationPaymentId" value="{{organizationPaymentId}}">
+    <div class="relative">
+        <div class="line-div pay-setting">
+            <span class="grey-title">AppID：<i class="red">*</i></span>
+            <textarea validate="" placeholder="请输入AppID" name="alipayAppId" class="description">{{alipayAppId}}</textarea>
+        </div>
+        <div class="line-div pay-setting">
+            <span class="grey-title">商家RSA2(SHA256)私钥：<i class="red">*</i></span>
+            <textarea validate="" placeholder="请输入RSA2密钥" name="alipayPrivateKey" class="description">{{alipayPrivateKey}}</textarea>
+        </div>
+        <div class="line-div pay-setting">
+            <span class="grey-title">支付宝RSA2(SHA256)公钥：<i class="red">*</i></span>
+            <textarea validate="" placeholder="请输入RSA2公钥" name="alipayPublicKey" class="description">{{alipayPublicKey}}</textarea>
+        </div>
+        <div class="txt-switcher" style="margin: 130px 0 0 400px;">
+            <div class="txt">设置启用平台线上支付</div>
+            <input type="checkbox" value="" class="tools_switch" switchFlag="{{switchFlag}}" />
+        </div>
+        <div class="txt-hint">
+            提示：<br>平台针对企业服务提供了对接支付宝线上支付功能，请输入对应AppID、商家RSA2(SHA256)私钥、支付宝RSA2(SHA256)公钥；输入完后启动即可，对应的房源若支持线上支付的则有该支付选项。建议新建一个房源用以测试整体支付流程。
+        </div>
+    </div>
+</form>
+</script>
+
+<!-- 支付密码 -->
+<script  type="text/template" id="pay-psw-tmpl">
+    <div class="txt-bl-hint" style="margin: 0 0 10px 15px;">您还尚未设置支付密码，请设置</div>
+    <form id="formPayPsw">
+        <div class="form-group clearfix">
+            <div class="line-div w90">
+                <div class="line-div-label">
+                    支付密码：
+                </div>
+                <div class="line-div-center">
+
+                    <input type="text" class="invisible">
+                    <input type="password" class="invisible">
+                    <input type="text" class="invisible">
+                    <input type="password" class="invisible">
+                    <input type="text" class="invisible">
+                    <input type="password" class="invisible" name="password" value="hellocatie">
+
+                    <input id="psw-pay1" autocomplete="off" validate="password" type="text" maxlength="15" name="payPassword" value="" placeholder="密码6-15位，区分大小写字母" class="form-control content-input">
+
+                    <input type="text" class="invisible">
+                    <input type="password" class="invisible">
+                    <input type="text" class="invisible">
+                    <input type="password" class="invisible">
+                    <input type="text" class="invisible">
+                    <input type="password" class="invisible" name="password" value="hellocatie">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group clearfix">
+            <div class="line-div w90">
+                <div class="line-div-label">
+                    确认密码：
+                </div>
+                <div class="line-div-center">
+
+                    <input type="text" class="invisible">
+                    <input type="password" class="invisible">
+                    <input type="text" class="invisible">
+                    <input type="password" class="invisible">
+                    <input type="text" class="invisible">
+                    <input type="password" class="invisible" name="password" value="hellocatie">
+
+                    <input id="psw-pay2" autocomplete="off" validate="password" type="text" maxlength="15" name="payPassword2" value="" placeholder="请输入" class="form-control content-input">
+
+                    <input type="text" class="invisible">
+                    <input type="password" class="invisible">
+                    <input type="text" class="invisible">
+                    <input type="password" class="invisible">
+                    <input type="text" class="invisible">
+                    <input type="password" class="invisible" name="password" value="hellocatie">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group clearfix">
+            <div class="line-div w90">
+                <div class="line-div-label">
+                    手机号码：
+                </div>
+                <div class="line-div-center">
+                    <input validate="mobile" type="tel" name="mobile" value="$!{user.mobile}" placeholder="请输入" class="form-control content-input hide" style="width: 65%;">
+                    <input disabled validate="mobile" type="tel" name="mobile" value="$!{user.mobile}" placeholder="请输入" class="form-control content-input" style="width: 65%;">
+                    <div id="btn-vericode-psw" class="btn-vericode">获取验证码</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group clearfix">
+            <div class="line-div w90">
+                <div class="line-div-label">
+                    验证码：
+                </div>
+                <div class="line-div-center">
+                    <input maxlength="10" validate type="text" name="verifyCode" value="" placeholder="请输入" class="form-control content-input">
+                </div>
+            </div>
+        </div>
+        <div class="txt-bl-hint" style="text-align: center">温馨提示：支付密码可以在账号中心-账号密码中修改</div>
+    </form>
+</script>
+
+<script type="text/template" id="paySetting-1">
+<form id="J_form" class="form-payment">
+    <input type="text" class="hide" name="organizationPaymentId" value="{{organizationPaymentId}}">
+    <div class="relative">
+        <div class="line-div w150">
+            <div class="line-div-label">
+                AppID：<i class="red">*</i>
+            </div>
+            <div class="line-div-center areaSelect">
+                <input type="text" placeholder="请输入AppID" value="{{weixinAppId}}" name="weixinAppId" validate="" class="form-control">
+            </div>
+        </div>
+        <div class="line-div w150">
+            <div class="line-div-label">
+                mchID：<i class="red">*</i>
+            </div>
+            <div class="line-div-center areaSelect">
+                <input type="text" placeholder="请输入mchID" value="{{weixinMchId}}" name="weixinMchId" validate="" class="form-control">
+            </div>
+        </div>
+        <div class="line-div w150">
+            <div class="line-div-label">
+                payPartnerKey：<i class="red">*</i>
+            </div>
+            <div class="line-div-center areaSelect">
+                <input type="text" placeholder="请输入payPartnerKey" value="{{weixinPayPartnerKey}}" name="weixinPayPartnerKey" validate="" class="form-control">
+            </div>
+        </div>
+        <div class="txt-switcher" style="margin: 130px 0 0 440px">
+            <div class="txt">设置微信线上支付</div>
+            <input type="checkbox" name="" value="" class="tools_switch" switchFlag="{{switchFlag}}" />
+        </div>
+        <div class="txt-hint">
+            提示：<br>平台针对企业服务提供了对接微信线上支付功能，请输入对应AppID微信开发平台审核通过的应用、mchId(微信支付分配的商户号)、patPartnerKey(商户密钥)；输入完成后启动即可，对应的房源若支持线上支付的则有该支付选项。建议新建一个房源测试整体支付流程。
+        </div>
+    </div>
+</form>
+</script>
+
+<script type="text/template" id="paySetting-2">
+    <form id="J_form" class="form-payment">
+        <input type="text" class="hide" name="organizationPaymentId" value="{{organizationPaymentId}}">
+        <div class="relative">
+            <div class="txt-switcher">
+                <div class="txt">平台线上支付</div>
+                <input type="checkbox" name="" value="" class="tools_switch" switchFlag="{{switchFlag}}" />
+            </div>
+            <div class="txt-bl-hint">
+                平台提供了线上支付宝，银行卡快捷支付；为您提供了线上支付的通道，租客通过App完成线上选房、下单、缴费等。平台为您代收的资金，您可以在财务中心-我的资金中提现。
+            </div>
+            <div class="txt" style="margin: 15px auto;text-align: center;">- 开启后租客可以通过以下方式进行缴费 -</div>
+            <div class="pay-icon-wrapper">
+                <div class="item item1">支付宝</div>
+                <div class="item item2">微信支付</div>
+                <div class="item item3">银行卡认证支付</div>
+            </div>
+            <div id="btn-watchbank" class="txt-contract" style="color: #333;text-decoration: underline;margin: 20px;text-align: right;">查看《认证支付支持银行》</div>
+        </div>
+    </form>
+    <div class="wrapper-contract">
+        <input type="checkbox" id="cb-contract"  onclick="return false;" {{#isChecked agreeTreaty}}{{/isChecked}}>
+        <label style="-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;" for="cb-contract">&nbsp;&nbsp;我同意 </label><em id="btn-contract2" class="txt-contract">《麦滴管家租务管理平台线上支付条约》</em>
+    </div>
+</script>
+
+<script type="text/template" id="banklist-tmpl" style="display: blcok">
+    <div class="txt-bl-hint">
+        小提示：目前仅支持下列银行储蓄卡
+    </div>
+     <div class="banklist-content">
+        <table id="showAllBank" class="show-bank-list">
+        </table>
+    </div>
+   <!--  <img src="$!{rc.contextPath}/images/icon_banks.svg" class="image" style="width: 658px; height: 296px; margin: 10px 0 0 0"> -->
+</script>
+
+<script type="text/template" id="contract-tmpl">
+    <div style="margin: 0 20px;">
+        <strong style="font-size: 16px;">麦滴管家租务管理平台线上支付条约</strong>
+        <p>&nbsp;</p>
+        <p>麦滴管家租务管理平台（以下简称甲方）线上支付条约是杭州复恒科技有限公司与用户（以下简称乙方）所定义的条约。您通过网络页面点击确认或以其他方式（包括但不限于签字或签章确认等方式）接受本条约，即表示您同意接受本条约的全部内容。</p>
+        <p>&nbsp;</p>
+        <p>在接受本条约之前，请您仔细阅读本条约的全部内容。如果您不同意本条约的任意内容，或者无法准确理解该条约的含义，请不要进行后续操作。一旦您使用本条约项下的服务，即表示您同意遵循规则。依据本协议的规定提供服务，本条约具有合同效力。</p>
+        <br/>
+        <p><strong>第一条 服务内容</strong></p>
+        <p>1.甲、乙双方决定开展互联网线上支付服务业务合作。</p>
+        <p>2.甲方负责使用麦滴管家系统向乙方提供网上交易支付接入服务。</p>
+        <p>3.甲方负责为乙方提供客户使用支付宝、微信支付、银行卡支付三种线上支付方式租赁乙方房源的货币资金代收及结算服务，相关平台费率以商务洽谈为准。</p>
+        <p>4.乙方从甲方提现，提现到账时长为7个工作日，提现手续费2元/笔。</p>
+        <br/>
+        <p><strong>第二条 甲方的权利与义务</strong></p>
+        <p>1.甲方负责建设和维护其管理系统，提供相关的业务应用和技术接口。同时应尽可能在现有技术条件下对系统进行改进、功能提升。</p>
+        <p>2.甲方应在其系统内妥善保管乙方的交易记录和电子凭证，并向乙方提供交易信息查询和对账服务。</p>
+        <p>3.如遇甲方系统原因造成的平台服务中断，甲方应及时排除故障并在第一时间内恢复平台的正常运行。</p>
+        <p>4.甲方负责协调解决本条约项下互联网交易的差错处理工作。</p>
+        <p>5.甲方对乙方在本平台上提供的房源真实性等方面拥有监督权利。</p>
+        <p>6.甲方作为麦滴管家租务管理平台的所有者和管理者，有权对乙方的平台服务范围内的经营活动进行规范、监督和管理。对于严重损害公共权益或甲方利益的用户，甲方有权终止其继续使用本平台，同时支持和协助租客、有关行政机关对其进行追索和查处。</p>
+        <br/>
+        <p><strong>第三条 乙方的权利和义务</strong></p>
+        <p>1.乙方承诺在利用甲方房源管理系统开展业务的过程中，严格遵守《中华人民共和国消费者权益保护法》等相关法律法规，尊重租客的隐私权和其他法定权利。</p>
+        <p>2.乙方通过甲方房源管理系统发布的房源必须真实有效，若因此与租客出现纠纷，乙方须承担相应的责任。</p>
+        <p>3.未经甲方事先书面同意，乙方不得将本条约的任何内容透露给第三方。</p>
+        <p>4.乙方应理解甲方为了系统的正常运行或基于市场整体利益考虑及经营需要，定期或不定期地对系统进行维护或对其系统的服务内容、版面内容、页面设计等有关方面进行调整，如因此类情况而影响甲方本条约中义务的履行，乙方给予充分的谅解，不对此追究法律责任。</p>
+        <p>&nbsp;</p>
+        <p><strong>第四条 不可抗力</strong></p>
+        <p>1.不可抗力指甲乙双方不能预见、对其发生和后果不能避免且不能克服的事件。鉴于网络所具有之特殊性质，不可抗力亦包括黑客攻击、计算机病毒、第三方支付方问题、因政府管制而造成的暂时性关闭在内的任何影响网络正常经营之情形。</p>
+        <p>2.若由于不可抗力致使一方未能全部或部分履行条约的，应及时出具相关公告。则本协议内受影响之条款可在不能履行之期间及受影响范围内中止履行。</p>
+        <p>&nbsp;</p>
+        <p><strong>第五条 适用法律与争议的解决</strong></p>
+        <p>甲乙双方就本条约之履行而产生的一切争议，均应首先通过友好协商的方式解决。如不能协商解决，任何一方均有权提请甲方所在地人民法院裁决。</p>
+        <p>&nbsp;</p>
+        <br>
+        <p>商务联系  何经理 15925608607 ，400-882-7099</p>
+    </div>
+</script>
+
+<script type="text/javascript">
+    seajs.use('controllers/settings/pay.js')
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

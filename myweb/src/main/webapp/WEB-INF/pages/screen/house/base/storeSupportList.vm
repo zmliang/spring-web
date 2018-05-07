@@ -1,0 +1,82 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12 window">
+    <div class="x_panel window">
+      <div class="clearfix"></div>
+      <div class="x_content">
+        <div class="clearfix gray-bg">
+          <div class="navbar-left w16 bulk_action">
+           <!--<button type="button" class="btn btn-link batchDel">删除</button>-->
+          </div>
+          <!--<div class="navbar-right">
+            <button type="button" id="addNew" class="btn btn-mj add_ss">新增</button>
+          </div>-->
+        </div>
+        <div id="gridDiv"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/template" id="add">
+   <form id="picForm">
+      <table>
+         <colgroup>
+           <col width="300">
+           <col width="300">
+         </colgroup>
+         <tr>
+           <td>
+             <div class="line-div w90">
+               <div class="line-div-label">
+                 名称：<i class="red">*</i>
+               </div>
+               <div class="line-div-center">
+                   <input type="text" placeholder="1-10个汉字" validate name="imageName" id='imageName' class="form-control">
+               </div>
+             </div>
+           </td>
+           <td></td>
+         </tr>
+         <tr>
+           <td colspan="2" style="text-align: left;">
+               <div class="line-div w90">
+                 <div class="line-div-label">图标：<i class="red">*</i></div>
+                 <div class="line-div-center ellipsis">
+                    <button type="button" class="btn btn-mj selectImg">选择图片</button>
+                    <input type="file" class="fileImg" name="icoUrlFile" accept="image/png" id="icoUrlFile" style="display: none;">
+                    <label class="imageName"></label>
+                 </div>
+               </div>
+           </td>
+         </tr>
+         <tr>
+           <td colspan="2">
+               <div class="line-div w90">
+                 <div class="line-div-label"></div>
+                 <div class="line-div-center">
+                     <span class="brick-red left">请上传120px × 120px的透明PNG图片，大小控制在50KB内</span>
+                 </div>
+               </div>
+           </td>
+         </tr>
+         <tr>
+           <td colspan='2'>
+             <div class="line-div w90" style='height:60px;'>
+                <div class="line-div-label">备注：</div>
+                <div class="line-div-center bz_width">
+                     <textarea placeholder="最多100个汉字" id="taContent" class='w162h50' rows="3"  maxlength="100" name='desc'
+                          onkeyup="this.value=this.value.substring(0, 100)"
+                     >{{desc}}</textarea>
+                      <span class="span_length ml540" id='length'>0</span><span>/100</span>
+                </div>
+             </div>
+           </td>
+         </tr>
+       </table>
+     </form>
+</script>
+<script type="text/javascript">
+  seajs.use('controllers/house/storeSupportList')
+</script>

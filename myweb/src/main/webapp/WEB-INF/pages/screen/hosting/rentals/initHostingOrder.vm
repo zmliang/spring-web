@@ -1,0 +1,628 @@
+#parse('common/top.vm')
+<style type="text/css">
+	.rentTipsBox{
+		line-height: 40px;
+		margin-top: 10px;
+		border: 1px solid #dfe3ec;
+		border-radius: 3px;
+	}
+	.rentTipsBox div span span{
+		color: red;
+		margin: 0 3px;
+	}
+</style>
+<div class="mainBody main_section" style="background: #fff;overflow: hidden;">
+    <div class="mainNav-cx clearfix">
+        <input type="hidden" id="isFinanceType" value="$!{isFinanceHouse}">
+        <ul class="nav nav-tabs" id="orderInType" style="padding-top: 20px;">
+            <li class="active" isHistory="1"><a href="javascript:;">新客入住</a></li>
+            #if($!{isFinanceHouse} != 2)
+                <li isHistory="2"><a href="javascript:;">已有租客补录</a></li>
+            #end
+        </ul>
+        <div class="tab-content container active">
+            <form id="roomForm" style="text-align: center;">
+                <input tp="isIdentify" name="isIdentify" value="2" style="display:none;"/>
+                <input type="hidden" name="roomId" id="roomIdInput" value="$!{roomId}">
+                <input type="hidden" id="houseId" value="$!{houseId}"/>
+                <input type="hidden" id='platformType' name="platformType" value="$!{platformType}">
+                <div class="floatCenter">
+                    <table class="roomTable"></table>
+                    <div class="leftDiv">
+                        <ul class="userUl clearfix">
+                            <li>
+                                <div id="formSign"></div>
+                            </li>
+                        </ul>
+                        <div class="rentTipsBox clearfix">
+                        	<div class="left" style="margin-left: 20px;">
+                        		收租日：<span class="collectRentDayStr"></span>
+                        	</div>
+                        	<div class="left" style="margin-left: 40px;">
+                        		账单提醒：<span class="billRemindersStr"></span>
+                        	</div>
+                        </div>
+                        <div class="markDiv" style="padding-bottom: 0;">
+                            <div class="line-div">订单备注:</div>
+                            <textarea class="remark" name="renterRemark"></textarea>
+                        </div>
+                    </div>
+                    <div class="rightDiv" style="margin-top: 20px;">
+                        <div class="tableDiv moneyDiv left">
+                        </div>
+                    </div>
+                </div>
+                <div class="line-div" id="friendlyTips" style="margin-left: 10px;">
+                	<div>温馨提示：</div>
+                	<div class="changeTips">1. 使用自定义房价，服务费还是按照原来的执行。
+                    #if($!{isFinanceHouse} != 1)
+                        想补录老租客并生成账单请点击【已有租客补录】
+                    #end
+                  </div>
+                  <div>2.若需要编辑收租日，请前往【房源管理】-对应房源-【租赁配置】进行修改</div>
+                </div>
+            </form>
+            <!-- <div class="bottomDiv">
+                <button class="btn btn-mj createBtn">确&nbsp;&nbsp;&nbsp;&nbsp;定</button>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- 集中式房间信息 -->
+<script type="text/template" id="roomTableTemp_jz">
+    <colgroup>
+        <col width="340">
+        <col width="250">
+        <col width="250">
+        <col width="260">
+    </colgroup>
+    <tr>
+        <td>
+            <div class="line-div w110">
+                <div class="line-div-label">
+                    房型：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                {{#each estateRoomTypeLst}}
+                    <input type="text" validate readonly value="{{styleName}}" class="form-control">
+                {{/each}}
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="line-div w75">
+                <div class="line-div-label">
+                    房号：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <input type="text" validate readonly value="{{roomName}}" class="form-control roomNameValue">
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="line-div w110">
+                <div class="line-div-label">
+                    操作员：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <input type="text" readonly name="sellerName" value="{{sellerName}}" class="form-control sellerName">
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="line-div w110">
+                <div class="line-div-label">
+                    入住日期：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <input type="text" validate class="Wdate form-control" name="startDateStr" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr id="rentTypeTr">
+        <td>
+            <div class="line-div w110">
+                <div class="line-div-label">
+                    交租方式：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <div class="input-group">
+                        <input type="text" validate class="form-control" id="rentTypeName" name="rentTypeName" readonly />
+                        <input type="hidden" id="roomRentTypeId" name="leaseRoomRentTypeId" />
+                        <div class="input-group-btn">
+                            <button type="button" class="btn" id="selectRentType">选择</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="line-div w75">
+                <div class="line-div-label">
+                    租期：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <select class="form-control" name="monthNumInt" id="dateSelect">
+                        <option value="">请先选择交租方式</option>
+                    </select>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="line-div w110">
+                <div class="line-div-label">
+                    房价：
+                </div>
+                <div class="line-div-center">
+                    <div class="input-group">
+                        <input type="text" id="rentPriceStr" data-name="rentFee" name="" readonly class="form-control">
+                        <span class="input-group-addon">元/月</span>
+                    </div>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="line-div w110">
+                <div class="line-div-label">
+                    押金：
+                </div>
+                <div class="line-div-center">
+                    <div class="input-group">
+                        <input type="text" id="depositPriceStr" data-name="depositFee" name="" readonly class="form-control">
+                        <span class="input-group-addon">元</span>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="historyFlag_payType">
+            <div class="line-div w110">
+                <div class="line-div-label payHostingText">
+                    首笔支付方式：
+                </div>
+                <div class="form-group form-group-md line-div-center left" id="payDiv">
+                    #if($!{platformType} != 1)
+                        <select name="payType" class="form-control" style="width:90%;">
+                            {{#selectPay basePaymentTypeList}}{{/selectPay}}
+                        </select>
+
+                        <i class="icon-tips-fill" style="margin-left: 2px;"
+                            tips="首笔代表首期房租、押金、服务费加的费用，请选择支付方式，默认通过APP支付">
+                        </i>
+                    #else
+                        <select name="payType" class="form-control" style="width:100%;">
+                            {{#selectPay basePaymentTypeList}}{{/selectPay}}
+                        </select>
+                    #end
+                </div>
+            </div>
+        </td>
+        <td class="historyFlag_hide">
+            <div class="line-div w75">
+                <div class="line-div-label">
+                    自用房：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <select class="left isUser" name="isSelfUse">
+                        <option value="0">否</option>
+                        <option value="1">是</option>
+                    </select>
+                </div>
+            </div>
+        </td>
+        <td class="toggleUserSelf hide">
+            <div class="line-div w110">
+                <div class="line-div-label">
+                    <label><input type="checkbox" name="defineCheck">自定义房价：</label>
+                </div>
+                <div class="line-div-center">
+                    <div class="input-group">
+                        <input type="text" name="rentFee" maxlength="9" readOnly class="form-control defineDom left validateNum">
+                        <span class="input-group-addon">元/月</span>
+                    </div>
+                </div>
+            </div>
+        </td>
+        <td class="toggleUserSelf hide">
+            <div class="line-div w110">
+                <div class="line-div-label">
+                    <label><input type="checkbox" name="defineCheck">自定义押金：</label>
+                </div>
+                <div class="form-group form-group-md line-div-center">
+                    <div class="input-group" style="width: 130px;">
+                        <input type="text" name="depositFee" maxlength="9" readOnly class="form-control defineDom left validateNum">
+                        <span class="input-group-addon">元</span>
+                        <i class="icon-tips-fill" style="margin-left: 2px;"
+                            tips="自定义押金指的一份押金的数额。<br/>
+                            例：设置了自定义1000，实际总押金为1000*押金数量"></i>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+</script>
+
+<!-- 分散式房间信息 -->
+<script type="text/template" id="roomTableTemp_fs">
+    <colgroup>
+        <col width="340">
+        <col width="250">
+        <col width="250">
+        <col width="260">
+    </colgroup>
+    <tr>
+        <td>
+            <div class="line-div w110">
+                <div class="line-div-label">
+                    小区/公寓：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <input type="text" validate readonly value="{{estateName}}" class="form-control roomNameValue">
+                </div>
+            </div>
+        </td>
+        <td colspan="2">
+            <div class="line-div w75">
+                <div class="line-div-label">
+                    房间：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <input type="text" validate readonly value="{{roomName}}" class="form-control roomNameValue">
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="line-div w110">
+                <div class="line-div-label">
+                    入住日期：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <input type="text" validate class="Wdate form-control" name="startDateStr" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true})">
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr id="rentTypeTr">
+        <td>
+            <div class="line-div w110">
+                <div class="line-div-label">
+                    交租方式：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="rentTypeName" name="rentTypeName" readonly />
+                        <input type="hidden" id="roomRentTypeId" name="leaseRoomRentTypeId" />
+                        <div class="input-group-btn">
+                            <button type="button" class="btn" id="selectRentType">选择</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="line-div w75">
+                <div class="line-div-label">
+                    租期：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <select class="form-control" name="monthNumInt" id="dateSelect">
+                        <option value="">请先选择交租方式</option>
+                    </select>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="line-div w110">
+                <div class="line-div-label">
+                    房价：
+                </div>
+                <div class="line-div-center">
+                    <div class="input-group">
+                        <input type="text" id="rentPriceStr" data-name="rentFee" name="" readonly class="form-control">
+                        <span class="input-group-addon">元/月</span>
+                    </div>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="line-div w110">
+                <div class="line-div-label">
+                    押金：
+                </div>
+                <div class="line-div-center">
+                    <div class="input-group">
+                        <input type="text" id="depositPriceStr" data-name="depositFee" name="" readonly class="form-control">
+                        <span class="input-group-addon">元</span>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="historyFlag_payType">
+            <div class="line-div w110">
+                <div class="line-div-label payHostingText">
+                    首笔支付方式：
+                </div>
+                <div class="form-group form-group-md line-div-center left" id="payDiv">
+                    #if($!{platformType} != 1)
+                        <select name="payType" class="form-control" style="width:90%;">
+                            {{#selectPay basePaymentTypeList hasOnlinePay}}{{/selectPay}}
+                        </select>
+
+                        <i class="icon-tips-fill" style="margin-left: 2px;"
+                            tips="首笔代表首期房租、押金、服务费加的费用，请选择支付方式，默认通过APP支付">
+                        </i>
+                    #else
+                        <select name="payType" class="form-control" style="width:100%;">
+                            {{#selectPay basePaymentTypeList hasOnlinePay}}{{/selectPay}}
+                        </select>
+                    #end
+
+                </div>
+
+            </div>
+        </td>
+        <td>
+            <div class="line-div w75">
+                <div class="line-div-label">
+                    操作员：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <input type="text" name="sellerName" readonly value="{{sellerName}}" class="form-control sellerName">
+                </div>
+            </div>
+        </td>
+        <td class="toggleUserSelf hide">
+            <div class="line-div w110">
+                <div class="line-div-label">
+                    <label><input type="checkbox" name="defineCheck">自定义房价：</label>
+                </div>
+                <div class="line-div-center">
+                    <div class="input-group">
+                        <input type="text" name="rentFee" maxlength="9" readOnly class="form-control defineDom left validateNum">
+                        <span class="input-group-addon">元/月</span>
+                    </div>
+                </div>
+            </div>
+        </td>
+        <td class="toggleUserSelf hide">
+            <div class="line-div w110">
+                <div class="line-div-label">
+                    <label><input type="checkbox" name="defineCheck">自定义押金：</label>
+                </div>
+                <div class="form-group form-group-md line-div-center">
+                    <div class="input-group" style="width: 130px;">
+                        <input type="text" name="depositFee" maxlength="9" readOnly class="form-control defineDom left validateNum">
+                        <span class="input-group-addon">元</span>
+                        <i class="icon-tips-fill" style="margin-left: 2px;"
+                            tips="自定义押金指的一份押金的数额。<br/>
+                            例：设置了自定义1000，实际总押金为1000*押金数量"></i>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+</script>
+
+<!-- 渲染常规交租方式 -->
+<script type="text/template" id="renderNormalTemp">
+    <div class="row txt-plain">
+        <div class="col col-sm-2" style="width: 120px;">
+            <div class="left">交租方式</div>
+        </div>
+        <div class="col col-sm-3" style="width: 280px;">
+            <div class="left" style="width: 47%;margin: 0;">房价/月</div>
+            <div class="left" style="width: 47%;margin-left: 8px;margin-right: 0;">押金</div>
+        </div>
+        <div class="col col-sm-2">租期</div>
+        <div class="col col-sm-3">服务费·元/月</div>
+        <div class="col col-sm-2">服务费支付方式</div>
+    </div>
+    <div class="row txt-plain valued blockNormal" style="margin-bottom: 5px;">
+        <input type="hidden" name="type" value="1">
+        <div class="col col-sm-2 rentTypeNameBox" style="width: 120px;">
+            <select flexible name="rentTypeId" class="addRentTypeName" flexible style="width: 100%;">
+                {{#renderBaseRentType baseRentTypeList rentQty}}{{/renderBaseRentType}}
+            </select>
+        </div>
+        {{#with tempData}}
+        <div class="col col-sm-3" style="width: 280px;">
+            <div class="toggleDisableItems clearfix">
+                <div class="left input-group" style="width: 47%;margin:0;">
+                    <input class="form-control" validate="number1" type="number"
+                        class="form-control" flexible name="rentPrice" value="{{rentPrice}}">
+                    <span class="input-group-addon">元</span>
+                </div>
+                <div class="left input-group" style="width: 47%;margin-left: 10px;margin-right: 0;">
+                    <input class="form-control" validate="number1" type="number"
+                        class="form-control" flexible name="depositPrice" value="{{depositPrice}}">
+                    <span class="input-group-addon">元</span>
+                </div>
+            </div>
+        </div>
+        <div class="col col-sm-2">
+            <select flexible name="minMonthNum" flexible>
+                {{#renderMonth "min" minMonthNum rentQty rentQty 24}}{{/renderMonth}}
+            </select>
+        </div>
+        <div class="col col-sm-3 lsnServiceFee">
+            <select style="width: 95px" name="serviceChargeType" flexible>
+                {{#selected2 serviceChargeType}}{{/selected2}}
+            </select>
+            {{#renderServiceFee serviceChargeType serviceChargeRatio serviceChargePrice}}{{/renderServiceFee}}
+        </div>
+        <div class="col col-sm-2" style="width: 110px;">
+            <select style="width: 95px" name="serviceFeeType" value="{{serviceFeeType}}" flexible>
+                {{#selected1 serviceFeeType}}{{/selected1}}
+            </select>
+        </div>
+        {{/with}}
+    </div>
+    <div class="form-group" style="color: #999;position: absolute;bottom: 0;">
+        当前交租方式只适用当前订单，若想固定交租方式请前往【房源管理】相对应的房源-交租方式中设置
+    </div>
+</script>
+<!-- 新增交租方式 - 租期渲染 -->
+<script type="text/template" id="renderAddMonthTemp">
+    {{#renderMonth addType addNum1 addNum2 addNum3 addNum4}}{{/renderMonth}}
+</script>
+
+<!-- 签约人信息 -->
+<script type="text/template" id="signatory">
+    <div class="liTitle left">签约人<br/>信息</div>
+    <div class="liInfo left" style="width: 720px;" >
+        <div class="line-div">
+            <div class="infoText left">姓名:<i class="red">*</i></div>
+            <input type="text" validate tp="realName" name="realName" id='realName' value='{{contactName}}' style="width: 115px;margin-right: 5px" class="form-control left personData">
+            <select class="left personData" tp="gender" name="gender" style="width: 60px;">
+                <option value="1">男</option>
+                <option value="2">女</option>
+            </select>
+            <div class="infoText left">手机号码:<i class="red">*</i></div>
+            <input type="text" validate tp="mobile" name="mobile" id='mobile' value='{{contactMobile}}' class="form-control w180 left personData">
+            #if($!{platformType} != 1)
+            <label for="userLive" style="font-weight: 300; margin-left: 10px;">
+                <input type="checkbox" checked id="userLive"> 本人入住
+            </label>
+            #end
+        </div>
+        <div class="line-div" style="width: 720px;">
+            <div class="infoText left">证件类型:<i class="red">*</i></div>
+            <select class="left w180 personData" id="valiCardType" {{disabled}} tp="cardType" name="cardType">
+                <option value="1">身份证</option>
+                <option value="2">护照</option>
+                <option value="3">港澳通行证</option>
+            </select>
+            <div class="infoText left">证件号码:<i class="red">*</i></div>
+            <input type="text" tp="cardNo" name="cardNo" id='cardNo' value='{{contactCardNo}}' validate class="w180 form-control left personData">
+            <label style="font-weight: 300; margin-left: 10px;">
+                 #if($!{platformType} != 1)
+                <button style="margin-left:0" type="button" class="btn btn-mj btn-cx blue-cx valiReal" {{disabled}}>实名校验</button>
+                <button type="button" class="btn btn-cx blue-cx valiAgain" style="display: none;">重新输入</button>
+                #end
+            </label>
+        </div>
+    </div>
+</script>
+
+<!-- 金额统计 -->
+<script type="text/template" id="moneyTemp">
+    <ul class="moneyUl clearfix">
+        <li>
+            <span class="priceName">押金:</span>
+            <span class="priceNum">￥{{depositFee}} * {{depositQty}}</span>
+        </li>
+        <li>
+            <span class="priceName">租金:</span>
+            <span class="priceNum">￥{{rentFee}} * {{rentQty}}</span>
+        </li>
+        <li>
+            <span class="priceName">服务费:</span>
+            <span class="priceNum">￥{{serviceChargePriceStr}} * {{serviceMonth}}</span>
+        </li>
+        {{#each facilityLst}}
+            <li>
+                <span class="priceName ellipsis">{{facilityName}}:</span>
+                <span class="priceNum" title="￥{{depositStr}} + ￥{{priceStr}} * {{monthNumInt}}">￥{{depositStr}} + ￥{{priceStr}} * {{monthNumInt}}</span>
+            </li>
+        {{/each}}
+        <li>
+            <div class="line"></div>
+            <span class="priceName" style="color:#555">应付金额:</span>
+            <span class="priceNum color2">￥{{totalFeeStr}}</span>
+        </li>
+    </ul>
+</script>
+<!-- 图片渲染 -->
+<script type="text/template" id="uploadTypeChioce">
+  <p style="line-height: 30px;">创建成功，立即上传合同？点击取消后，可以稍后上传合同</p>
+  <div class="form-inline clearfix">
+      <label class="col-sm-5" style="padding-left: 0;margin-bottom:10px;">
+          <input type="radio" checked name="uploadType" value="1">
+          上传图片（支持JPG/JPEG/PNG格式）
+      </label>
+      <label class="col-sm-5" style="padding-left: 0;margin-bottom:10px;">
+          <input type="radio" name="uploadType" value="2">
+          上传PDF（上传成功后，该窗口将关闭）
+      </label>
+  </div>
+  <div class="uploadTypeDom">
+
+  </div>
+</script>
+<script type="text/template" id="pdfModel">
+    <div class="picList">
+        <ul class="pic-items">
+        </ul>
+        <div class="addImgCard" style="width: 100px;height: 100px;line-height: 100px;">
+            <i class="icon-plus"></i>
+        </div>
+    </div>
+    <input class="hide" name="pdfFile" id="uploadPdf" type="file" accept="application/pdf">
+</script>
+<script type="text/template" id="picListModel">
+    <div class="picList">
+        <ul class="pic-items">
+        </ul>
+        <label class="addImgCard" for="smallImage" style="width: 100px;height: 100px;line-height: 100px;">
+            <input class="hide" id="smallImage" name="smallImage" type="file"
+                accept="image/jpg,image/jpeg,image/png" multiple="multiple">
+            <i class="icon-plus"></i>
+        </label>
+    </div>
+</script>
+<script type="text/template" id="renderPicList">
+{{#each this}}
+    <li class="relative pic-item" style="width: 100px;height: 100px;">
+        <div class="sortItem">
+            <img src="{{this}}" alt="" title="" />
+            <span class="pic-model" style="height: 100%;">
+                <i class="icon-delete"></i>
+                <i class="icon-search"></i>
+            </span>
+        </div>
+    </li>
+{{/each}}
+</script>
+<script type="text/template" id="uploadPic">
+    <div class="container" style="max-width: 1140px;">
+        {{#each this}}
+        <div class="left" style="margin: 10px;">
+            <div class="img-container">
+                <img src="" alt="" />
+            </div>
+            <div class="docs-buttons clearfix">
+                <div class="btn-group right">
+                    <button class="btn btn-mj" data-method="zoom" data-option="0.1" type="button" tips="放大图片" style="min-width:inherit">
+                        <span class="icon icon-zoom-in"></span>
+                    </button>
+                    <button class="btn btn-mj" data-method="zoom" data-option="-0.1" type="button" tips="缩小图片" style="min-width:inherit">
+                        <span class="icon icon-zoom-out"></span>
+                    </button>
+                    <button class="btn btn-mj" data-method="rotate" data-option="45" type="button" tips="顺时针旋转45°" style="min-width:inherit">
+                        <span class="icon icon-rotate-right"></span>
+                    </button>
+                    <label class="btn btn-mj btn-upload" tips="替换图片" style="min-width:inherit">
+                        <input type="file" class="hide" name="inputImage" accept="image/jpg,image/jpeg,image/png">
+                        <span class="icon icon-uploadFile"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</script>
+<!-- 人工审核 -->
+<script type="text/template" id="valiManual">
+  <div class="line-div-center">没有找到该人员信息</div>
+  <div class="line-div-label">温馨提示：勾选人工审核请务必核实人员信息正确无误</div>
+  <div class="line-div-center">
+    <input id="cb-manual" type="checkbox" class="checkBox"><span>使用人工审核认证</span></label>
+  </div>
+</script>
+<script type="text/javascript">
+	seajs.use('controllers/hosting/initHostingOrder.js')
+</script>

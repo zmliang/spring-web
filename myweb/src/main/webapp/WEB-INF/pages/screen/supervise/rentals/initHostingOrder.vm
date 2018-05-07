@@ -1,0 +1,159 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="hostingLease">
+    <input type="hidden" id="houseId" value="$!{houseId}"/>
+    <input type="hidden" id="roomId" value="$!{roomId}"/>
+    <div class="content">
+    </div>
+</div>
+<script  type="text/template" id='scheduledOccupancy'>
+<div class='schedule'>
+    <div class="top cancel">
+        <div class="title_top">预定入住</div>
+        <button type="button"  id="returnPre" class="btn right">返回</button>
+    </div>
+    <form id='roomform'>
+        <div class='lease_reserveL'>
+            <div class="div_all" id="oldHome">
+                <div class='roomName'>{{roomName}}</div>
+                <div class="roomP p1">房租: <span></span>元/月</div>
+                <div class="roomP p2">押金: <span></span>元</div>
+            </div>
+            <div class="div_all" id="newHome">
+                <div class="div_item">
+                    <input type="checkbox"  id='input_rent'>
+                    自定义房价: <input type="text" autocomplete="off" maxlength='9'  class='rentFee retP input_item form-control'  name="rentFee" disabled value >元/月
+                </div>
+                <div class="div_item">
+                    <input type="checkbox" id='eposit' >
+                    自定义押金: <input type="text" autocomplete="off" class="depositPrice retP input_item form-control" name='depositPrice' value disabled maxlength='9'> 元
+                </div>
+                <div class="div_item ">
+                    <div class="left">交租类型:<i class="red">*</i></div> 
+                    <select id="paytype" name='baseRentTypeId' >
+                    </select>
+                    <span class="left tips">
+                        <i class="icon-tips-fill" style="font-size: 20px;color: #2e8ded;position: relative;top:1px;left:8px;"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="div_all pdl">
+                <div class="div_item div-it">
+                    <div class="left" >租 期:<i class="red">*</i></div>
+                    <select name="monthNum" id="">
+                        <option value="12">12个月</option>
+                    </select>
+                </div>
+                <div class="div_item div-it">
+                    <div class="left">入住时间:<i class="red">*</i></div>
+                    <input type="text" id='startDateStr' validate name="startDateStr" class="form-control left Wdate" style="width:155px" onfocus="WdatePicker({isShowClear:true,readOnly:false})">
+                </div>
+                <div class="div_item">
+                    <div class="left">客户来源:<i class="red">*</i></div>
+                    <select name="channelType" class='channelType'>
+                            <option value="4">门店</option>
+                            <option value="1">App</option>
+                            <option value="2">微信</option>
+                            <option value="3">网站</option>
+                    </select>
+                </div>
+            </div>
+            <div class="div_frame">
+                <div class="div_box_frame">
+                    <div class="divFrame">签约人信息</div>
+                </div>
+                <div class="div_box_item">
+                    <div class="div_item">
+                        <div class="child_item">
+                            <div class="left">姓 名:<i class="red">*</i></div>
+                            <input class='input_item' autocomplete="off" validate type="text" class='realName' name='realName'>
+                            <select class='select_o' name='gender' tp='gender'>
+                                <option value="1">男</option>
+                                <option value="2">女</option>
+                            </select>
+                        </div>
+                        <div class="child_item">
+                            <div class="left">手机号码:<i class="red">*</i></div>
+                            <input type="text" name='mobile' autocomplete="off" class='mobile ' autocomplete="off" validate='mobile'/>
+                        </div>
+                    </div>
+                    <div class="div_item card">
+                        <div class="child_item ">
+                            <div class="left">证件类型:<i class="red">*</i></div>
+                            <select name="cardType" id="" class="cardType" tp="cardType">
+                                    <option value="1">身份证</option>
+                                    <option value="2">护照</option>
+                                    <option value='3'>港澳通行证</option>
+                                    <option value="4">台湾通行证</option>
+                            </select>
+                        </div>
+                        <div class="child_item">
+                            <div class="left">证件号码:<i class="red">*</i></div>
+                            <input type="text" name='cardNo' autocomplete="off" validate='icCard' tp='cardNo' class='cardNo'/>
+                        </div>
+                    </div>
+                    <div class="div_item " id='selected'>
+                        <div class="child_item">
+                            <div class="left">紧急联系人:&nbsp;<i class="red">*</i>&nbsp;</div>
+                            <input  type="text" validate class="input_l contactEcpName" autocomplete="off" name="contactEcpName">
+                        </div>
+                        <div class="child_item">
+                            <div class="left">手机号码:<i class="red">*</i></div>
+                            <input type="text" validate="mobile" autocomplete="off" name="contactEcpMobile" class="contactEcpMobile"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>订单备注:</div>
+            <div class="txt">
+                <textarea name="renterRemark"  class='renterRemark' id="text_n" cols="30" rows="10"></textarea>
+            </div>
+            <div class='txt_t'>
+            温馨提示：</br>
+                1.付款只能在APP端完成支付，请提醒用户下载APP、并完成线上合同签约</br>
+                2.房屋客控权限在完成付款后并完成合同签约后，入住日期的当天00：00 之后才开始生效</br>
+                3.交租日为起租日的前7天，账单开始推送是交租日的前3天的 中午11:00
+            </div>
+        </div>
+        <div class='lease_reserveR'>
+            <div class="reserveL_title">小计</div>
+            <div class='total_lease'>
+                <div class='price'>
+                        <div class='div_1'><div class="left">房租</div><div class="right rentfee"></div><div class="right">¥</div></div>
+                        <div><div class="right calculate1">x <span></span></div></div>
+                </div>
+                <div class='price'>
+                        <div class='div_1'><div class="left">押金</div><div class="right depositprice"></div><div class="right">¥</div></div>
+                        <div><div class="right calculate2">x <span></span></div></div>
+                </div>
+                <div class="total_total"><div class="left">合计</div><div class="right rentTotal"></div><div class="right">¥</div></div>
+            </div>
+        </div>
+    </form>
+    <div class="bottom cancel">
+        <button type="button" class="btn btn-mj" id='keep'>确定</button>
+    </div>
+</div>
+</script>
+<script  type="text/template" id='yes'>
+    <div class='yes'>请在确认前确认手机号码无误，确定后系统将订单信息推送给该租客，请通知租客在APP端完成支付操作、并签约合同</div>
+    <div id='checkTemp' style="{{cashShow}}">
+            <p>温馨提示：若客户使用线下付款，请勾选下方线下付款</p>
+            <div >
+                <label style="float: left"><input type="checkbox" name="cashPay" id="cashPay">已使用线下付款</label>
+                <div style="float: left;display: none" id="payDiv">
+                    <span style="padding-left: 20px">支付方式：</span>
+                    <select name="payType" style="width:150px;">
+                        <!--<option value="1">现金</option>-->
+                        <option value="6">支付宝支付</option>
+                        <option value="7">微信支付</option>
+                        <!--<option value="8">POS机刷卡</option>-->                       
+                    </select>
+                </div>
+            </div>
+    </div>
+</script>
+<script type="text/javascript">
+	seajs.use('controllers/supervise/initHostingOrder.js')
+</script>

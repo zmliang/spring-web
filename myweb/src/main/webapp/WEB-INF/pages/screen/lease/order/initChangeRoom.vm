@@ -1,0 +1,214 @@
+#parse('common/top.vm')
+#parse('common/header_lease.vm')
+<div class="mainBody main_section">    
+    <input type="hidden" id="orderId" value="$!{orderId}">
+    <div class="mainNav-cx clearfix" style="padding-bottom: 50px;">
+        <div class="line-div orderTitle">
+            换房
+            <a href="/hms/lease/leaseOrder/initLeaseOrderDetail.htm?estateId=$!{estateId}&orderId=$!{orderId}">
+                <button type="button" class="btn right" style="margin-top: 15px">返回</button>
+            </a>
+        </div>
+        <div class="overlayDiv left" style="width: 100%">
+            <div class="roomInfo">
+                
+            </div>
+            <div class="bgDiv">
+                换房账单
+                <button type="button" class="btn entering btn-mj"> 补录手工帐</button>
+            </div>
+            <div class="gridDiv"></div>
+            <div class="tips">
+              温馨提示：在确定换房前，请先<span>确定您已经将差异账单入账</span>，入账后点击确认，差异账单会和新房签订合同一起推送至客户APP端，即完成换房操作！
+            </div>
+            <div>
+                <button type="button" class="btn btn-mj checkRoom">确认换房</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div></div></div>
+<!-- 换房模板 -->
+<script type="text/template" id="changeRoomTemp">
+    <div class="left" style="width:800px">
+        <div class="line-div height40">
+            <div class="infoText w100 left">原房型:</div>
+            <input type="text" disabled value="{{roomTypeName}}{{styleName}}" class="form-control w150 left ">
+            <div class="infoText w100 left">原房号:</div>
+            <input type="text" disabled value="{{buildingName}}-{{roomNo}}" class="form-control w150 left ">
+            <div class="infoText w100 left">原房价:</div>
+            <input type="text" disabled value="{{priceStr}}" class="form-control w150 left ">
+        </div>
+        <div class="line-div height40">
+            <div class="infoText w100 left">新房型:</div>
+            <select id="roomTypeHtml" class="w150 left">
+                {{#each estateRoomTypeLst}}
+                    <option price="{{price}}" value="{{id}}">{{typeName}}{{styleName}}</option>
+                {{/each}}
+            </select>
+            <div class="infoText w100 left">新房号:<i class="red">*</i></div>
+            <div class="left valiDiv">
+              <input type="text" disabled validate roomId style="width:90px;margin-right: 10px"  class="form-control newRoom left">
+              <button type="button" class="btn btn-mj btn-cx blue-cx changeRoom">更换</button>
+            </div>
+            <div class="infoText w100 left">新房价:</div>
+            <input type="text" disabled value="{{newPrice}}" class="form-control newPrice w150 left ">
+        </div>
+    </div>
+    <div class="left" style="width:280px">
+        <div class="typeBox left">
+            <div class="typeTitle">交租类型：</div>
+        </div>
+        <div class="typeValue">
+            <input type="text" disabled value="{{baseRentTypeName}}" class="form-control">
+        </div>
+    </div>
+</script>
+<!-- 补录手工帐 -->
+<script type="text/template" id="enteringTemp">
+    <table class="addTable">
+        <colgroup>
+            <col width="300">
+        </colgroup>
+        <tr>
+            <td>
+                <div class="line-div w90">
+                <div class="line-div-label">
+                    账单名称：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <input validate name="billName" type="text" class="form-control addMod">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="line-div w90">
+                <div class="line-div-label">
+                    费用类型：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <select class="addMod" name="type" id="priceType">
+                        <option value="1">房租</option>
+                        <option value="8">水费</option>
+                        <option value="9">电费</option>
+                        <option value="6">退款</option>
+                        <option value="2">押金</option>
+                        <option value="4">物业</option>
+                        <option value="5">增配</option>   
+                        <option value="7">其他</option>
+                    </select>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="line-div w90">
+                <div class="line-div-label">
+                    基数金额：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <input validate name="costPrice" type="text" class="form-control pubMoney addMod">
+                </div>
+            </td>
+        </tr>
+        <tr class="numTr">
+            <td>
+                <div class="line-div w90">
+                <div class="line-div-label">
+                    数量：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <input validate="integer_z" name="number" type="text" class="form-control addMod">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="line-div w90">
+                <div class="line-div-label">
+                    实收金额：<i class="red">*</i>
+                </div>
+                <div class="line-div-center">
+                    <input readonly type="text" style="width: 150px;" class="form-control priceCount left">
+                    <span class="right" style="margin-top: 2px"><i class="icon-tips-fill" style="font-size: 20px;color: #2e8ded;"></i></span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="line-div w90" style="height: 50px">
+                    <div class="line-div-label">
+                        备注：<i class="red">*</i>
+                    </div>
+                    <div class="line-div-center">
+                         <textarea validate placeholder="最多150个汉字" id="taContent" class='w162h50 addMod' rows="3"  maxlength="150" name='desc'
+                              onkeyup="this.value=this.value.substring(0, 150)"
+                         >{{desc}}</textarea>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</script>
+<script type="text/template" id="surfaceTemp">
+    <tr class="surface">
+        <td>
+            <div class="line-div w90">
+            <div class="line-div-label">
+                上次表数：<i class="red">*</i>
+            </div>
+            <div class="line-div-center">
+                <input validate name="lastNum" type="text" class="form-control lastSurface addMod">
+            </div>
+        </td>
+    </tr>
+    <tr class="surface">
+        <td>
+            <div class="line-div w90">
+            <div class="line-div-label">
+                本次表数：<i class="red">*</i>
+            </div>
+            <div class="line-div-center">
+                <input validate name="thisNum" type="text" class="form-control thisSurface addMod">
+            </div>
+        </td>
+    </tr>
+</script>
+<script type="text/template" id="numTemp">
+    <tr class="numTr">
+        <td>
+            <div class="line-div w90">
+            <div class="line-div-label">
+                数量：<i class="red">*</i>
+            </div>
+            <div class="line-div-center">
+                <input validate="integer_z" name="number" type="text" class="form-control addMod">
+            </div>
+        </td>
+    </tr>
+</script>
+<script type="text/template" id="roomTemp">
+    <div class="roomDiv clearfix">
+        {{#each this}}
+        <div class="line">
+            <div class="roomLeft left">
+                <span class="bulidName">{{buildingName}}</span>
+            </div>
+            <div class="roomRight left">
+                {{#each floorLst}}
+                    <div class="floorName left">{{floorName}}</div>
+                    <ul class="L-roomNav">
+                        {{#each roomLst}}                        
+                            <li class="roomLi" roomName="{{roomBuilding}}-{{roomNo}}" thisId="{{roomId}}">{{roomNo}}</li>
+                        {{/each}}
+                    </ul>
+                {{/each}}
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</script>
+<script type="text/javascript">
+    seajs.use('controllers/lease/initChangeRoom')
+</script>

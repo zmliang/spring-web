@@ -1,0 +1,573 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+
+<div class="row">
+  	<div class="col-md-12 col-sm-12 col-xs-12 window">
+    	<div class="x_panel window">
+      		<ul class="nav nav-tabs">
+	        	<li class="active"><a href="javascript:;">房源列表</a></li>
+	        	<li><a href="javascript:;">已发布房源</a></li>
+			</ul>
+			<div class="tab-content container active" style="padding: 15px;">
+				<div class="searchDiv" style="margin-bottom: 10px;"> 
+					<form id="searchForm1">
+	                    <table>
+	                        <tbody>
+	                        	<tr>
+	                                <td width="150">
+	                                    <div class="line-div">
+				                        	<div class="btn-toolbar search_btnList">
+												<div class="btn-group form-group" style="margin-bottom: 0;">
+													<button type="button" class="btn btn-mj">分散式</button>
+													<button type="button" class="btn">集中式</button>
+									            </div>
+									        </div>
+									    </div>
+									</td>
+	                                <td width="130">
+	                                    <div class="line-div">
+	                                        <div class="line-div-label"></div>
+	                                        <div class="line-div-center">
+	                                            <select name="cityId" class="default form-control">
+	                                                <option value=""></option>
+	                                            </select>
+	                                        </div>
+	                                    </div>
+	                                </td>
+	                                <td width="130" style="padding-left: 10px;" class="hostingNode">
+	                                    <div class="line-div">
+	                                        <div class="line-div-label"></div>
+	                                        <div class="line-div-center">
+	                                            <select name="reviewStatus" class="default form-control">
+	                                                <option value="1">未审核</option>
+	                                                <option value="2">审核通过</option>
+													<option value="3">审核不通过</option>
+	                                            </select>
+	                                        </div>
+	                                    </div>
+	                                </td>
+	                                <td width="130" style="padding-left: 10px;" class="hostingNode">
+	                                    <div class="line-div">
+	                                        <div class="line-div-label"></div>
+	                                        <div class="line-div-center">
+	                                            <select name="houseFinanceType" class="default form-control">
+	                                                <option value=""></option>
+	                                                <option value="1">普通</option>
+													<option value="2">金融</option>
+													<option value="3">金融申请中</option>
+	                                            </select>
+	                                        </div>
+	                                    </div>
+	                                </td>
+	                                <td width="200" style="padding-left: 10px;">
+	                                    <div class="line-div">
+	                                        <div class="line-div-label"></div>
+	                                        <div class="line-div-center">
+	                                            <input type="text" name="keyword" class="form-control"
+	                                                placeholder="房源编号/小区/公寓">
+	                                        </div>
+	                                    </div>
+	                                </td>
+	                                <td class="text-left">
+	                                    <button type="button" id="search" class="left btn btn-mj">查询</button>
+	                                    <button type="button" id="clear" class="left btn">清空</button>
+	                                </td>
+	                            </tr>
+	                        </tbody>
+	                    </table>
+	                </form>
+	                <form id="searchForm2" class="hide">
+	                    <table>
+	                        <tbody>
+	                        	<tr>
+	                                <td width="150">
+	                                    <div class="line-div">
+				                        	<div class="btn-toolbar search_btnList">
+												<div class="btn-group form-group" style="margin-bottom: 0;">
+													<button type="button" class="btn btn-mj">分散式</button>
+													<button type="button" class="btn">集中式</button>
+									            </div>
+									        </div>
+									    </div>
+									</td>
+	                                <td width="130">
+	                                    <div class="line-div">
+	                                        <div class="line-div-label"></div>
+	                                        <div class="line-div-center">
+	                                            <select name="cityId" class="default form-control">
+	                                                <option value=""></option>
+	                                            </select>
+	                                        </div>
+	                                    </div>
+	                                </td>
+	                                <td width="110" style="padding-left: 10px;" class="hostingNode">
+	                                    <div class="line-div">
+	                                        <div class="line-div-label"></div>
+	                                        <div class="line-div-center">
+	                                            <select name="houseFinanceType" class="default form-control">
+	                                                <option value=""></option>
+	                                                <option value="1">普通</option>
+													<option value="2">金融</option>
+	                                            </select>
+	                                        </div>
+	                                    </div>
+	                                </td>
+	                                <td width="110" style="padding-left: 10px;" class="hostingNode">
+	                                    <div class="line-div">
+	                                        <div class="line-div-label"></div>
+	                                        <div class="line-div-center">
+	                                            <select name="houseRentType" class="default form-control">
+	                                                <option value=""></option>
+	                                                <option value="1">整租</option>
+													<option value="2">合租</option>
+	                                            </select>
+	                                        </div>
+	                                    </div>
+	                                </td>
+	                                <td width="200" style="padding-left: 10px;">
+	                                    <div class="line-div">
+	                                        <div class="line-div-label"></div>
+	                                        <div class="line-div-center">
+	                                            <input type="text" name="keyword" class="form-control"
+	                                                placeholder="房源编号/小区/公寓">
+	                                        </div>
+	                                    </div>
+	                                </td>
+	                                <td class="text-left">
+	                                    <button type="button" id="search" class="left btn btn-mj">查询</button>
+	                                    <button type="button" id="clear" class="left btn">清空</button>
+	                                </td>
+	                            </tr>
+	                        </tbody>
+	                    </table>
+	                </form>
+	            </div>
+				<div class="grid_box">
+        			<div id="gridDiv"></div>
+        		</div>
+      		</div>
+    	</div>
+  	<!-- </div> -->
+</div>
+
+<!-- 分散式详情 -->
+<script type="text/template" id="reviewRoomModel">
+	<table>
+		<colgroup>
+			<col width="300">
+			<col width="150">
+			<col width="150">
+			<col width="200">
+		</colgroup>
+		<tr>
+			<td colspan="3">
+			  	<div class="line-div w90">
+				    <div class="line-div-label red">
+				      	房源地址：
+				    </div>
+				    <div class="line-div-center">
+				    	<input type="text" class="form-control" name="" 
+				    		value="{{houseAddress}}" readonly />
+				    </div>
+			  	</div>
+			</td>
+			<td>
+			  	<div class="line-div w60">
+				    <div class="line-div-label red">
+				      	板块：
+				    </div>
+				    <div class="line-div-center">
+				    	<input type="text" class="form-control" name="" 
+				    		value="{{zoneName}}" readonly />
+				    </div>
+			  	</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+			  	<div class="line-div w90">
+				    <div class="line-div-label houseRentType_house red">
+				      	房间信息：
+				    </div>
+				    <div class="line-div-center">
+				    	<input type="text" class="form-control" name="" 
+				    		value="{{houseInfo}}" readonly />
+				    </div>
+			  	</div>
+			</td>
+			<td>
+			  	<div class="line-div w60">
+				    <div class="line-div-label red">
+				      	层高：
+				    </div>
+				    <div class="line-div-center">
+				    	<input type="text" class="form-control" name="" 
+				    		value="所在{{floorName}}层，共{{floorAmount}}层" readonly />
+				    </div>
+			  	</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+                <div class="line-div w90">
+                <div class="line-div-label red">户型信息：</div>
+                    <div class="line-div-center">
+				    	<input type="text" class="form-control" name="" 
+				    		value="{{houseTypeInfo}}" readonly />
+                    </div>
+                </div>
+            </td>
+            <td colspan="2">
+			  	<div class="line-div w90">
+				    <div class="line-div-label red">
+				      	看房电话：
+				    </div>
+				    <div class="line-div-center">
+				    	<input type="text" class="form-control" name="" 
+				    		value="{{contactInfo}}" readonly />
+				    </div>
+			  	</div>
+			</td>
+			<td>
+			  	<div class="line-div w90">
+				    <div class="line-div-label red">
+				      	装修风格：
+				    </div>
+				    <div class="line-div-center">
+				    	<input type="text" class="form-control" name="" 
+				    		value="{{decorationDegree}}" readonly />
+				    </div>
+			  	</div>
+			</td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <div class="line-div w90">
+                    <div class="line-div-label houseRentType_service">
+                    	房间设施：
+                    </div>
+                    <div class="line-div-center text-left" style="margin-left: -5px;">
+                    	{{#each facilityItems}}
+                        <button type="button" class="btn">{{this}}</button>
+                        {{/each}}
+                    </div>
+                </div>
+            </td>
+		</tr>
+      	<tr style="height: 70px;vertical-align: top;">
+            <td colspan="4">
+                <div class="line-div w90">
+                    <div class="line-div-label">
+                    	房源描述：
+                    </div>
+                    <div class="line-div-center">
+                        <textarea name="roomDesc" type="text" 
+                            class="form-control" readonly style="line-height: inherit;">{{houseDesc}}</textarea> 
+                    </div>
+                </div>
+            </td>
+		</tr>
+		<tr class="hostingRoomData hide">
+			<td>
+			  	<div class="line-div w90">
+				    <div class="line-div-label red">
+				      	房间信息：
+				    </div>
+				    <div class="line-div-center">
+				    	<input type="text" class="form-control" name="" 
+				    		value="{{roomInfosFormat}}" readonly />
+				    </div>
+			  	</div>
+			</td>
+			<td colspan="3" style="padding-left: 10px;">
+                <div class="line-div">
+                    <div class="line-div-center text-left">
+                    	{{#each roomInfos}}
+                        <button type="button" class="btn">{{this}}</button>
+                        {{/each}}
+                    </div>
+                </div>
+            </td>
+		</tr>
+		<tr class="hostingRoomData hide">
+			<td colspan="4">
+                <div class="line-div w90">
+                    <div class="line-div-label">
+                    	房间设施：
+                    </div>
+                    <div class="line-div-center text-left" style="margin-left: -5px;">
+                        {{#each roomFacilityItems}}
+                        <button type="button" class="btn">{{this}}</button>
+                        {{/each}}
+                    </div>
+                </div>
+            </td>
+		</tr>
+		<tr class="hostingRoomData list_opera">
+			<td colspan="4">
+			  	<div class="line-div w90">
+				    <div class="line-div-label">
+				      	审核结果：
+				    </div>
+				    <div class="text-left reviewResult" style="padding-left: 90px;">
+				    	<div class="left">
+				    		{{#renderStatus reviewStatus}}{{/renderStatus}}
+				    	</div>
+				    	<div class="left unCrossReason hide" style="width: 200px;padding-left: 10px;">
+					    	<select name="reviewRemark" style="width: 100%;">
+					    		<option value=""></option>
+					    		<option value="照片不符合上传规则">照片不符合上传规则</option>
+					    		<option value="房源描述不符合规则">房源描述不符合规则</option>
+					    		<option value="电话信息错误">电话信息错误</option>
+					    		<option value="面积信息错误">面积信息错误</option>
+					    	</select>
+					    </div>
+				    </div>
+			  	</div>
+			</td>
+		</tr>
+		<tr class="publish_opera hide">
+			<td colspan="4">
+			  	<div class="line-div w90">
+				    <div class="line-div-label">
+				      	操作：
+				    </div>
+				    <div class="text-left" style="padding-left: 90px;">
+				    	<div class="left">
+				    		<label><input type="checkbox" name="offLine" value="2"> 立即下架</label>
+				    	</div>
+				    </div>
+			  	</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4">
+				<div class="form-group clearfix">
+				  	<div class="line-div w90">
+					    <div class="line-div-label">
+					      	房间照片：
+					    </div>
+					    <div class="line-div-center text-left">
+					    	<div class="picList">
+						    	<ul class="pic-items">
+						    		{{#each picUrls}}
+							    		<li class="relative pic-item" style="width: 100px; height: 100px; border: 1px solid #c0ccda;">
+									      	<img src="{{picUrl}}" alt="" title="" />
+									      	<span class="pic-model" style="height: 100%;">
+									          	<i class="icon-search"></i>
+									          	<i class="icon-delete hide"></i>
+									        </span>
+									    </li>
+									{{/each}}
+						    	</ul>
+						  	</div>
+					    </div>
+				  	</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</script>
+
+<!-- 集中式详情 -->
+<script type="text/template" id="reviewEstateModel">
+	<table>
+		<colgroup>
+			<col width="300">
+			<col width="150">
+			<col width="150">
+			<col width="200">
+		</colgroup>
+		<tr>
+			<td colspan="2">
+			  	<div class="line-div w90">
+				    <div class="line-div-label red">
+				      	公寓名称：
+				    </div>
+				    <div class="line-div-center">
+				    	<input type="text" class="form-control" name="" 
+				    		value="{{estateName}}" readonly />
+				    </div>
+			  	</div>
+			</td>
+			<td colspan="2">
+			  	<div class="line-div w90">
+				    <div class="line-div-label red">
+				      	看房电话：
+				    </div>
+				    <div class="line-div-center">
+				    	<input type="text" class="form-control" name="" 
+				    		value="{{contactInfo}}" readonly />
+				    </div>
+			  	</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+			  	<div class="line-div w90">
+				    <div class="line-div-label red">
+				      	房源地址：
+				    </div>
+				    <div class="line-div-center">
+				    	<input type="text" class="form-control" name="" 
+				    		value="{{estateAddress}}" readonly />
+				    </div>
+			  	</div>
+			</td>
+			<td>
+			  	<div class="line-div w60">
+				    <div class="line-div-label red">
+				      	板块：
+				    </div>
+				    <div class="line-div-center">
+				    	<input type="text" class="form-control" name="" 
+				    		value="{{zoneName}}" readonly />
+				    </div>
+			  	</div>
+			</td>
+		</tr>
+      	<tr style="height: 70px;vertical-align: top;">
+            <td colspan="4">
+                <div class="line-div w90">
+                    <div class="line-div-label">
+                    	公寓简介：
+                    </div>
+                    <div class="line-div-center">
+                        <textarea name="roomDesc" type="text" 
+                            class="form-control" readonly style="line-height: inherit;">{{introduction}}</textarea> 
+                    </div>
+                </div>
+            </td>
+		</tr>
+		<tr>
+			<td colspan="4">
+			  	<div class="line-div w90"  style="width: 180px;">
+				    <div class="line-div-label">
+				      	配套服务：
+				    </div>
+				    <div class="line-div-center text-left">
+				    	<button type="button" class="btn btn-mj reviewService" 
+				    		data_text="配套服务"
+				    		data_resoure="services" 
+				    		style="margin-left:0;">
+                            <span class="btnText">查看</span>
+                            <span class="badge"> {{services.length}}</span>
+                        </button>
+				    </div>
+			  	</div>
+			  	<div class="line-div w90" style="width: 180px;">
+				    <div class="line-div-label">
+				      	门店服务：
+				    </div>
+				    <div class="line-div-center text-left">
+				    	<button type="button" class="btn btn-mj reviewService" 
+				    		data_text="门店服务"
+				    		data_resoure="storeServices" 
+				    		style="margin-left:0;">
+                            <span class="btnText">查看</span>
+                            <span class="badge"> {{storeServices.length}}</span>
+                        </button>
+				    </div>
+			  	</div>
+			  	<div class="line-div w90" style="width: 180px;">
+				    <div class="line-div-label">
+				      	周边设施：
+				    </div>
+				    <div class="line-div-center text-left">
+				    	<button type="button" class="btn btn-mj reviewService" 
+				    		data_text="周边设施"
+				    		data_resoure="surroundings" 
+				    		style="margin-left:0;">
+                            <span class="btnText">查看</span>
+                            <span class="badge"> {{surroundings.length}}</span>
+                        </button>
+				    </div>
+			  	</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			  	<div class="line-div w90">
+				    <div class="line-div-label red">
+				      	房间类型：
+				    </div>
+				    <div class="line-div-center">
+				    	<input type="text" class="form-control" name="" 
+				    		value="{{styleName}}" readonly />
+				    </div>
+			  	</div>
+			</td>
+			<td colspan="3"></td>
+		</tr>
+		<tr class="publish_opera hide">
+			<td colspan="4">
+			  	<div class="line-div w90">
+				    <div class="line-div-label">
+				      	操作：
+				    </div>
+				    <div class="text-left" style="padding-left: 90px;">
+				    	<div class="left">
+				    		<label><input type="checkbox" name="offLine" value="2"> 立即下架</label>
+				    	</div>
+				    </div>
+			  	</div>
+			</td>
+		</tr>
+		<tr style="height: 115px;vertical-align: top;">
+			<td colspan="4">
+				<div class="form-group clearfix">
+				  	<div class="line-div w90">
+					    <div class="line-div-label">
+					      	房型照片：
+					    </div>
+					    <div class="line-div-center text-left">
+					    	<div class="picList">
+						    	<ul class="pic-items">
+						    		{{#each roomTypePicUrls}}
+							    		<li class="relative pic-item">
+									      	<img src="{{picUrl}}" alt="" title="" />
+									      	<span class="pic-model">
+									          	<i class="icon-search"></i>
+									          	<i class="icon-delete hide"></i>
+									        </span>
+									    </li>
+									{{/each}}
+						    	</ul>
+						  	</div>
+					    </div>
+				  	</div>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4">
+			  	<div class="line-div w90">
+				    <div class="line-div-label">
+				      	关联房间：
+				    </div>
+				    <div class="line-div-center">
+				    	
+				    </div>
+			  	</div>
+			</td>
+		</tr>
+	</table>
+	<div id="relatedRooms"></div>
+</script>
+
+<!-- 服务模板 -->
+<script type="text/template" id="serviceModel">
+    <ul>
+    	{{#each this}}
+		<li class="left" style="margin:5px;">
+			<label class="mj-tag">{{this}}</label>
+		</li>
+    	{{/each}}
+    </ul>
+</script>
+
+<script type="text/javascript">
+	seajs.use('controllers/market/reviewRoomCheck.js')
+</script>
+

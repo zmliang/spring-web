@@ -1,0 +1,882 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="x_panel window anti-window">
+    <div class="col-md-12 col-sm-12 col-xs-12 window" style="padding: 0">
+        <div class="x_panel">
+            <div class="label_btm_line clearfix">
+                <input type="hidden" id="financeTrusteeshipType" value="$!{financeTrusteeshipType}">
+                <input type="hidden" id="self_organizationId" value="$!{organizationId}">
+                <strong class="left">我的账户</strong>
+                <div class="clearfix">
+                    <div class="right finger">银行卡：&nbsp;
+                        <em class="warning hide" id="btn-watchcard">查看</em>
+                        <em class="hide" id="btn-bindcard">绑定</em>
+                    </div>
+                    <div id="btn-explaination" class="btn-withdraw right" style="position:initial;margin-right: 10px;">提现说明</div>
+                    #if ($!{financeTrusteeshipType})
+                    <div id="btn-transfer" class="btn-withdraw right" style="position:initial;margin-right: 10px;">我要转账</div>
+                    #end
+                </div>
+            </div>
+            <div class="m_4wrapper">
+                <div class="item">
+                    <div class="tit">
+                        <div class="left">账户余额</div>
+                        <em class="ques" id="ques_balance" tips="这里的余额是租客通过平台线上支付渠道，支付了租赁产生的费用"></em>
+                    </div>
+                    <div class="val">
+                        <em id="label-balance">0</em>元
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="tit">
+                        <div class="left">可提现金额</div>
+                        <div id="btn-withdraw" class="btn-withdraw">立即提现</div>
+                    </div>
+                    <div class="val">
+                        <em id="label-canWithdraw">0</em>元
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="tit">
+                        <div class="left">提现中金额</div>
+                    </div>
+                    <div class="val">
+                        <em id="label-applyMoney">0</em>元
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="tit">
+                        <div class="left">资金余额</div>
+                        <em class="ques" id="ques_frozenAmount" tips="资金余额：表示 2017-12-15 00：00：00  之前的账单已结算完毕，当前已无法通过按账单笔数提现；资金余额里面的资金目前只支持一次性提现。"></em>
+                        <div id="btn-history" class="btn-withdraw">全部提现</div>
+                    </div>
+                    <div class="val">
+                        <em id="label-frozenAmount">0</em>元
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="panel2" class="x_panel" style="margin-top: 5px;">
+            <ul class="nav nav-tabs resourceType">
+                <li class="active"><a href="javascript:;">资金入账流水</a></li>
+                #if ($!{financeTrusteeshipType})
+                <li><a href="javascript:;">转账流水</a></li>
+                #end
+            </ul>
+            <button type="button" class="btn btn-mj btn_checkedItems" 
+                style="position: absolute;top: 10px; right: 10px; z-index: 99;">
+                已选择账单
+                <span class="badge">0</span>
+            </button>
+            <div class="tab-content container active" 
+                style="margin-bottom: -1px;border-bottom-left-radius: 0;border-bottom-right-radius: 0;">
+                <form id="searchForm" style="margin-bottom: 10px;">
+                    <table style="margin: 5px 0 5px 0;">
+                        <colgroup>
+                            <col width="465">
+                            <col width="10">
+                            <col width="130">
+                            <col width="10">
+                            <col width="130">
+                            <col width="10">
+                            <col width="240">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="line-div w90">
+                                        <div class="line-div-label">结账时间：</div>
+                                        <div class="line-div-center">
+                                            <input type="text" name="startPayTime" class="form-control left Wdate" style="width:45%" id="startPayTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,maxDate:'#F{$dp.$D(\'endPayTime\')}'})">
+                                            <span class="left text-center" style="width:10%;"> -- </span>
+                                            <input type="text" id="endPayTime" name="endPayTime" class="form-control left Wdate" style="width:45%" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,maxDate:'%y-%M-%d %H:%m:%s',minDate:'#F{$dp.$D(\'startPayTime\')}'})">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <div class="line-div">
+                                        <div class="line-div-center">
+                                            <select name="rateType" class="form-control" data-nameStr="费用类型" style="width: 100%;">
+                                                <option value=""></option>
+                                                <option value="1">房租</option>
+                                                <option value="2">押金</option>
+                                                <option value="5">增配</option>
+                                                <!-- <option value="6">退款</option> -->
+                                                <option value="8">水费</option>
+                                                <option value="9">电费</option>
+                                                <option value="11">定金</option>
+                                                <!-- <option value="12">退房</option> -->
+                                                <option value="13">服务费</option>
+                                                <option value="14">期租金</option>
+                                                <option value="15">首期租金</option>
+                                                <option value="7">其他</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <div class="line-div">
+                                        <div class="line-div-center">
+                                            <select  name="payChannel" class="form-control" data-nameStr="支付方式" style="width: 100%;">
+                                                <option value=""></option>
+                                                <option value="1">平台支付宝</option>
+                                                <option value="2">平台微信</option>
+                                                <option value="3">平台认证支付</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td></td>
+                                <td class="text-left">
+                                    <button type="button" id="search" class="btn btn-mj search" style="margin-left: 0;">查询</button>
+                                    <button type="button" id="empty" class="btn empty">清空</button>
+                                    <button type="button" id="export" class="btn">导出</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td width="130" style="padding-left: 10px;">
+                                    <div class="line-div">
+                                        <div class="line-div-center">
+                                            <select name="cityId" class="form-control" style="width: 100%;">
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td width="130" style="padding-left: 10px;">
+                                    <div class="line-div">
+                                        <div class="line-div-center">
+                                            <select name="areaId" class="form-control" style="width: 100%;">
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td width="205" style="padding-left: 10px;">
+                                    <div class="line-div">
+                                        <div class="line-div-center">
+                                            <select name="subdistrictId" class="form-control" style="width: 100%;">
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td width="140" style="padding-left: 10px;">
+                                    <div class="line-div">
+                                        <div class="line-div-center">
+                                            <select name="status" class="form-control" style="width: 100%;">
+                                                <option value=""></option>
+                                                <option value="0">待操作</option>
+                                                <option value="1">提现中</option>
+                                                <option value="2">已提现</option>
+                                                <option value="3">资金转出</option>
+                                                <option value="4">已入资金帐</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td width="140" style="padding-left: 10px;">
+                                    <div class="line-div">
+                                        <div class="line-div-center">
+                                            <select name="houseFinanceType" class="form-control" style="width: 100%;">
+                                                <option value=""></option>
+                                                <option value="1">普通房源账单</option>
+                                                <option value="2">金融房源账单</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="transInOrgId hide" width="160" style="padding-left: 10px;">
+                                    <div class="line-div">
+                                        <div class="line-div-center">
+                                            <select name="transInOrgId" class="form-control" data-nameStr="放款组织" style="width: 100%;">
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td width="160" style="padding-left: 10px;">
+                                    <div class="line-div">
+                                        <div class="line-div-center">
+                                            <input placeholder="姓名/身份证/账单号" class="form-control" name="keyWord">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+            <div class="table-topDiv" style="margin-top:0;">
+                当前统计金额：<span class="red"></span>
+            </div>
+            <div class="gridBox">
+                <div id="gridDiv0"></div>
+            </div>
+            <div class="gridBox hide">
+                <div id="gridDiv1"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 提现详情 -->
+<script type='text/template' id='queryCashTemp'>
+    <form>
+        <table>
+            <colgroup>
+                <col width="280">
+                <col width="320">
+            </colgroup>
+            <tr>
+                <td>
+                    <div class="line-div w90">
+                        <div class="line-div-label">提现流水号:</div>
+                        <div class="line-div-center">
+                            <input disabled type="text" value="{{applyNo}}" name="" class="form-control">
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="line-div w90">
+                        <div class="line-div-label">提现时间:</div>
+                        <div class="line-div-center">
+                            <input disabled type="text" value="{{applyUserName}} {{applyTimeStr}}" name="" class="form-control">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {{#with bankInfoData}}
+            <tr>
+                <td>
+                    <div class="line-div w90">
+                        <div class="line-div-label">银行卡类型:</div>
+                        <div class="line-div-center">
+                            <input disabled type="text" value="{{cardTypeStr}}" name="" class="form-control">
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="line-div w90">
+                        <div class="line-div-label">银行卡号:</div>
+                        <div class="line-div-center">
+                            <input disabled type="text" value="{{cardNo}}" name="cardNo" class="form-control">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="line-div w90">
+                        <div class="line-div-label">开户银行:</div>
+                        <div class="line-div-center">
+                            <input disabled type="text" value="{{bankName}}" name="" class="form-control">
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="line-div w90">
+                        <div class="line-div-label">开户人姓名:</div>
+                        <div class="line-div-center">
+                            <input disabled type="text" value="{{name}}" name="" class="form-control">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="line-div w90">
+                        <div class="line-div-label">收款地址:</div>
+                        <div class="line-div-center">
+                            <input disabled type="text" value="{{address}}" name="" class="form-control">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {{/with}}
+            <tr>
+                <td colspan="2" style="height: 70px; vertical-align: top;">
+                    <div class="line-div w90" style="height: 70px;">
+                        <div class="line-div-label">备注说明:</div>
+                        <div class="line-div-center">
+                            <textarea disabled type="text" name="" class="form-control" style="overflow: hidden;">{{remark}}</textarea>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</script>
+<!-- 转账详情 -->
+<script type='text/template' id='queryTransTemp'>
+    <form>
+        <table>
+            <colgroup>
+                <col width="280">
+                <col width="320">
+            </colgroup>
+            <tr>
+                <td>
+                    <div class="line-div w90">
+                        <div class="line-div-label">打款组织:</div>
+                        <div class="line-div-center">
+                            <input disabled type="text" value="{{orgName}}" name="" class="form-control">
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="line-div w90">
+                        <div class="line-div-label">收款组织:</div>
+                        <div class="line-div-center">
+                            <input disabled type="text" value="{{transToOrgName}}" name="" class="form-control">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="line-div w90">
+                        <div class="line-div-label">转账号:</div>
+                        <div class="line-div-center">
+                            <input disabled type="text" value="{{applyNo}}" name="" class="form-control">
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="line-div w90">
+                        <div class="line-div-label">操作时间:</div>
+                        <div class="line-div-center">
+                            <input disabled type="text" value="{{applyUserName}} {{applyTimeStr}}" name="" class="form-control">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="height: 70px; vertical-align: top;">
+                    <div class="line-div w90" style="height: 70px;">
+                        <div class="line-div-label">备注说明:</div>
+                        <div class="line-div-center">
+                            <textarea disabled type="text" name="" class="form-control" style="overflow:hidden">{{remark}}</textarea>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</script>
+
+<!-- 查看银行卡 -->
+<script type='text/template' id='queryCardTmpl'>
+    <form id="form_bindcard">
+        <table>
+            <colgroup>
+                <col width="380">
+                <col width="50">
+                <col width="380">
+            </colgroup>
+
+            <tr>
+                <td>
+                    <div class="line-div w80">
+                        <div class="line-div-label alignLeft">银行卡类型</div>
+                        <div class="line-div-center">
+                            <input disabled type="text" placeholder="银行卡类型" value="{{cardTypeStr}}" validate
+                                   name="" class="form-control " >
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div class="line-div w80">
+                        <div class="line-div-label alignLeft">开户名&nbsp;<i class="red">*</i></div>
+                        <div class="line-div-center">
+                            <input type="text" placeholder="请输入您的开户名" disabled value="{{name}}" validate
+                                   name="" class="form-control " >
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td>
+                    <div class="line-div w80">
+                        <div class="line-div-label alignLeft">收款地址</div>
+                        <div class="line-div-center">
+                            <input type="text" placeholder="" disabled value="{{address}}"
+                                   name="" class="form-control" >
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="line-div w80">
+                        <div class="line-div-label alignLeft">银行卡号&nbsp;<i class="red">*</i></div>
+                        <div class="line-div-center">
+                            <input type="text" disabled class="form-control" name="cardNo" value="{{cardNo}}">
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td>
+                    <div class="line-div w80">
+                        <div class="line-div-label alignLeft">开户银行</div>
+                        <div class="line-div-center">
+                            <input type="text" class="form-control" disabled name="" placeholder="" value="{{bankName}}">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</script>
+
+<!-- 提现弹窗 -->
+<script type='text/template' id='withdrawTmpl'>
+    {{#with bankInfoData}}
+    <div id="bl-withdraw-wrapper" class="form-divider {{#showEmpty id}}{{/showEmpty}}" style="margin-top: 0;">
+        <div class="color_475669" style="margin: 10px 0">银行卡信息</div>
+        <div id="btn-withdraw-change" class="btn-withdraw-change">更换银行卡</div>
+        <div id="btn-add-card" class="btn-add-card">绑定银行卡</div>
+        <table>
+            <colgroup>
+                <col width="380">
+                <col width="30">
+                <col width="380">
+            </colgroup>
+
+            <tr>
+                <td>
+                    <div class="line-div w80">
+                        <div class="line-div-label alignLeft disabled">银行卡类型</div>
+                        <div class="line-div-center">
+                            <input type="text" placeholder="" value="{{cardTypeStr}}"
+                                   name="" class="form-control" disabled>
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div class="line-div w80">
+                        <div class="line-div-label alignLeft disabled">开户人姓名</div>
+                        <div class="line-div-center">
+                            <input type="text" placeholder="" value="{{name}}" disabled
+                                   name="" class="form-control " >
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td>
+                    <div class="line-div w80">
+                        <div class="line-div-label alignLeft disabled">收款地址&nbsp;</div>
+                        <div class="line-div-center">
+                            <input type="text" placeholder="" value="{{address}}" disabled
+                                   name="" class="form-control" >
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div class="line-div w80">
+                        <div class="line-div-label alignLeft disabled">银行卡号</div>
+                        <div class="line-div-center">
+                            <input type="text" placeholder="" value="{{cardNo}}" disabled
+                                   name="cardNo" class="form-control " >
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td>
+                    <div class="line-div w80">
+                        <div class="line-div-label alignLeft disabled">开户银行</div>
+                        <div class="line-div-center">
+                            <input type="text" placeholder="" value="{{bankName}}" disabled
+                                   name="" class="form-control" >
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    {{/with}}
+
+    <form id="form_withdraw" autocomplete="off">
+        <table>
+            <colgroup>
+                <col width="380">
+                <col width="30">
+                <col width="380">
+            </colgroup>
+
+            <tr>
+                <td>
+                    <div class="line-div w80">
+                        <div class="line-div-label alignLeft">提现金额&nbsp;</div>
+                        <div class="line-div-center">
+                            <input type="text" autocomplete="off" disabled 
+                                disableautocomplete validate="money2" 
+                                placeholder="100元起,最多2位小数" maxlength="20" value="{{applyMoney}}"
+                                name="applyMoney" class="form-control">
+                            <div class="unit">元</div>
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td>
+                    <div class="line-div w80">
+                        <div class="line-div-label alignLeft">提现手续费</div>
+                        <div class="line-div-center">
+                            <input type="text" placeholder="" value="{{fees}}" validate
+                                   disabled name="withdrawFee" class="form-control">
+                            <div class="unit">元</div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div class="line-div w80">
+                        <div class="line-div-label alignLeft">实际到账&nbsp;</div>
+                        <div class="line-div-center">
+                            <input type="text" placeholder="" value="{{actualMoney}}" validate
+                                   disabled name="actualMoney" class="form-control">
+                            <div class="unit">元</div>
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td>
+                    <div class="line-div w80">
+                        <div class="line-div-label alignLeft">支付密码&nbsp;<i class="red">*</i></div>
+                        <div class="line-div-center">
+                            <input id="input-psw" type="text" autocomplete="off" disableautocomplete maxlength="15" placeholder="请输入"
+                             validate class="form-control" name="payPassword">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div class="line-div">
+                        <div class="line-div-label alignLeft" style="width: 135px;">交易校验手机号
+                            <i class="icon-tips-fill" 
+                                tips="交易校验手机号是为了保证您的账号资金安全，在您交易资金的时候需要校验您是否本人操作；您可以选择在【账号中心-账号密码】进行修改，只有主账号才能修改哦！"
+                            style="position:relative; top:2px; color: #4680ff; font-size: 20px;"></i>
+                        </div>
+                        <div class="line-div-center" style="padding-left: 135px;">
+                            <input type="tel" name="mobile" maxlength="11" disabled
+                                   class="form-control" placeholder="请输入手机号码"
+                                   value="$!{mobile}" style="width: 160px;">
+                            <div id="btn-vericode" class="btn-vericode withdraw" style="width: 130px;">获取验证码</div>
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td>
+                    <div class="line-div w80">
+                        <div class="line-div-label alignLeft">验证码&nbsp;<i class="red">*</i></div>
+                        <div class="line-div-center">
+                            <input type="text" validate maxlength="10" placeholder="请输入验证码" value="{{verifyCode}}"
+                                   name="verifyCode" class="form-control" >
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <div class="line-div w80" style="height: 60px;">
+                        <div class="line-div-label alignLeft">备注说明&nbsp;</div>
+                        <div class="line-div-center">
+                            <textarea maxlength="100" value="" name="remark" class="form-control" ></textarea>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <div class="txt-hint-withdraw historyWithdraw hide">温馨提示：资金余额提现必须全部提现完毕；此操作会涉及到您的资金，请务必确认是您本人操作！</div>
+    <div class="txt-hint-withdraw">温馨提示：提现金额{{fees}}元起，对公账户提现上限500万/笔；此操作会涉及到您的资金，请务必确认是您本人操作！</div>
+</script>
+
+<!-- 转账 -->
+<script type="text/template" id="transferTemp">
+    <form id="form_transfer" autocomplete="off">
+        <table>
+            <colgroup>
+                <col width="460">
+                <col width="30">
+                <col width="300">
+            </colgroup>
+
+            <tr>
+                <td>
+                    <div class="line-div w100">
+                        <div class="line-div-label alignLeft">转账金额&nbsp;</div>
+                        <div class="line-div-center">
+                            <input type="text" disabled value="{{applyMoney}}" name="applyMoney" class="form-control">
+                            <div class="unit">元</div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="line-div w100">
+                    <div class="line-div-label alignLeft">转入账户组织<i class="red">*</i></div>
+                        <div class="line-div-center">
+                            <select name="transToOrgId" class="form-control">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td>
+                    <div class="line-div w75">
+                        <div class="line-div-label alignLeft">支付密码&nbsp;<i class="red">*</i></div>
+                        <div class="line-div-center">
+                            <input id="input-psw" type="text" autocomplete="off" disableautocomplete maxlength="15" placeholder="请输入"
+                             validate class="form-control" name="payPassword">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div class="line-div">
+                        <div class="line-div-label alignLeft" style="width: 135px;">交易校验手机号
+                            <i class="icon-tips-fill" 
+                                tips="交易校验手机号是为了保证您的账号资金安全，在您交易资金的时候需要校验您是否本人操作；您可以选择在【账号中心-账号密码】进行修改，只有主账号才能修改哦！"
+                            style="position:relative; top:2px; color: #4680ff; font-size: 20px;"></i>
+                        </div>
+                        <div class="line-div-center" style="padding-left: 135px;">
+                            <input type="tel" name="mobile" maxlength="11" disabled
+                                   class="form-control" placeholder="请输入手机号码"
+                                   value="$!{mobile}" style="width: 200px;">
+                            <div id="btn-vericode" class="btn-vericode" style="width: 130px;">获取验证码</div>
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td>
+                    <div class="line-div w75">
+                        <div class="line-div-label alignLeft">验证码&nbsp;<i class="red">*</i></div>
+                        <div class="line-div-center">
+                            <input type="text" validate maxlength="10" placeholder="请输入验证码" value="{{verifyCode}}"
+                                   name="verifyCode" class="form-control" >
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <div class="line-div w100" style="height: 60px;">
+                        <div class="line-div-label alignLeft">备注说明&nbsp;</div>
+                        <div class="line-div-center">
+                            <textarea maxlength="100" value="" name="remark" class="form-control" ></textarea>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</script>
+
+<!-- 绑定银行卡 -->
+<script type='text/template' id='bindCardTmpl'>
+    <form id="form_bindcard" style="border-bottom: 1px solid #e0e6ed; padding-bottom: 20px;">
+        <table>
+            <colgroup>
+                <col width="380">
+                <col width="50">
+                <col width="380">
+            </colgroup>
+
+            <tr>
+                <td>
+                    <div class="line-div w80">
+                        <div class="line-div-label alignLeft">银行卡类型</div>
+                        <div class="line-div-center">
+                            <input type="radio" checked id="radio-1" style="width: auto; float: left; margin: 0 10px 0 0;" name="cardType" value="1">
+                            <label for="radio-1" class="left">个人账户(储蓄卡)</label>
+
+                            <input type="radio" calss="forPublic" id="radio-2" style="width: auto; float: left; margin: 0 10px 0 40px;" name="cardType" value="3">
+                            <label for="radio-2" class="left" >对公账户</label>
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div class="line-div w80">
+                        <div class="line-div-label alignLeft">开户名:&nbsp;<i class="red">*</i></div>
+                        <div class="line-div-center">
+                            <input type="text" validate placeholder="请输入您的开户名" value="{{name}}"
+                                   name="name" class="form-control" maxlength="40">
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td>
+                    <div class="line-div w80">
+                        <div class="line-div-label alignLeft">收款地址:&nbsp;</div>
+                        <div class="line-div-center">
+                            <input type="text" maxlength="50" placeholder="请输入" value="{{address}}"
+                                   name="address" class="form-control" >
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="line-div w80">
+                        <div class="line-div-label alignLeft">银行卡号:&nbsp;<i class="red">*</i></div>
+                        <div class="line-div-center">
+                            <input type="text" validate maxlength="23" name="cardNo"
+                                   class="form-control" placeholder="请输入正确的银行卡号"
+                                   value="{{cardNo}}">
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td>
+                    <div class="line-div w80">
+                        <div class="line-div-label alignLeft bankName">开户银行:<i class="red" style="display: none">*</i></div>
+                        <div class="line-div-center">
+                            <input type="text" class="form-control" maxlength="30" name="bankName" placeholder="请输入" value="{{bankName}}">
+                            <select name="bankCode" id="publistBankList" style="display: none;color: #cccccc">            
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="line-div">
+                        <div class="line-div-label alignLeft" style="width: 135px;">交易校验手机号:
+                            <i class="icon-tips-fill" 
+                                tips="交易校验手机号是为了保证您的账号资金安全，在您交易资金的时候需要校验您是否本人操作；您可以选择在【账号中心-账号密码】进行修改，只有主账号才能修改哦！"
+                            style="position:relative; top:2px; color: #4680ff; font-size: 20px;"></i>
+                        </div>
+                        <div class="line-div-center" style="padding-left: 135px;">
+                            <input type="tel" name="mobile" maxlength="11" disabled
+                                   class="form-control" placeholder="请输入手机号码"
+                                   value="$!{mobile}" style="width: 160px;">
+                            <div id="btn-vericode" class="btn-vericode bindcard" style="width: 130px;">获取验证码</div>
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td>
+                    <div class="line-div w80">
+                        <div class="line-div-label alignLeft">验证码:&nbsp;<i class="red">*</i></div>
+                        <div class="line-div-center">
+                            <input type="text" placeholder="请输入验证码" maxlength="10" value="{{verifyCode}}" validate
+                                   name="verifyCode" class="form-control" >
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <div class="showBank" style="display: inline-block; line-height: 40px;">
+        <em style="color: #4181f9; font-size: 14px;text-decoration:underline; cursor: pointer">查看支持银行</em>
+        <!-- （个人账户和对公账户一致）<br/>
+        工商银行、农业银行、中国银行、建设银行、交通银行、邮储银行、招商银行、光大银行、中信银行、华夏银行、浦发银行、平安银行、兴业银行、广发银行、民生银行、北京银行、上海银行、厦门银行、上海农商行、南京银行、浙商银行、杭州银行、渤海银行、江苏银行、大连银行、恒丰银行、宁波银行、宁波通商银行、湖州银行、台州银行、民泰商行、重庆农商行、嘉兴银行。
+        请确保所绑定银行卡开户人与您所填写开户人一致，否则提现时会操作失败。 -->
+    </div>
+</script>
+
+<script type="text/template" id="banklist-tmpl" style="display: blcok">
+    <div class="txt-bl-hint">
+        小提示：目前仅支持下列银行储蓄卡
+    </div>
+     <div class="banklist-content capital-bank-list">
+        <ul id="switch-tab" class="nav nav-tabs" style="margin: 10px 0 0 0">
+            <li class="active"><a href="#" id="txt-topay" data-type="1">个人账户&nbsp;</a></li>
+            <li class=""><a href="#" id="txt-firstPay" data-type="4">对公账户&nbsp;</a></li>
+        </ul>
+<!--         <label style="background-color: #ffffff"></label>
+        <label style="border:none">对公账户</label> -->
+        <table id="showBankList" class="show-bank-list">
+        </table>
+    </div>
+   <!--  <img src="$!{rc.contextPath}/images/icon_banks.svg" class="image" style="width: 658px; height: 296px; margin: 10px 0 0 0"> -->
+</script>
+
+<!---提现说明-->
+<script type='text/template' id='explainTmpl'>
+    <ul>
+        <li><strong>1.如何将账户余额提现到银行卡？</strong></li>
+    </ul>
+    <p>进入麦滴管家【财务中心】&mdash;【我的资金】&mdash; 【我的账户】&mdash;【立即提现】</p>
+    <p>温馨提示：提现前，请绑定本人银行卡</p>
+    <p><strong>2.</strong><strong>账户余额提现银行到账时间规则的说明</strong></p>
+    <p>受银行规定影响，部分银行在服务时间内提现支持2小时内到账；非服务时间提现会有当天23:59分前到账和第二天23:59分前到账。所有的提现时间都是按照工作日处理，请您谅解</p>
+    <p>温馨提示：为保证资金安全，余额提现后无法人工加急或撤销，建议您在银行服务时间内进行体现。</p>
+    <p><strong>3.</strong><strong>单次提现额度是多少？</strong></p>
+    <p>2.00起，对公账户500万/笔</p>
+    <p><strong>4.</strong><strong>每天可以提现多少次？</strong></p>
+    <p>目前不做限制</p>
+    <p><strong>5.</strong><strong>如何查看提现记录？</strong></p>
+    <p>【财务中心】&mdash;【我的资金】&mdash; 【我的提现】</p>
+    <p><strong>6.</strong><strong>如何查看提现状态？</strong></p>
+    <p>在提现记录中查看，每笔提现都有独立记录</p>
+    <p><strong>7.</strong><strong>提现支持银行</strong></p>
+    <p class="bankView">
+    <em style="color: #4181f9; font-size: 14px;text-decoration:underline; cursor: pointer">查看支持银行</em></p>
+    <p><strong>8.</strong><strong>提现费率说明</strong></p>
+    <p>目前每笔2.00元/笔</p>
+    <p>&nbsp;</p>
+    <p><strong>如有任何余额提现问题，请联系电话：400-822-7099，何经理 15925608607</strong></p>
+</script>
+<script type="text/javascript">
+    seajs.use('controllers/settings/myaccount');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

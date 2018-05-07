@@ -1,0 +1,83 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12 window">
+        <div class="x_panel window">
+            <div class="x_title">
+                <div class="searchDiv">
+                    <form id="searchForm">
+                        <table>
+                            <colgroup>
+                                <col width="130">
+                                <col width="130">
+                                <col width="260">
+                                <col width="180">
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="line-div">
+                                            <div class="line-div-center">
+                                                <select name="cityId" class="default form-control">
+                                                    <option value=""></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="housingType hide" style="padding-left: 10px;">
+                                        <div class="line-div">
+                                            <div class="line-div-center">
+                                                <select name="regionId" class="default form-control">
+                                                    <option value=""></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td colspan="2" style="padding-left: 10px;">
+                                        <div class="line-div">
+                                            <div class="line-div-center">
+                                                <select name="subdistrictId" class="default form-control">
+                                                    <option value=""></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-left">
+                                        <button type="button" id="search" class="left btn btn-mj">查询</button>
+                                        <button type="button" id="clear" class="left btn">清空</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+            <div class="x_content">
+                <!-- <div class="clearfix gray-bg">
+                    <div class="navbar-left pr75">
+                        共 <i class="brick-red apartmentNum"></i> 套房源
+                        <span class="totalRooms">，共 <i class="brick-red roomNum"></i> 间房间</span>
+                    </div>
+                </div> -->
+                <div class="clearfix" style="padding: 10px 0;">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-mj btn_housingType">
+                            集中式
+                        </button>
+                        <button type="button" class="btn btn_housingType">
+                            分散式
+                        </button>
+                    </div>
+                    <span class="totalNum red" style="margin-left: 10px;"></span>
+                </div>
+                <div class="gridBox">
+                    <div id="gridDiv"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    seajs.use('controllers/hosting/proxies.js');
+</script>

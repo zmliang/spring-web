@@ -1,0 +1,639 @@
+#parse('common/top.vm')
+#parse('common/header.vm')
+#parse('common/left.vm')
+<style type="text/css">
+  .cropper-crop-box, 
+  .cropper-view-box,
+  .img-preview {
+    /*border-radius: 50%;*/
+}
+.img-preview{
+   width: 150px;
+   margin-left: 40px;
+}
+.msgDiv{
+    color :red;
+    padding-left: 20px;
+}
+.msgDiv span{
+    padding: 3px 15px;
+    border-radius: 5px;
+    color: #fff;
+    background: rgb(142, 142, 142);
+    cursor: pointer;
+}
+.cropper-view-box {
+    box-shadow: 0 0 0 1px #39f;
+    outline: 0;
+}
+div.line-div .line-div-center input.readInput{
+    width: 20px;
+    float: left;
+    position: relative;
+    top: -4px;
+}
+.readSpan{
+    float: left;
+}
+.readSpan a{
+    text-decoration: underline;
+}
+.lookSignature{
+    float: right;
+    position: relative;
+    top:-8px;
+    border:1px solid #4680FF;
+    color: #4680FF;
+}
+.line{
+    width: 100%;
+    height: 24px;
+    float: left;
+    text-align: left;
+}
+.radio input{
+  display: inline;
+  width: 50%;
+}
+.reviewStatusFlag p{
+  margin: -10px 0 10px !important;
+}
+.reviewStatusFlag p{
+    display: none
+}
+.principalIdCard:hover{
+    background: #7a9be4 !important;
+}
+
+.principalIdCardPass{
+    background: #ff8228 !important;
+    
+}
+.principalIdCardFail{
+    background: #6d6d6d !important;
+}
+
+.principalIdCardFail:hover{
+    background: #6d6d6d !important;
+}
+.IdCardHover button{
+    display: none;
+    color: #fff !important;
+    height: 28px;
+    background-color: #4680ff;
+    position: relative;
+    display: inline-block;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    padding: 3px 12px;
+    border-radius: 3px;
+    height: 28px;
+    min-width: 70px;
+    border: 1px solid #bfcbd9;
+    margin-left: 5px;
+    font-size: 14px;
+    font-weight: 400;
+}
+.addImgCard{
+    width: 120px;
+    height: 83px !important;
+}
+.addImgCard img{
+    vertical-align: top !important;
+    width: 100% !important;
+    height: 100%;
+}
+.reviewStatusFlag .pass, .reviewStatusFlag .not-audit ,.reviewStatusFlag .unpass{
+    margin: 0 0 10px !important;
+}
+textarea{
+    display: none;
+}
+</style>
+
+<div class="row">
+    <div class="x_panel window">
+      <div class="x_title">
+      <div class="clearfix"></div>
+      <div class="searchDiv">
+        <form id="searchForm">
+        <table>
+          <colgroup>
+            <col width="400">
+            <col width="160">
+            <col width="160">
+            <col width="200">
+            <col width="200">
+          </colgroup>
+          <tr>
+            <td>
+              <div class="line-div w75">
+                  <div class="line-div-label">
+                      申请时间：
+                  </div>
+                  <div class="line-div-center">
+                      <input type="text" name="startBillTime" class="icon-calendar form-control left Wdate" style="width:45%" id="startBillTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,maxDate:'#F{$dp.$D(\'endBillTime\')}'})">
+                      <span class="left" style="width:10%">--</span>
+                      <input type="text" id="endBillTime" name="endBillTime" class="icon-calendar form-control left Wdate" style="width:45%" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:true,minDate:'#F{$dp.$D(\'startBillTime\')}'})">
+                  </div>
+              </div>
+            </td>
+            <td style="padding-left: 10px">
+              <div class="line-div">
+                <div class="line-div-center">
+                  <select id="signatureType"  name="type">
+                    <option value=""></option>
+                    <option value="3">个人电子签章</option>
+                    <option value="2">企业电子签章</option>
+                    <option value="1">个人升级企业</option>
+                  </select>
+                </div>
+              </div>
+            </td>
+             <td style="padding-left: 10px">
+              <div class="line-div">
+                <div class="line-div-center">
+                  <select id="auditStatus"  name="status">
+                    <option value=""></option>
+                    <option value="1">未审核</option>
+                    <option value="3">审核不通过</option>
+                    <option value="2">审核通过</option>
+                  </select>
+                </div>
+              </div>
+            </td>
+            <td style="padding-left: 10px">
+              <div class="line-div ">
+                <div class="line-div-center">
+                  <input type="text" class="form-control" name="organization" value="" placeholder="组织名称">
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="searchBtn">
+              <button type="button" id="search" class="left btn btn-mj">查询</button>
+              <button type="button" id="clear" class="left btn">清空</button>
+              </div>
+            </td>
+          </tr>
+        </table>
+        </form>
+      </div>
+    </div>
+    <div class="">
+        <div id="gridDiv"></div>
+    </div>
+</div>
+<!-- 个人电子签章 -->
+<script type="text/template" id="showDetailModel">
+  <form class="installForm">
+    <table>
+      <colgroup>
+        <col width="200">
+        <col width="300">
+      </colgroup>
+      <tr>
+        <td>
+            <div class="line-div w90">
+              <div class="line-div-label">
+                  姓名：
+              </div>
+              <div class="line-div-center">
+                <input type="text" class="form-control" name="" value="{{principal}}" readonly />
+              </div>
+            </div>
+        </td>
+        <td>
+            <div class="line-div w90">
+              <div class="line-div-label">
+                  身份证号：
+              </div>
+              <div class="line-div-center">
+                <input type="text" class="form-control" name="" value="{{principalIdCard}}" readonly />
+              </div>
+            </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="form-group clearfix">
+              <div class="line-div w90">
+                <div class="line-div-label">
+                    电子签名：
+                </div>
+                <div class="line-div-center text-left">
+                    <div class="picList">
+                        <ul class="pic-items">
+                             {{#each licensePicUrls}}
+                            <li class="relative pic-item">
+                                <em class="addImgCard">
+                                    <img src="{{this}}" alt="" title="" />
+                                </em>
+                                <span class="pic-model">
+                                    <i class="icon-search"></i>
+                                    <i class="icon-delete hide"></i>
+                                </span>
+                            </li>
+                            {{/each}}
+                        </ul>
+                    </div>
+                </div>
+              </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+            <div class="line-div w90"  style="margin-top: 70px">
+              <div class="line-div-label">
+                  审核结果：
+              </div>
+              <div class="text-left personStatusFlag reviewStatusFlag" style="padding-left: 90px;">
+                <p class="not-audit">
+                  <label for=""><input type="radio" value="2" name="reviewStatus">通过</label>
+                  <label for=""><input type="radio" value="3" name="reviewStatus">不通过</label>
+                                <textarea name="rejectRemark" id="" placeholder="请输入不通过原因，最多50个字符" maxlength="50"></textarea>
+                </p>
+                <p class="pass">
+                  <label for=""><input type="radio" value="2" checked>通过</label>
+                </p>
+                <p class="unpass">
+                  <label for=""><input type="radio" value="3" checked>不通过</label>
+                  原因：<span>{{rejectRemark}}</span>
+                </p>
+              </div>
+            </div>
+        </td>
+      </tr>
+    </table>
+  </form>
+</script>
+
+<!-- 个人升级企业 -->
+
+<script type="text/template" id="firmDetailModel">
+  <form id="levelForm">
+    <table>
+        <colgroup>
+          <col width="400">
+          <col width="400">
+        </colgroup>
+        <tr>
+            <td colspan="2">
+                <div class="form-group clearfix">
+                    <div class="line-div w110">
+                        <div class="line-div-label">
+                            企业名称:<i class="red">*</i>
+                        </div>
+                        <div class="line-div-center">
+                            <input class="form-control" validate name="epName" value="{{epName}}">
+                        </div>
+                    </div> 
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group clearfix">
+                    <div class="line-div w110">
+                        <div class="line-div-label" style="width: 140px;">
+                            统一社会信用代码:<i class="red">*</i>
+                        </div>
+                        <div class="line-div-center" style="padding-left: 140px;">
+                            <input class="form-control" validate name="uscc" value="{{uscc}}">
+                        </div>
+                    </div> 
+                </div>
+            </td>
+            <td>
+                <div class="form-group clearfix">
+                    <div class="line-div w110">
+                        <div class="line-div-label">
+                            企业缩写名:<i class="red">*</i>
+                        </div>
+                        <div class="line-div-center">
+                            <input class="form-control" validate name="epShortName" value="{{epShortName}}">
+                        </div>
+                    </div> 
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group clearfix">
+                    <div class="line-div w110">
+                        <div class="line-div-label">
+                            企业注册地址:<i class="red">*</i>
+                        </div>
+                        <div class="line-div-center">
+                          <input class="form-control" validate name="address" value="{{proCityArea}}">
+                        </div>
+                    </div> 
+                </div>
+            </td>
+            <td>
+                <div class="form-group clearfix">
+                    <div class="line-div">
+                        <div class="line-div-center" style="padding-left: 20px;">
+                            <input class="form-control" validate name="addressDetail" value="{{addressDetail}}">
+                        </div>
+                    </div> 
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group clearfix">
+                    <div class="line-div w110">
+                        <div class="line-div-label">
+                            法人姓名:<i class="red">*</i>
+                        </div>
+                        <div class="line-div-center">
+                            <input class="form-control" validate name="principal" value="{{principal}}">
+                        </div>
+                    </div> 
+                </div>
+            </td>
+            <td>
+                <div class="form-group clearfix">
+                    <div class="line-div w110">
+                        <div class="line-div-label">
+                            法人身份证:<i class="red">*</i>
+                        </div>
+                        <div class="line-div-center">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="principalIdCard"
+                                   value="{{principalIdCard}}" >
+                                <span class="input-group-btn IdCardHover ">      
+                                    <button type="button" class="principalIdCard" style="min-width: initial;border:none">
+                                        校验身份证
+                                    </button>
+                                    <button type="button" class="principalIdCardPass" style="min-width: initial;border:none">
+                                        实名认证通过
+                                    </button>     
+                                    <button type="button" class="principalIdCardFail" style="min-width: initial;border:none">
+                                        实名认证失败
+                                    </button>                   
+                                </span>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </td>
+        </tr> 
+        <tr>
+            <td>
+                <div class="form-group clearfix">
+                    <div class="line-div w110">
+                        <div class="line-div-label">
+                            联系人姓名:<i class="red">*</i>
+                        </div>
+                        <div class="line-div-center">
+                            <input class="form-control" validate name="linkman" value="{{linkman}}">
+                        </div>
+                    </div> 
+                </div>
+            </td>
+            <td>
+                <div class="form-group clearfix">
+                    <div class="line-div w110">
+                        <div class="line-div-label">
+                            联系人号码:<i class="red">*</i>
+                        </div>
+                        <div class="line-div-center">
+                            <input class="form-control" validate name="linkPhone" value="{{linkPhone}}">
+                        </div>
+                    </div> 
+                </div>
+            </td>
+        </tr>
+        <!-- <tr class="lookTr">
+            <td>
+                <div class="form-group clearfix">
+                    <div class="line-div w110">
+                        <div class="line-div-label">
+                            手机号码:<i class="red">*</i>
+                        </div>
+                        <div class="line-div-center">
+                            <input class="form-control" readonly validate name="adminMobile" value="{{adminMobile}}">
+                        </div>
+                    </div> 
+                </div>
+            </td>
+            <td>
+                <div class="form-group clearfix hide">
+                    <div class="line-div w110">
+                        <div class="line-div-label">
+                            验证码:<i class="red">*</i>
+                        </div>
+                        <div class="line-div-center">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="verifiy"
+                                    value="123456">
+                                <span class="input-group-btn">                          
+                                    <button type="button" class="btn btn-mj getCode" style="min-width: initial">
+                                        获取验证码
+                                    </button>                      
+                                </span>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </td>
+        </tr> -->
+        <tr>
+            <td colspan="2">
+                <div class="form-group clearfix" style="padding-top: 10px">
+                    <div class="line-div w110" style="min-height: 110px">
+                        <div class="line-div-label">
+                           营业执照照片 <br>(至少上传一张):<i class="red">*</i>
+                        </div>
+                        <div class="line-div-center" style="text-align: left;margin-left: 20px;">
+                            <div class="picList">
+                                <ul class="pic-items">
+                                    {{#each licensePicUrls}}
+                                    <li class="relative pic-item">
+                                        <em class="addImgCard">
+                                            <img src="{{this}}" alt="" title="" />
+                                        </em>
+                                        <span class="pic-model">
+                                            <i class="icon-search"></i>
+                                            <i class="icon-delete hide"></i>
+                                        </span>
+                                    </li>
+                                    {{/each}}
+                                </ul>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </td>
+        </tr> 
+        <tr>
+            <td colspan="2">
+                <div class="line-div w90">
+                    <div class="line-div-label">
+                        审核结果：
+                    </div>
+                    <div class="text-left personStatusFlag reviewStatusFlag" style="padding-left: 90px;">
+                        <p class="not-audit">
+                            <label for=""><input type="radio" value="2" name="reviewStatus">通过</label>
+                            <label for=""><input type="radio" value="3" name="reviewStatus">不通过</label>
+                            <textarea name="rejectRemark" id="" placeholder="请输入不通过原因，最多50个字符" maxlength="50"></textarea>
+                        </p>
+                        <p class="pass">
+                            <label for=""><input type="radio" value="2" checked>通过</label>
+                        </p>
+                        <p class="unpass">
+                            <label for=""><input type="radio" value="3" checked>不通过</label>
+                            原因：<span>{{rejectRemark}}</span>
+                        </p>
+
+                        <!-- {{#renderStatus reviewStatus}}{{/renderStatus}} -->
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    </form>
+</script>
+
+<!-- 企业电子签章 -->
+<script type="text/template" id="firmSignatureModel">
+  <form id="levelForm">
+    <table>
+        <colgroup>
+          <col width="400">
+          <col width="400">
+        </colgroup>
+        <tr>
+            <td colspan="2">
+                <div class="form-group clearfix">
+                    <div class="line-div w110">
+                        <div class="line-div-label">
+                            企业名称:<i class="red">*</i>
+                        </div>
+                        <div class="line-div-center">
+                            <input class="form-control" validate name="epName" value="{{epName}}">
+                        </div>
+                    </div> 
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="form-group clearfix">
+                    <div class="line-div w110">
+                        <div class="line-div-label" style="width: 140px;">
+                            统一社会信用代码:<i class="red">*</i>
+                        </div>
+                        <div class="line-div-center" style="padding-left: 140px;">
+                            <input class="form-control" validate name="uscc" value="{{uscc}}">
+                        </div>
+                    </div> 
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="form-group clearfix">
+                    <div class="line-div w110">
+                        <div class="line-div-label">
+                            法人姓名:<i class="red">*</i>
+                        </div>
+                        <div class="line-div-center">
+                            <input class="form-control" validate name="principal" value="{{principal}}">
+                        </div>
+                    </div> 
+                </div>
+            </td>
+        </tr> 
+        <tr>
+            <td colspan="2">
+                <div class="form-group clearfix">
+                    <div class="line-div w110">
+                        <div class="line-div-label">
+                            法人身份证:<i class="red">*</i>
+                        </div>
+                        <div class="line-div-center">
+                            <input class="form-control" validate name="principalIdCard" value="{{principalIdCard}}">
+                        </div>
+                    </div> 
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="form-group clearfix" style="padding-top: 10px">
+                    <div class="line-div w110" style="min-height: 110px">
+                        <div class="line-div-label">
+                           营业执照照片 <br>(至少上传一张):<i class="red">*</i>
+                        </div>
+                        <div class="line-div-center" style="text-align: left;">
+                            <div class="picList">
+                                <ul class="pic-items">
+                                     {{#each licensePicUrls}}
+                                    <li class="relative pic-item">
+                                        <em class="addImgCard">
+                                            <img src="{{this}}" alt="" title="" />
+                                        </em>
+                                        <span class="pic-model">
+                                            <i class="icon-search"></i>
+                                            <i class="icon-delete hide"></i>
+                                        </span>
+                                    </li>
+                                    {{/each}}
+                                </ul>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </td>
+        </tr>  
+        <tr>
+            <td colspan="2">
+                <div class="line-div w90">
+                    <div class="line-div-label">
+                        审核结果：
+                    </div>
+                    <div class="text-left personStatusFlag reviewStatusFlag" style="padding-left: 90px;">
+                        <p class="not-audit">
+                            <label for=""><input type="radio" value="2" name="reviewStatus">通过</label>
+                            <label for=""><input type="radio" value="3" name="reviewStatus">不通过</label>
+                            <textarea name="rejectRemark" id="" placeholder="请输入不通过原因，最多50个字符" maxlength="50"></textarea>
+                        </p>
+                        <p class="pass">
+                            <label for=""><input type="radio" value="2" checked>通过</label>
+                        </p>
+                        <p class="unpass">
+                            <label for=""><input type="radio" value="3" checked>不通过</label>
+                            原因：<span>{{rejectRemark}}</span>
+                        </p>
+                    </div>
+                </div>
+            </td>
+        </tr>    
+    </table>
+    </form>
+</script>
+<script type="text/template" id="serviceModel">
+    <ul>
+        {{#each this}}
+        <li class="left" style="margin:5px;">
+            <label class="mj-tag">{{this}}</label>
+        </li>
+        {{/each}}
+    </ul>
+</script>
+<script type="text/javascript">
+  seajs.use('controllers/market/reviewCheck.js')
+</script>
