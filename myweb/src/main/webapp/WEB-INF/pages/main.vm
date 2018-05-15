@@ -1,0 +1,90 @@
+#parse('common/top.vm')
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">  <!-- Google web font "Open Sans" -->
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  
+  <link rel="stylesheet" href="css/demo.css" />
+  <link rel="stylesheet" href="css/templatemo-style.css">
+  
+  <script type="text/javascript" src="js/modernizr.custom.86080.js"></script>
+		
+</head>
+
+	<body>
+			<div id="particles-js"></div>
+		
+			<ul class="cb-slideshow">
+	            <li></li>
+	            <li></li>
+	            <li></li>
+	            <li></li>
+	            <li></li>
+	            <li></li>
+	        </ul>
+
+			<div class="container-fluid">
+
+				<div class="row cb-slideshow-text-container ">
+					<div class= "tm-content col-xl-6 col-sm-8 col-xs-8 ml-auto section">
+					<header class="mb-5">
+						<a href="/config">
+                            <h1>About Me</h1>
+						</a>
+					</header>
+					<P class="mb-5">
+						生活，工作，技术，运动
+					</P>
+					
+                    <form  class="subscribe-form">
+               	    	<div class="row form-section">
+							<div class="col-md-7 col-sm-7 col-xs-7">
+			                      <input name="contacts" type="text" class="form-control" id="contact_email" placeholder="你的联系方式，" required/>
+				  			</div>
+							<div class="col-md-5 col-sm-5 col-xs-5">
+								<button onclick="onSubmit()" title="Just Kidding" data-container="body" data-toggle="popover" data-placement="bottom"
+                                        data-content="其实也可以不用填"  id="submitButton" class="tm-btn-subscribe">提交</button>
+							</div>
+						</div>
+                    </form>
+                    
+					<div class="tm-social-icons-container text-xs-center">
+						<a alt="生活" href="/life" class="tm-social-link life"><img class="img_cls" src="$!{rc.contextPath}/images/life.png"></img></a>
+                        <a  alt="工作" href="/work" class="tm-social-link work"><img class="img_cls" src="$!{rc.contextPath}/images/work.png"></img></a>
+						<a alt="技术" href="/tech" class="tm-social-link tech"><img class="img_cls" src="$!{rc.contextPath}/images/tech.png"></img></a>
+						<a  alt="运动" href="/gym" class="tm-social-link gym"><img class="img_cls" src="$!{rc.contextPath}/images/basketball.png"></img></a>
+	                </div>
+
+					</div>
+				</div>	
+				<div class="footer-link">
+					<p>Copyright © 2018 张明亮
+                    
+                    - Designed
+						<!--
+						<a rel="nofollow" href="#" target="_parent">张明亮</a>
+						-->
+					</p>
+                    <p>张明亮</p>
+				</div>
+			</div>	
+	</body>
+
+
+	<script type="text/javascript" src="js/particles.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
+	<script type="text/javascript">
+
+        $(function () {
+            $("[data-toggle='popover']").popover();
+        });
+
+		function onSubmit(e) {
+		    console.log("点击了submit:"+JSON.stringify(e))
+        }
+	</script>

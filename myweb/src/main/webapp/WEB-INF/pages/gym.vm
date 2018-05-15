@@ -1,0 +1,53 @@
+#parse('common/top.vm')
+
+
+
+<div class="my_top_bar">
+    <img src="$!{rc.contextPath}/images/wechat_avatar.jpg" class="img-circle my_avatar"/>
+    <a class="my_nickName" title="昵称">这是个昵称</a>
+    <a href="javascript: login();" class="my_login my_common">登陆</a>
+    <a href="javascript: regist();" class="my_regist my_common" onclick="regist">注册</a>
+    <a href="/config"  class="about_me" title="call me baby">关于我</a>
+</div>
+
+<div class="my_banner">
+    <div id="myCarousel" class="carousel slide">
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="item active cover_bg">
+                <img class="my_carousel_img" src="$!{rc.contextPath}/images/banner1.jpg" alt="First slide"/>
+            </div>
+            <div class="item cover_bg">
+                <img class="my_carousel_img" src="$!{rc.contextPath}/images/banner2.jpg" alt="Second slide"/>
+            </div>
+            <div class="item cover_bg">
+                <img class="my_carousel_img" src="$!{rc.contextPath}/images/banner3.jpg" alt="Third slide"/>
+            </div>
+        </div>
+        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>
+
+<script src="https://cdn.bootcss.com/echarts/4.0.2/echarts.js"></script>
+<script type="text/javascript">
+    function login(){
+        console.log('on login')
+
+    };
+    function regist() {
+        console.log("regist")
+    }
+</script>
+
+

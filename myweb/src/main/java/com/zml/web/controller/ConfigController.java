@@ -30,7 +30,7 @@ public class ConfigController {
 
     @RequestMapping(value = "/config")
     public ModelAndView getMPageConfigs(){
-        return View();
+        return View("index");
     }
 
     @RequestMapping(value = "/")
@@ -42,26 +42,26 @@ public class ConfigController {
 
     @RequestMapping(value = "/life")
     public ModelAndView onLife(){
-        return View();
+        return View("life");
     }
     @RequestMapping(value = "/work")
     public ModelAndView onWork(){
-        return View();
+        return View("work");
     }
     @RequestMapping(value = "/tech")
     public ModelAndView onTech(){
-        return View();
+        return View("tech");
     }
     @RequestMapping(value = "/gym")
     public ModelAndView onGym(){
-        return View();
+        return View("gym");
     }
 
-    private ModelAndView View(){
+    private ModelAndView View(String page){
         final int threshold=configService.getQsThreshold();
         logger.trace("threshold:"+threshold);
         ModelAndView mv=new ModelAndView();
-        mv.setViewName("index");
+        mv.setViewName(page);
         return mv;
     }
 
