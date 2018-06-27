@@ -10,7 +10,6 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700|Old+Standard+TT" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Old+Standard+TT:400,500,700" rel="stylesheet">
-    <!--    <link rel="stylesheet" type="text/css" href="css/animate.css" /> -->
     <link rel="stylesheet" type="text/css" href="css/prettyPhoto.css" />
     <link href="css/jquery.bsPhotoGallery.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -37,13 +36,14 @@
             </ul>
         </div>
 
-        <div class="profile-img">
-            <img src="images/profile-photo.png" alt="img">
+        <div class="profile-img" title="联系我:18768106971">
+            <img src="images/my.jpg" alt="img" >
         </div>
     </div>
 </header>
 <div class="banner-sec">
     <div class="container">
+        <!--
         <div class="menu-bar">
             <ul>
                 <li class="active">
@@ -63,7 +63,8 @@
                 </li>
             </ul>
         </div>
-        <h2>欢迎来到我的主页，我叫张明亮，毕业于牛津大学，现工作在杭州
+        -->
+        <h2>欢迎来到我的主页，我叫张明亮，毕业于浙江农林大学天目学院，现工作在杭州
         </h2>
         <span class="devider"></span>
     </div>
@@ -71,19 +72,11 @@
 <section class="skills-sec" style="background:url(./images/skills.jpg)no-repeat;">
     <div class="container">
         <h2>我的技能 & 经验</h2>
-        <h5>暂时还不知道该怎么描述</h5>
+        <h5>公司工作忙，后续完善中....</h5>
         <ul class="skills-set">
             <li class="indvidual-skill">
                 <div class="skill_title">
-                    <span>C++ - 4+ 年经验 </span>
-                </div>
-                <div class="barfiller">
-                    <span class="fill" style="width:90%"></span>
-                </div>
-            </li>
-            <li class="indvidual-skill">
-                <div class="skill_title">
-                    <span>Wordpress - 5+ 年经验</span>
+                    <span>C++ - 2+ 年经验 </span>
                 </div>
                 <div class="barfiller">
                     <span class="fill" style="width:70%"></span>
@@ -91,10 +84,18 @@
             </li>
             <li class="indvidual-skill">
                 <div class="skill_title">
+                    <span>android - 2+ 年经验</span>
+                </div>
+                <div class="barfiller">
+                    <span class="fill" style="width:80%"></span>
+                </div>
+            </li>
+            <li class="indvidual-skill">
+                <div class="skill_title">
                     <span>Html / CSS - 1+ 年经验</span>
                 </div>
                 <div class="barfiller">
-                    <span class="fill" style="width:90%"></span>
+                    <span class="fill" style="width:60%"></span>
                 </div>
             </li>
             <li class="indvidual-skill">
@@ -102,20 +103,21 @@
                     <span>Javascrpt - 1+ 年经验</span>
                 </div>
                 <div class="barfiller">
-                    <span class="fill" style="width:95%"></span>
+                    <span class="fill" style="width:60%"></span>
                 </div>
             </li>
             <li class="indvidual-skill">
                 <div class="skill_title">
-                    <span>Java - 2+ 年经验</span>
+                    <span>Java - 3+ 年经验</span>
                 </div>
                 <div class="barfiller">
-                    <span class="fill" style="width:85%"></span>
+                    <span class="fill" style="width:90%"></span>
                 </div>
             </li>
         </ul>
     </div>
 </section>
+<!--
 <section class="services-sec">
     <div class="container">
         <h2>How Can I Help You</h2>
@@ -146,7 +148,6 @@
         <span class="hdevider"></span>
     </div>
 </section>
-<div class="tlinks">Collect from <a href="http://www.cssmoban.com/" >企业网站模板</a></div>
 <section class="experinece" style="background:url(./images/exp.jpg)no-repeat;">
     <div class="container">
         <div class="offset-md-5 offset-sm-4 col-md-7 col-sm-8">
@@ -400,63 +401,7 @@
         </div>
     </div>
 </section>
-<section class="getin-sec" id="contact-sec">
-    <div class="cover"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="form">
-                    <h3>Get in Touch With Me</h3>
-                    <form>
-                        <ul class="row">
-                            <li class="col-md-6">
-                                <input type="text" placeholder="Your Name" required>
-                            </li>
-                            <li class="col-md-6">
-                                <input type="email" placeholder="Your Email Id" required>
-                            </li>
-                            <li class="col-md-12">
-                                <textarea placeholder="Your Message"></textarea>
-                            </li>
-                            <li class="col-md-12">
-                                <button class="btn right">Submit it</button>
-                            </li>
-                        </ul>
-                    </form>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <div class="address">
-                    <h2>Our Office Address</h2>
-                    <h5>Eat always fresh vegetables and fruits to keep your self active and energetic!</h5>
-                    <address>
-                        800 2345 5678
-                        <br/> info@osomthee.com
-                    </address>
-                    <div class="share-sec">
-                        <ul>
-                            <li>
-                                <a href=""> <span class="fab fa-facebook"></span></a>
-                            </li>
-                            <li>
-                                <a href=""> <span class="fab fa-instagram"></span></a>
-                            </li>
-                            <li>
-                                <a href=""> <span class="fab fa-twitter"></span></a>
-                            </li>
-                            <li>
-                                <a href=""> <span class="fab fa-pinterest"></span></a>
-                            </li>
-                            <li>
-                                <a href=""> <span class="fab fa-google-plus-g"></span></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+-->
 <footer>
     <div class="container">
         <div class="row">
@@ -464,8 +409,8 @@
                 <img src="images/footer-sign.png" alt="sign">
             </div>
             <div class="col-md-6 col-sm-6">
-                <h6 class="right copy-right">(C) 2017. All Rights. RidlyScott. Resume Theme.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></h6>
-            </div>
+                <h6 class="right copy-right"></h6>
+        </div>
         </div>
     </div>
 </footer>

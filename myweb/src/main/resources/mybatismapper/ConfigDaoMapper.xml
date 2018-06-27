@@ -7,8 +7,6 @@
         <result property="typeId" column="type_id"/>
         <result property="typeName" column="type_name"/>
         <result property="typeImgUrl" column="type_imgurl"/>
-        <result property="sharedCopy" column="shared_copy"/>
-        <result property="qsThreshold" column="threshold"/>
     </resultMap>
 
     <select id="getQsThreshold" resultType="int">
@@ -20,4 +18,8 @@
         UPDATE "config" SET  "threshold"=#{value}
         WHERE "threshold" IS NOT NULL
     </update>
+
+    <select id="getMainPageConfigs" resultMap="configMapper" >
+        SELECT * FROM "config"
+    </select>
 </mapper>

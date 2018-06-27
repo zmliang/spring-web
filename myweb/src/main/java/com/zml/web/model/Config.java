@@ -15,8 +15,6 @@ public class Config implements Serializable {
     private int typeId;
     private String typeName;
     private String typeImgUrl;
-    private String sharedCopy;
-    private int qsThreshold;
 
     public Config() {
     }
@@ -45,21 +43,6 @@ public class Config implements Serializable {
         this.typeImgUrl = typeImgUrl;
     }
 
-    public String getSharedCopy() {
-        return sharedCopy;
-    }
-
-    public void setSharedCopy(String sharedCopy) {
-        this.sharedCopy = sharedCopy;
-    }
-
-    public int getQsThreshold() {
-        return qsThreshold;
-    }
-
-    public void setQsThreshold(int qsThreshold) {
-        this.qsThreshold = qsThreshold;
-    }
 
     @Override
     public String toString() {
@@ -67,8 +50,6 @@ public class Config implements Serializable {
                 "typeId=" + typeId +
                 ", typeName='" + typeName + '\'' +
                 ", typeImgUrl='" + typeImgUrl + '\'' +
-                ", sharedCopy='" + sharedCopy + '\'' +
-                ", qsThreshold=" + qsThreshold +
                 '}';
     }
 }
